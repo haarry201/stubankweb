@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from newWeb import account_page
+from account_page import account_page
 
 app = Flask(__name__)
 app.register_blueprint(account_page)
