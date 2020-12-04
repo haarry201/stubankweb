@@ -1,12 +1,12 @@
-from flask import Flask
-from newWeb import simple_page
+from flask import Flask, render_template
+from newWeb import account_page
 
 app = Flask(__name__)
-app.register_blueprint(simple_page)
+app.register_blueprint(account_page)
 
 @app.route('/')
-def hello_world():
-    return 'Hello World!'
+def index_page():
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run()

@@ -1,0 +1,37 @@
+/* 
+  Primary card (Card with variables overridden in local scope)
+*/
+.card-primary {
+    /* Card (light mode only) */
+  
+    /* --lm-card-text-color unchanged */
+    --lm-card-bg-color: var(--primary-color-very-light); /* Before: var(--white-bg-color) */
+    --lm-card-border-color: var(--primary-color-light);  /* Before: rgba(0, 0, 0, 0.2) */
+  
+    /* Card (dark mode only) */
+  
+    --dm-card-text-color: var(--primary-color);         /* Before: var(--dm-base-text-color) */
+    --dm-card-bg-color: var(--primary-color-very-dark); /* Before: var(--dark-color) */
+    --dm-card-border-color: var(--primary-color-dark);  /* Before: rgba(0, 0, 0, 0.2) */
+  }
+
+  @media only screen and (max-width: 700px) {
+      h1{
+          font-size: 14px;
+      }
+      h2{
+          font-size: 12px;
+      }
+      td{
+          font-size: 12px;
+      }
+      th{
+          font-size: 12px;
+      }
+      .card-primary h1{
+          font-size: 13px;
+      }
+      .table-class{
+          padding: 0%;
+      }
+  } 
