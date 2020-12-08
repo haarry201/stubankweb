@@ -38,7 +38,7 @@
         </nav>
 
         <div class="content-wrapper">
-            <form>
+            <form action="{{ url_for("login_check") }}" method="post">
                 <label for="email">Email:</label>
                 <input type="text" id="email" name="email"><br>
                 <label for="password">Password:</label>
@@ -51,7 +51,7 @@
                 </select><br>
                 <label for="security_answer">Security Question Answer:</label>
                 <input type="text" id="security_answer" name="security_answer"><br>
-                <input disabled type="submit" formaction="login.py" value="Login">
+                <input type="submit" value="Login">
             </form>
             <nav class="navbar navbar-static-bottom">
                 <div class="container-fluid">
