@@ -1,8 +1,10 @@
 from flask import Flask, render_template
 from register_page import register_page
 from account_page import account_page
+from login_page import login_page
 
 app = Flask(__name__)
+app.register_blueprint(login_page, url_prefix="/login.html")
 app.register_blueprint(register_page, url_prefix="/register.html")
 app.register_blueprint(account_page, url_prefix="/accounts.html")
 
