@@ -43,12 +43,11 @@ def account_validation():
             otp_secret_key = random.randint(10000000, 99999999)  # generate one-time password
             salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')  # generate salt for password hashing
             pwd = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'), salt, 100000)
-            pwdhash = binascii.hexlify(pwd)
-            final_pwd = (salt + pwdhash).decode('ascii') # hash password using salt, this is what is stored in database
+            pwdhash = binascii.hexlify(pwd)  # hash password using salt, this is what is stored in database
 
             query = "INSERT INTO UserInfo " \
                     "VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-            args = (user_id, email, final_pwd, salt, otp_secret_key, first_name, last_name, first_line_of_address,
+            args = (user_id, email, pwdhash, salt, otp_secret_key, first_name, last_name, first_line_of_address,
                     second_line_of_address, postcode, security_question, security_answer)
 
             db_connector = DbConnector()
@@ -56,6 +55,9 @@ def account_validation():
             db_connector.closeConn(conn)
             cursor = conn.cursor()
             cursor.execute(query, args)
+            conn.commit()
+            cursor.close()
+            conn.close()
 
             return render_template("accounts.html", user=first_name)
 
@@ -77,8 +79,10 @@ def login_check():
             row = cursor.fetchone()
 
             while row is not None:
-                print(row)
-                row = cursor.fetchone()
+                if email == row[1] and (check_password(password, row)):
+                    return render_template("accounts.html", user="Success")
+                else:
+                    row = cursor.fetchone()
 
         except Error as e:
             print(e)
@@ -87,7 +91,15 @@ def login_check():
             cursor.close()
             conn.close()
 
-        return render_template("accounts.html", user="user")
+        return render_template("accounts.html", user="Failure")
+
+
+def check_password(password, data):
+    pwd = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'), data[3], 100000)
+    pwdhash = binascii.hexlify(pwd).decode('ascii')
+    print(pwdhash + " : " + data[2])
+    print(str(len(pwdhash)) + " : " + str(len(data[2])))
+    return pwdhash == data[2]
 
 
 if __name__ == '__main__':
