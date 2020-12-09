@@ -2,6 +2,10 @@ from flask import Flask, render_template, request
 from register_page import register_page
 from account_page import account_page
 from login_page import login_page
+from controllers.DbConnector import DbConnector
+from mysql.connector import MySQLConnection, Error
+import random, string
+import hashlib, binascii, os
 
 app = Flask(__name__)
 app.register_blueprint(login_page, url_prefix="/login.html")
@@ -27,9 +31,33 @@ def account_validation():
         security_question = request.form.get("security_question")
         security_answer = request.form.get("security_answer")
         if first_name == '' or last_name == '' or email == '' or password == '' or first_line_of_address == '' or second_line_of_address == '' or postcode == '' or security_question == '--' or security_answer == '':
-            return render_template("error.html", msg="Please ensure that all text boxes are filled in", src="register.html")
+            return render_template("error.html", msg="Please ensure that all text boxes are filled in",
+                                   src="register.html")
+        elif len(password) < 6:
+            return render_template("error.html", msg="Password is too short, please try another one",
+                                   src="register.html")
         else:
-            return render_template("accounts.html")
+            user_id = ''.join(
+                random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(16))
+            # generate random 16 digit hex to use as primary key for UserInfo table
+            otp_secret_key = random.randint(10000000, 99999999)  # generate one-time password
+            salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')  # generate salt for password hashing
+            pwd = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'), salt, 100000)
+            pwdhash = binascii.hexlify(pwd)
+            final_pwd = (salt + pwdhash).decode('ascii') # hash password using salt, this is what is stored in database
+
+            query = "INSERT INTO UserInfo " \
+                    "VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            args = (user_id, email, final_pwd, salt, otp_secret_key, first_name, last_name, first_line_of_address,
+                    second_line_of_address, postcode, security_question, security_answer)
+
+            db_connector = DbConnector()
+            conn = db_connector.getConn()
+            db_connector.closeConn(conn)
+            cursor = conn.cursor()
+            cursor.execute(query, args)
+
+            return render_template("accounts.html", user=first_name)
 
 
 @app.route('/login', methods=["POST"])
@@ -39,8 +67,28 @@ def login_check():
         password = request.form.get("password")
         security_question = request.form.get("security_question")
         security_answer = request.form.get("security_answer")
-        if email == '' or password == '' or security_question == '--' or security_answer == '':
-            return render_template("error.html", msg="Please ensure that all text boxes are filled in", src="login.html")
+        try:
+            db_connector = DbConnector()
+            conn = db_connector.getConn()
+            db_connector.closeConn(conn)
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM UserInfo")
+
+            row = cursor.fetchone()
+
+            while row is not None:
+                print(row)
+                row = cursor.fetchone()
+
+        except Error as e:
+            print(e)
+
+        finally:
+            cursor.close()
+            conn.close()
+
+        return render_template("accounts.html", user="user")
+
 
 if __name__ == '__main__':
     app.run()
