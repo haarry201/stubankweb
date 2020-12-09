@@ -50,14 +50,19 @@ def account_validation():
             args = (user_id, email, pwdhash, salt, otp_secret_key, first_name, last_name, first_line_of_address,
                     second_line_of_address, postcode, security_question, security_answer)
 
-            db_connector = DbConnector()
-            conn = db_connector.getConn()
-            db_connector.closeConn(conn)
-            cursor = conn.cursor()
-            cursor.execute(query, args)
-            conn.commit()
-            cursor.close()
-            conn.close()
+            try:
+                db_connector = DbConnector()
+                conn = db_connector.getConn()
+                db_connector.closeConn(conn)
+                cursor = conn.cursor()
+                cursor.execute(query, args)
+                conn.commit()
+                cursor.close()
+                conn.close()
+            except Error as error:
+                print(error)
+                return render_template("error.html", msg="An unexpected error occurred, please try again",
+                                       src="register.html")
 
             return render_template("accounts.html", user=first_name)
 
@@ -68,21 +73,24 @@ def login_check():
         email = request.form.get("email")
         password = request.form.get("password")
         security_question = request.form.get("security_question")
-        security_answer = request.form.get("security_answer")
+        security_answer = request.form.get("security_answer")  # gets all input from login form
         try:
             db_connector = DbConnector()
             conn = db_connector.getConn()
             db_connector.closeConn(conn)
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM UserInfo")
+            cursor.execute("SELECT * FROM UserInfo")  # gets all data stored in UserInfo table
 
-            row = cursor.fetchone()
+            row = cursor.fetchone()  # fetches first row of table
 
             while row is not None:
-                if email == row[1] and (check_password(password, row)):
-                    return render_template("accounts.html", user="Success")
+                if email == row[1] and (check_password(password, row) and security_question == row[10] and
+                                        security_answer.lower() == row[11].lower()):
+                    # checks input data against stored data
+                    return render_template("accounts.html", user=row[5])
                 else:
                     row = cursor.fetchone()
+                    # if doesn't match, fetches next row stored in table
 
         except Error as e:
             print(e)
@@ -90,16 +98,17 @@ def login_check():
         finally:
             cursor.close()
             conn.close()
+            # closes connection
 
-        return render_template("accounts.html", user="Failure")
+        return render_template("error.html", msg="These login credentials do not match an existing user, please try "
+                                                 "again", src="login.html")
+        # outputs appropriate error message if login fails
 
 
 def check_password(password, data):
-    pwd = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'), data[3], 100000)
+    pwd = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'), data[3].encode('ascii'), 100000)
     pwdhash = binascii.hexlify(pwd).decode('ascii')
-    print(pwdhash + " : " + data[2])
-    print(str(len(pwdhash)) + " : " + str(len(data[2])))
-    return pwdhash == data[2]
+    return pwdhash == data[2]  # returns true if generated hash matches stored hash
 
 
 if __name__ == '__main__':
