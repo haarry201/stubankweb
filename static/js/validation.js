@@ -16,7 +16,7 @@ $(function(){
             security_answer:"required",
             postcode: {
                 required: true,
-                maxLength: 4,
+                maxLength: 10,
             },
             email: {
                 required: true,
