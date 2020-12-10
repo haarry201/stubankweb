@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link href="{{ url_for('static', filename='css/halfmoon-variables.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
+</head>
+
+<body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true" data-set-preferred-mode-onload="true">
+    <div class="page-wrapper with-navbar">
+        <div class="sticky-alerts"></div>
+        <nav class="navbar">
+            <a href="#" class="navbar-brand rounded">
+                <img src="{{url_for('static', filename='assets/logo.png')}}" alt="StuBankLogo" > StuBank
+            </a>
+            <form class="form-inline d-none d-md-flex ml-auto" action="..." method="...">
+                <input class="btn btn-danger" type="submit" value="Back" formaction="{{ url_for('index_page') }}">
+            </form>
+            <div class="navbar-content d-md-none ml-auto">
+                <div class="dropdown with-arrow">
+                    <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">
+                        Menu
+                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-content">
+                            <form action="..." method="...">
+                                <input class="btn btn-danger btn-block mb-5" type="submit" value="Back" formaction="{{ url_for('index_page') }}">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="content-wrapper">
+            <form action="{{ url_for("account_validation") }}" method="post">
+                <label for="firstname">First Name:</label>
+                <input type="text" id="firstname" name="firstname"><br>
+                <label for="lastname">Last Name:</label>
+                <input type="text" id="lastname" name="lastname"><br>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email"><br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password"><br>
+                <label for="first_line_of_address">First Line of Address:</label>
+                <input type="text" id="first_line_of_address" name="first_line_of_address"><br>
+                <label for="second_line_of_address">Second Line of Address:</label>
+                <input type="text" id="second_line_of_address" name="second_line_of_address"><br>
+                <label for="postcode">Postcode:</label>
+                <input type="text" id="postcode" name="postcode"><br>
+                <label for=security_question">Security Question:</label>
+                <select id=security_question" name="security_question">
+                    <option value="--">--</option>
+                    <option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
+                    <option value="What was your first pet's name?">What was your first pet's name?</option>
+                    <option value="What was your favourite primary school subject?">What was your favourite primary school subject?</option>
+                </select><br>
+                <label for="security_answer">Security Question Answer:</label>
+                <input type="text" id="security_answer" name="security_answer"><br>
+                <input type="submit" value="Create Account">
+            </form>
+            <nav class="navbar navbar-static-bottom">
+                <div class="container-fluid">
+                    <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
+
+                    <!-- JavaScript -->
+                    <script type="text/javascript">
+                        // Dark mode toggle
+                        function toggleDark() {
+                            halfmoon.toggleDarkMode();
+                        }
+                    </script>
+                    <ul class="navbar-nav ml-auto">
+                        <!-- ml-auto = margin-left: auto -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Contact</a>
+                        </li>
+                    </ul>
+                    <!-- Navbar text -->
+                    <span class="navbar-text">
+                        <p>
+                            &copy; <strong>StuBank </strong> a project by Team35
+                        </p>
+                    </span>
+                </div>
+            </nav>
+        </div>
+        <!-- Halfmoon JS -->
+        <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
+    </div>
+</body>
+
+
+</html>
