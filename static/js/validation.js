@@ -3,6 +3,11 @@ $.validator.addMethod("passwordRules", function(value, element) {
     return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,100}$/.test( value );
 }, "* Password must contain one uppercase letter, one lowercase and one digit");
 
+$.validator.addMethod("postcodeRules", function(value, element) {
+
+    return this.optional(element) || /^[a-z]{1,2}\d[a-z\d]?\s*\d[a-z]{2}$/.test( value );
+}, "* Postcode must be a valid postcode");
+
 
 $(function(){
     $("form[name='RegistrationForm']").validate({
@@ -16,7 +21,7 @@ $(function(){
             security_answer:"required",
             postcode: {
                 required: true,
-                maxLength: 10,
+                postcodeRules: true,
             },
             email: {
                 required: true,
@@ -34,6 +39,9 @@ $(function(){
             second_line_of_address: "Please enter the Second line of your address",
             security_question:"Please choose a question",
             security_answer:"Please provide an answer",
+            postcode:{
+                postcodeRules: "Please provide a valid postcode",
+            },
             email: {
                 required: "Please provide an email address",
                 email: "Please enter a valid email address"

@@ -13,7 +13,7 @@
 </head>
 
 <body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true" data-set-preferred-mode-onload="true">
-    <div class="page-wrapper with-navbar">
+    <div class="page-wrapper with-navbar with-navbar-fixed-bottom">
         <div class="sticky-alerts"></div>
         <nav class="navbar">
             <a href="#" class="navbar-brand rounded">
@@ -39,35 +39,61 @@
                 </div>
             </div>
         </nav>
-
         <div class="content-wrapper">
-            <form action="{{ url_for("account_validation") }}" method="post" name="RegistrationForm">
-                <label for="firstname">First Name:</label>
-                <input type="text" id="firstname" name="firstname"><br>
-                <label for="lastname">Last Name:</label>
-                <input type="text" id="lastname" name="lastname"><br>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email"><br>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password"><br>
-                <label for="first_line_of_address">First Line of Address:</label>
-                <input type="text" id="first_line_of_address" name="first_line_of_address"><br>
-                <label for="second_line_of_address">Second Line of Address:</label>
-                <input type="text" id="second_line_of_address" name="second_line_of_address"><br>
-                <label for="postcode">Postcode:</label>
-                <input type="text" id="postcode" name="postcode"><br>
-                <label for=security_question">Security Question:</label>
-                <select id=security_question" name="security_question">
-                    <option value="--">--</option>
-                    <option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
-                    <option value="What was your first pet's name?">What was your first pet's name?</option>
-                    <option value="What was your favourite primary school subject?">What was your favourite primary school subject?</option>
-                </select><br>
-                <label for="security_answer">Security Question Answer:</label>
-                <input type="text" id="security_answer" name="security_answer"><br>
-                <input type="submit" value="Create Account">
-            </form>
-            <nav class="navbar navbar-static-bottom">
+            <div class="container-fluid">
+                 <div class="row pt-20">
+                    <div class="col"></div>
+                    <div class="card text-center px-card">
+                        <form action="{{ url_for("register_page.register_page_func") }}" method="post" name="RegistrationForm">
+                            <div class="form-group">
+                                <label class="required" for="firstname">First Name:</label>
+                                <input class="form-control" type="text" id="firstname" name="firstname"><br>
+                            </div>
+                            <div class="form-group">
+                                <label class="required" for="lastname">Last Name:</label>
+                                <input class="form-control" type="text" id="lastname" name="lastname"><br>
+                            </div>
+                            <div class="form-group">
+                                 <label class="required" for="email">Email:</label>
+                                <input class="form-control" type="email" id="email" name="email"><br>
+                            </div>
+                            <div class="form-group">
+                               <label  class="required" for="password">Password:</label>
+                                <input class="form-control" type="password" id="password" name="password"><br>
+                            </div>
+                            <div class="form-group">
+                                <label class="required" for="first_line_of_address">First Line of Address:</label>
+                                <input class="form-control" type="text" id="first_line_of_address" name="first_line_of_address"><br>
+                            </div>
+                            <div class="form-group">
+                                <label class="required" for="second_line_of_address">Second Line of Address:</label>
+                                <input class="form-control" type="text" id="second_line_of_address" name="second_line_of_address"><br>
+                            </div>
+                            <div class="form-group">
+                                <label class="required" for="postcode">Postcode:</label>
+                                <input class="form-control" type="text" id="postcode" name="postcode"><br>
+                            </div>
+                             <div class="form-group">
+                               <label class="required" for=security_question">Security Question:</label>
+                                <select class="form-control" id=security_question" name="security_question">
+                                    <option value="--">--</option>
+                                    <option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
+                                    <option value="What was your first pet's name?">What was your first pet's name?</option>
+                                    <option value="What was your favourite primary school subject?">What was your favourite primary school subject?</option>
+                                </select><br>
+                            </div>
+                            <div class="form-group">
+                                <label class="required" for="security_answer">Security Question Answer:</label>
+                                <input class="form-control" type="text" id="security_answer" name="security_answer"><br>
+                            </div>
+                            <input class="btn btn-primary" type="submit" value="Create Account">
+                        </form>
+                    </div>
+                     <div class="col"></div>
+                 </div>
+            </div>
+        </div>
+        <nav class="navbar navbar-fixed-bottom">
                 <div class="container-fluid">
                     <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
 
@@ -93,9 +119,9 @@
                 </div>
             </nav>
         </div>
-        <!-- Halfmoon JS -->
-        <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
     </div>
+<!-- Halfmoon JS -->
+        <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
 </body>
 
 

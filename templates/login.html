@@ -12,12 +12,13 @@
     <script src="{{ url_for('static', filename='js/validation.js') }}"></script>
 </head>
 
-<body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true" data-set-preferred-mode-onload="true">
-    <div class="page-wrapper with-navbar">
+<body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true"
+    data-set-preferred-mode-onload="true">
+    <div class="page-wrapper with-navbar with-navbar-fixed-bottom">
         <div class="sticky-alerts"></div>
         <nav class="navbar">
             <a href="#" class="navbar-brand rounded">
-                <img src="{{url_for('static', filename='assets/logo.png')}}" alt="StuBankLogo" > StuBank
+                <img src="{{url_for('static', filename='assets/logo.png')}}" alt="StuBankLogo"> StuBank
             </a>
             <form class="form-inline d-none d-md-flex ml-auto" action="..." method="...">
                 <input class="btn btn-danger" type="submit" value="Back" formaction="{{ url_for('index_page') }}">
@@ -32,59 +33,75 @@
                         <div class="dropdown-divider"></div>
                         <div class="dropdown-content">
                             <form action="..." method="...">
-                                <input class="btn btn-danger btn-block mb-5" type="submit" value="Back" formaction="{{ url_for('index_page') }}">
+                                <input class="btn btn-danger btn-block mb-5" type="submit" value="Back"
+                                    formaction="{{ url_for('index_page') }}">
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
         </nav>
-
         <div class="content-wrapper">
-            <form action="{{ url_for("login_check") }}" method="post" name="LoginForm">
-                <label for="email">Email:</label>
-                <input type="text" id="email" name="email"><br>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password"><br>
-                <label for=security_question">Security Question:</label>
-                <select id=security_question" name="security_question">
-                    <option value="--">--</option>
-                    <option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
-                    <option value="What was your first pet's name?">What was your first pet's name?</option>
-                    <option value="What was your favourite primary school subject?">What was your favourite primary school subject?</option>
-                </select><br>
-                <label for="security_answer">Security Question Answer:</label>
-                <input type="text" id="security_answer" name="security_answer"><br>
-                <input type="submit" value="Login">
-            </form>
-            <nav class="navbar navbar-static-bottom">
-                <div class="container-fluid">
-                    <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
-
-                    <!-- JavaScript -->
-                    <script type="text/javascript">
-                        // Dark mode toggle
-                        function toggleDark() {
-                            halfmoon.toggleDarkMode();
-                        }
-                    </script>
-                    <ul class="navbar-nav ml-auto">
-                        <!-- ml-auto = margin-left: auto -->
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">Contact</a>
-                        </li>
-                    </ul>
-                    <!-- Navbar text -->
-                    <span class="navbar-text">
-                        <p>
-                            &copy; <strong>StuBank </strong> a project by Team35
-                        </p>
-                    </span>
+            <div class="container-fluid">
+                <div class="row pt-20">
+                    <div class="col"></div>
+                    <div class="card text-center">
+                        <form class="p-card" action="{{ url_for("login_page.login_page_func") }}" method="post" name="LoginForm">
+                            <div class="form-group">
+                                <label class="required" for="email">Email:</label>
+                                <input class="form-control" type="text" id="email" name="email">
+                            </div>
+                            <div class="form-group">
+                                <label class="required" for="password">Password:</label>
+                                <input class="form-control" type="password" id="password" name="password">
+                            </div>
+                            <div class="form-group">
+                                <label class="required" for=security_question">Security Question:</label>
+                                <select class="form-control" id=security_question" name="security_question">
+                                    <option value="--">--</option>
+                                    <option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
+                                    <option value="What was your first pet's name?">What was your first pet's name?</option>
+                                    <option value="What was your favourite primary school subject?">What was your favourite primary
+                                        school subject?</option>
+                                </select><br>
+                                <label class="required" for="security_answer">Security Question Answer:</label>
+                                <input class="form-control" type="text" id="security_answer" name="security_answer"><br>
+                            </div>
+                            <input class="btn btn-primary" type="submit" value="Login">
+                        </form>
+                    </div>
+                <div class="col"></div>
                 </div>
-            </nav>
+            </div>
         </div>
-        <!-- Halfmoon JS -->
-        <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
+        <nav class="navbar navbar-fixed-bottom">
+            <div class="container-fluid">
+                <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
+
+                <!-- JavaScript -->
+                <script type="text/javascript">
+                    // Dark mode toggle
+                    function toggleDark() {
+                        halfmoon.toggleDarkMode();
+                    }
+                </script>
+                <ul class="navbar-nav ml-auto">
+                    <!-- ml-auto = margin-left: auto -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Contact</a>
+                    </li>
+                </ul>
+                <!-- Navbar text -->
+                <span class="navbar-text">
+                    <p>
+                        &copy; <strong>StuBank </strong> a project by Team35
+                    </p>
+                </span>
+            </div>
+        </nav>
     </div>
+    <!-- Halfmoon JS -->
+    <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
 </body>
+
 </html>
