@@ -60,10 +60,13 @@
 
         <div class="content-wrapper">
             <form action="{{ url_for("account_application_validation") }}" method="post">
+                <label for="username">Enter email address associated with account:</label>
+                <input class="form-control" type="text" id="email" name="email">
+
                 <label for="account type">Choose an account type:</label>
 
                 <select name="account type" id="account type">
-                    <option value="current account">Current Account</option>
+                    <option value="student current account">Current Account</option>
                     <option value="savings account">Savings Account</option>
                 </select>
             </form>
