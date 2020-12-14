@@ -65,7 +65,7 @@
         </nav>
 
         <div class="content-wrapper">
-            {% if not card %}
+            {% if not all_cards %}
             <div class="card shadow">
                 <div class="card-title">
                     <p>There doesnt seem to be any cards, why dont you add one:</p>
@@ -79,7 +79,15 @@
                  </h2>
                 </div>
             {% endfor %}
-
+            <div class="card">
+                <form action="{{ url_for("admin_new_card.admin_new_card_func") }}" method="post" name="NewCardForm">
+                    <div class="form-group">
+                            <label class="required" for="description">Description of the Card:</label>
+                            <input class="form-control" type="text" id="description" name="description"><br>
+                    </div>
+                    <input class="btn btn-primary" type="submit" value="Add Card">
+                </form>
+            </div>
         </div>
             <nav class="navbar navbar-fixed-bottom">
                 <div class="container-fluid">
