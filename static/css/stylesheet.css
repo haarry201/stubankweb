@@ -3,17 +3,26 @@
 */
 .card-primary {
     /* Card (light mode only) */
-  
-    /* --lm-card-text-color unchanged */
-    --lm-card-bg-color: var(--primary-color-very-light); /* Before: var(--white-bg-color) */
-    --lm-card-border-color: var(--primary-color-light);  /* Before: rgba(0, 0, 0, 0.2) */
-  
+    color: #cfe7fd;
+    background-color: #45a3fb;
     /* Card (dark mode only) */
-  
-    --dm-card-text-color: var(--primary-color);         /* Before: var(--dm-base-text-color) */
-    --dm-card-bg-color: var(--primary-color-very-dark); /* Before: var(--dark-color) */
-    --dm-card-border-color: var(--primary-color-dark);  /* Before: rgba(0, 0, 0, 0.2) */
   }
+.dark-mode .card-primary{
+    color: #45a3fb;
+    background-color: #172636;
+    border-color: #0d518f;
+}
+
+
+.text-in-vanta{
+    text-align: center;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    color: white;
+}
+
 
   @media only screen and (max-width: 700px) {
       h1{
@@ -33,5 +42,8 @@
       }
       .table-class{
           padding: 0%;
+      }
+      .index-h1{
+          font-size: 30px;
       }
   } 
