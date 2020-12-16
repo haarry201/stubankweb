@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <link href="{{ url_for('static', filename='css/halfmoon-variables.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/halfmoon.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
@@ -44,6 +44,7 @@
                  <div class="row pt-20">
                     <div class="col"></div>
                     <div class="card text-center px-card">
+                        <h1>Register:</h1>
                         <form action="{{ url_for("register_page.register_page_func") }}" method="post" name="RegistrationForm">
                             <div class="form-group">
                                 <label class="required" for="firstname">First Name:</label>
