@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Account</title>
+    <title>Bank Account Application</title>
     <link href="{{ url_for('static', filename='css/halfmoon-variables.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
 </head>
@@ -59,7 +59,7 @@
         </nav>
 
         <div class="content-wrapper">
-            <form action="{{ url_for("bank_acc_application_page.bank_application") }}" method="post">
+            <form action="{{ url_for("bank_acc_application_page.bank_application") }}" method="post" name="application_form">
                 <label for="username">Enter email address associated with account:</label>
                 <input class="form-control" type="text" id="email" name="email">
 
