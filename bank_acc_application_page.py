@@ -2,7 +2,7 @@ from flask import Flask, Blueprint, render_template,request
 from controllers.DbConnector import DbConnector
 from random import *
 
-bank_acc_application_page = Blueprint('account_application_page', __name__, template_folder='templates')
+bank_acc_application_page = Blueprint('bank_acc_application_page', __name__, template_folder='templates')
 
 
 @bank_acc_application_page.route('/<page>', methods=['GET', 'POST'])
