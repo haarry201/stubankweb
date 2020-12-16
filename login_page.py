@@ -18,7 +18,7 @@ def login_page_func():
             db_connector = DbConnector()
             conn = db_connector.getConn()
             db_connector.closeConn(conn)
-            cursor = conn.cursor()
+            cursor = conn.cursor(buffered=True)
             cursor.execute("SELECT * FROM UserInfo")  # gets all data stored in UserInfo table
 
             row = cursor.fetchone()  # fetches first row of table
