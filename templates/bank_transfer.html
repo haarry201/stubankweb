@@ -59,16 +59,28 @@
         </nav>
 
         <div class="content-wrapper">
-            <form action="{{ url_for("bank_acc_application_page.bank_application") }}" method="post" name="application_form">
+            <form action="{{ url_for("bank_transfer_page.bank_transfer") }}" method="post" name="transfer_form">
+
                 <label for="email">Enter email address associated with account:</label>
                 <input class="form-control" type="text" id="email" name="email">
 
-                <label for="account type">Choose an account type:</label>
+                <label for="account selected">Choose which account to transfer from:</label>
 
                 <select name="account type" id="account type">
                     <option value="student current account">Student Current Account</option>
                     <option value="savings account">Savings Account</option>
                 </select>
+
+                <label for="receiver selected">Enter account number and sort code of account to transfer to:</label>
+                <label class="required" for="account number">Account number:</label>
+                <input class="form-control" type="text" id="account number" name="account number">
+                <label class="required" for="sort code">Sort code:</label>
+                <input class="form-control" type="text" id="sort code" name="sort code">
+
+                <label for="amount">Enter amount to transfer:</label>
+                <label class="required" for="transfer value">£</label>
+                <input class="form-control" type="number" id="transfer value" name="transfer value">
+
 
                 <input class="btn btn-primary" type="submit" value="Submit">
             </form>
@@ -108,4 +120,3 @@
 
 
 </html>
-
