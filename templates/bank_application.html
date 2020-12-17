@@ -60,15 +60,19 @@
 
         <div class="content-wrapper">
             <form action="{{ url_for("bank_acc_application_page.bank_application") }}" method="post" name="application_form">
+                <div class="form-group">
                 <label for="email">Enter email address associated with account:</label>
                 <input class="form-control" type="text" id="email" name="email">
+                </div>
 
+                <div class="form-group">
                 <label for="account type">Choose an account type:</label>
 
                 <select name="account type" id="account type">
                     <option value="student current account">Student Current Account</option>
                     <option value="savings account">Savings Account</option>
                 </select>
+                </div>
 
                 <input class="btn btn-primary" type="submit" value="Submit">
             </form>
