@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template,request
+from flask import Flask, Blueprint, render_template,request, session
 from mysql.connector import MySQLConnection, Error
 from controllers.DbConnector import DbConnector
 from controllers.PasswordManager import PasswordManager
@@ -27,7 +27,8 @@ def login_page_func():
                 if email == row[1] and (pwd_manager.check_password(password, row) and security_question == row[10] and
                                         security_answer.lower() == row[11].lower()):
                     # checks input data against stored data
-                    return render_template("accounts.html", user=row[5])
+                    session['name'] = row[5]
+                    return render_template("accounts.html", user=session['name'])
                 else:
                     row = cursor.fetchone()
                     # if doesn't match, fetches next row stored in table
