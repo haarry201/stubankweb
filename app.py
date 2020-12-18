@@ -16,7 +16,8 @@ app.register_blueprint(expenditure_reports, url_prefix="/reports.html")
 
 @app.route('/')
 def index_page():
-    session.pop('name')  # removes stored session attributes as logging out
+    if 'name' in session:
+        session.pop('name')  # removes stored session attributes as logging out
     return render_template('index.html')
 
 if __name__ == '__main__':
