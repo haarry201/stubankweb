@@ -7,6 +7,7 @@
     <title>My Account</title>
     <link href="{{ url_for('static', filename='css/halfmoon.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
+    <script src="https://cdn.anychart.com/releases/8.0.0/js/anychart-base.min.js"></script>
 </head>
 
 <body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true" data-set-preferred-mode-onload="true">
@@ -66,14 +67,51 @@
         </nav>
 
         <div class="content-wrapper">
-            <div class="card shadow">
-                <h1 class="text-center">
-                    Welcome {{user}}!
-                </h1>
-            </div>
-            <div class="table-class card shadow">
-                <h1 class="text-center">Recent Transactions</h1>
-            </div>
+            <button onclick="last7Days()">Show expenditure report for last 7 days</button>
+            <button>Show this week's report and compare spending to previous weeks</button>
+            <div hidden id="container7days" style="width: 100%; height: 100%"></div>
+            <div hidden id="containerWeekly" style="width: 100%; height: 100%"></div>
+            <script>
+                function last7Days() {
+                    document.getElementById("containerWeekly").hidden = true;
+                    document.getElementById("container7days").hidden = false; //hides irrelevant container
+                    let dates = [];
+                    let currentDate = new Date(); //gets current date
+                    dates.push(currentDate); //adds current date to array
+                    for(var i = 0; i < 6; i++){
+                        currentDate.setDate(currentDate.getDate() - 1);
+                        dates.push(new Date(currentDate)); //gets date of previous 7 days and adds to array
+                    }
+                    dates[0] = new Date(); //resets data stored in dates[0] so it holds current date again
+
+                    // set the data
+                    var data = {
+                        header: ["Day", "Expenditure"],
+                        rows: [
+                            ["" + dates[0].getDate() + "/" + (dates[0].getMonth() + 1), 125],
+                            ["" + dates[1].getDate() + "/" + (dates[1].getMonth() + 1), 12],
+                            ["" + dates[2].getDate() + "/" + (dates[2].getMonth() + 1), 87],
+                            ["" + dates[3].getDate() + "/" + (dates[3].getMonth() + 1), 69],
+                            ["" + dates[4].getDate() + "/" + (dates[4].getMonth() + 1), 19],
+                            ["" + dates[5].getDate() + "/" + (dates[5].getMonth() + 1), 1.5],
+                            ["" + dates[6].getDate() + "/" + (dates[6].getMonth() + 1), 82],
+                        ]
+                    };
+
+                    // create the chart
+                    var chart = anychart.column();
+
+                    // add the data
+                    chart.data(data);
+
+                    // set the chart title
+                    chart.title("Expenditure report for the last 7 days");
+
+                    // draw
+                    chart.container("container7days");
+                    chart.draw();
+                }
+            </script>
             <nav class="navbar navbar-static-bottom">
                 <div class="container-fluid">
                     <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
