@@ -67,11 +67,11 @@
         </nav>
 
         <div class="content-wrapper">
-            <button onclick="last7Days()">Show expenditure report for last 7 days</button>
-            <button>Show this week's report and compare spending to previous weeks</button>
+            <button id="daysButton" onclick="last7Days()">Show expenditure report for last 7 days</button>
+            <button id="weeksButton" onclick="weeklyReport()">Show this week's report and compare spending to previous weeks</button>
             <div hidden id="container7days" style="width: 100%; height: 100%"></div>
             <div hidden id="containerWeekly" style="width: 100%; height: 100%"></div>
-            <script>
+            <script type="text/javascript">
                 function last7Days() {
                     document.getElementById("containerWeekly").hidden = true;
                     document.getElementById("container7days").hidden = false; //hides irrelevant container
@@ -107,9 +107,34 @@
                     // set the chart title
                     chart.title("Expenditure report for the last 7 days");
 
+                    //sets chart colour theme based on if site is in dark/light mode
+                    if (halfmoon.readCookie("halfmoon_preferredMode")) {
+                        if (halfmoon.readCookie("halfmoon_preferredMode") == "light-mode") {
+                            anychart.theme(anychart.themes.lightTurquoise);
+                        }
+                        else if (halfmoon.readCookie("halfmoon_preferredMode") == "dark-mode") {
+                            anychart.theme(anychart.themes.darkTurquoise);
+                        }
+                    }
+
+                    var div = document.getElementById('container7days');
+                    while(div.firstChild){
+                        div.removeChild(div.firstChild);
+                    } //clears div so multiple repeat graphs don't appear
+
                     // draw
                     chart.container("container7days");
                     chart.draw();
+
+                    document.getElementById("daysButton").disabled = true; //fixes bug where repeat graphs can be drawn
+                    document.getElementById("weeksButton").disabled = false;
+                }
+                function weeklyReport(){
+                    document.getElementById("containerWeekly").hidden = false;
+                    document.getElementById("container7days").hidden = true; //hides irrelevant container
+
+                    document.getElementById("daysButton").disabled = false;
+                    document.getElementById("weeksButton").disabled = true; //fixes bug where repeat graphs can be drawn
                 }
             </script>
             <nav class="navbar navbar-static-bottom">
