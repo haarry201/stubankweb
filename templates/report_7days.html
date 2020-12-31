@@ -66,77 +66,77 @@
             </div>
         </nav>
 
-        <canvas id="report_7days" width="600" height="400"></canvas>
+        <div class="content-wrapper">
+            <canvas id="report_7days" width="600" height="400"></canvas>
+            <script>
+                Chart.defaults.global.responsive = false;
 
-        <script>
-            Chart.defaults.global.responsive = false;
-
-            var chartData = {
-                labels : [{% for item in labels %}
-                    "{{item}}",
-                    {% endfor %}],
-                datasets : [{
-                    label: '{{ legend }}',
-                    fill: true,
-                    lineTension: 0.1,
-                    backgroundColor: "rgba(75,192,192,0.4)",
-                    borderColor: "rgba(75,192,192,1)",
-                    borderCapStyle: 'butt',
-                    borderDash: [],
-                    borderDashOffset: 0.0,
-                    borderJoinStyle: 'miter',
-                    pointBorderColor: "rgba(75,192,192,1)",
-                    pointBackgroundColor: "#fff",
-                    pointBorderWidth: 1,
-                    pointHoverRadius: 5,
-                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                    pointHoverBorderColor: "rgba(220,220,220,1)",
-                    pointHoverBorderWidth: 2,
-                    pointRadius: 1,
-                    pointHitRadius: 10,
-                    data : [{% for item in values %}
-                        {{item}},
+                var chartData = {
+                    labels : [{% for item in labels %}
+                        "{{item}}",
                         {% endfor %}],
-                    spanGaps: false
-                }]
-            }
+                    datasets : [{
+                        label: '{{ legend }}',
+                        fill: true,
+                        lineTension: 0.1,
+                        backgroundColor: "rgba(75,192,192,0.4)",
+                        borderColor: "rgba(75,192,192,1)",
+                        borderCapStyle: 'butt',
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        borderJoinStyle: 'miter',
+                        pointBorderColor: "rgba(75,192,192,1)",
+                        pointBackgroundColor: "#fff",
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                        pointHoverBorderWidth: 2,
+                        pointRadius: 1,
+                        pointHitRadius: 10,
+                        data : [{% for item in values %}
+                            {{item}},
+                            {% endfor %}],
+                        spanGaps: false
+                    }]
+                }
 
-            var ctx = document.getElementById("report_7days").getContext("2d");
+                var ctx = document.getElementById("report_7days").getContext("2d");
 
-            var myChart = new Chart(ctx, {
-                type: 'bar',
-                data: chartData,
-            });
-        </script>
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: chartData,
+                });
+            </script>
+            <nav class="navbar navbar-fixed-bottom">
+                <div class="container-fluid">
+                    <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
 
-        <nav class="navbar navbar-fixed-bottom">
-            <div class="container-fluid">
-                <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
-
-                <!-- JavaScript -->
-                <script type="text/javascript">
-                    // Dark mode toggle
-                    function toggleDark() {
-                        halfmoon.toggleDarkMode();
-                    }
-                </script>
-                <ul class="navbar-nav ml-auto">
-                    <!-- ml-auto = margin-left: auto -->
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">Contact</a>
-                    </li>
-                </ul>
-                <!-- Navbar text -->
-                <span class="navbar-text">
-                    <p>
-                        &copy; <strong>StuBank </strong> a project by Team35
-                    </p>
-                </span>
-            </div>
-        </nav>
+                    <!-- JavaScript -->
+                    <script type="text/javascript">
+                        // Dark mode toggle
+                        function toggleDark() {
+                            halfmoon.toggleDarkMode();
+                        }
+                    </script>
+                    <ul class="navbar-nav ml-auto">
+                        <!-- ml-auto = margin-left: auto -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Contact</a>
+                        </li>
+                    </ul>
+                    <!-- Navbar text -->
+                    <span class="navbar-text">
+                        <p>
+                            &copy; <strong>StuBank </strong> a project by Team35
+                        </p>
+                    </span>
+                </div>
+            </nav>
+        </div>
+        <!-- Halfmoon JS -->
+        <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
     </div>
-    <!-- Halfmoon JS -->
-    <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
 </body>
 
 </html>
