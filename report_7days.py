@@ -21,6 +21,15 @@ def reports_7days():
         today = today - timedelta(days=1)
         dates.append(str(today.day) + "/" + str(today.month))
 
+    row = cursor.fetchone()  # fetches first row of table
+
+    values = []
+    for d in dates:
+        total = 0
+        while row is not None:
+            if d in row[6]:
+                total += row[5]
+        values.append(total)
+
     legend = 'Expenditure report for last 7 days'
-    values = [10, 9, 8, 7, 6, 4, 7, 8]
     return render_template('report_7days.html', values=values, labels=dates, legend=legend)
