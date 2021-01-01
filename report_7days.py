@@ -29,6 +29,7 @@ def reports_7days():
         while row is not None:
             if d in row[6]:
                 total += row[5]
+            row = cursor.fetchone()
         values.append(total)
 
     legend = 'Expenditure report for last 7 days'
