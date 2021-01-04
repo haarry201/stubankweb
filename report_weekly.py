@@ -13,6 +13,17 @@ def reports_weekly():
     cursor = conn.cursor(buffered=True)
     cursor.execute("SELECT * FROM Transactions")  # gets all data stored in Transactions table
 
+    today = date.today()
+    mondays = []
+    if today.weekday() == 0:
+        mondays.append(today)  # if today is a monday
+
+    while len(mondays) < 4:  # finds dates of past 4 mondays
+        today = today - timedelta(days=1)
+        if today.weekday() == 0:
+            mondays.append(today)
+
+    print(mondays)
     values = [10, 4, 8, 9]
     dates = ["01/01", "02/01", "03/01", "04/01"]
 

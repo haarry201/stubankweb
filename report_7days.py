@@ -7,28 +7,43 @@ report_7days = Blueprint('report_7days', __name__, template_folder='templates')
 
 @report_7days.route('/')
 def reports_7days():
+    account_id = ''
     db_connector = DbConnector()
     conn = db_connector.getConn()
     db_connector.closeConn(conn)
     cursor = conn.cursor(buffered=True)
-    cursor.execute("SELECT * FROM Transactions")  # gets all data stored in Transactions table
+    cursor.execute("SELECT * FROM UserInfo")  # gets all data stored in UserInfo table
+    row = cursor.fetchone()
+    while row is not None:
+        if row[5] == session['name']:
+            account_id = row[0]  # gets currently logged in user's account id to use while searching UserAccounts
+        row = cursor.fetchone()
+
+    accounts = []
+    cursor.execute("SELECT * FROM UserAccounts")  # gets all data stored in UserAccounts table
+    row = cursor.fetchone()
+    while row is not None:
+        if row[2] == account_id:
+            accounts.append(row[0])  # all account numbers owned by same user stored in accounts
+        row = cursor.fetchone()
 
     dates = []
     today = date.today()
     dates.append(str(today.day) + "/" + str(today.month))
 
     for i in range(6):
-        today = today - timedelta(days=1)
+        today = today - timedelta(days=1)  # gets yesterday's date
         dates.append(str(today.day) + "/" + str(today.month))
 
+    cursor.execute("SELECT * FROM Transactions")  # selects all transactions from transactions table
     row = cursor.fetchone()  # fetches first row of table
 
     values = []
     for d in dates:
         total = 0
         while row is not None:
-            if d in row[6]:
-                total += row[5]
+            if d in row[6] and row[1] in accounts:  # checking so only correct transactions shown on graph
+                total += row[5]  # adds transaction price to running total
             row = cursor.fetchone()
         values.append(total)
 
