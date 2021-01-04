@@ -47,5 +47,8 @@ def reports_7days():
             row = cursor.fetchone()
         values.append(total)
 
+    dates.reverse()
+    values.reverse()  # reverses arrays to show in chronological order least->most recent on graph
+
     legend = 'Expenditure report for last 7 days'
     return render_template('report_7days.html', values=values, labels=dates, legend=legend)
