@@ -3,8 +3,7 @@ from register_page import register_page
 from account_page import account_page
 from login_page import login_page
 from expenditure_reports import expenditure_reports
-from report_7days import report_7days
-from report_weekly import report_weekly
+from report_building import report_building
 import secrets
 secret_key = secrets.token_hex(16)
 
@@ -15,14 +14,15 @@ app.register_blueprint(login_page, url_prefix="/login.html")
 app.register_blueprint(register_page, url_prefix="/register.html")
 app.register_blueprint(account_page, url_prefix="/accounts.html")
 app.register_blueprint(expenditure_reports, url_prefix="/reports.html")
-app.register_blueprint(report_7days, url_prefix="/report_7days.html")
-app.register_blueprint(report_weekly, url_prefix="/report_weekly.html")
+app.register_blueprint(report_building, url_prefix="/reports/")
+
 
 @app.route('/')
 def index_page():
     if 'name' in session:
         session.pop('name')  # removes stored session attributes as logging out
     return render_template('index.html')
+
 
 if __name__ == '__main__':
     app.run()
