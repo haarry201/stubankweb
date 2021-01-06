@@ -5,8 +5,14 @@ from datetime import date, timedelta
 report_building = Blueprint('report_building', __name__, template_folder='templates')
 
 
-@report_building.route('/7days')
-def reports_7days():
+def get_conn():
+    db_connector = DbConnector()
+    conn = db_connector.getConn()
+    db_connector.closeConn(conn)
+    return conn
+
+
+def get_info():
     account_id = ''
     db_connector = DbConnector()
     conn = db_connector.getConn()
@@ -27,6 +33,14 @@ def reports_7days():
             accounts.append(row[0])  # all account numbers owned by same user stored in accounts
         row = cursor.fetchone()
 
+    return accounts
+
+
+@report_building.route('/7days')
+def reports_7days():
+    accounts = get_info()  # gets all user owned accounts
+    conn = get_conn()
+    cursor = conn.cursor(buffered=True)
     dates = []
     today = date.today()
     dates.append(str(today.day) + "/" + str(today.month))
@@ -53,28 +67,12 @@ def reports_7days():
     legend = 'Expenditure report for last 7 days'
     return render_template('report_final.html', values=values, labels=dates, legend=legend)
 
+
 @report_building.route('/weekly')
 def reports_weekly():
-    account_id = ''
-    db_connector = DbConnector()
-    conn = db_connector.getConn()
-    db_connector.closeConn(conn)
+    accounts = get_info()  # gets all user owned accounts
+    conn = get_conn()
     cursor = conn.cursor(buffered=True)
-    cursor.execute("SELECT * FROM UserInfo")  # gets all data stored in UserInfo table
-    row = cursor.fetchone()
-    while row is not None:
-        if row[5] == session['name']:
-            account_id = row[0]  # gets currently logged in user's account id to use while searching UserAccounts
-        row = cursor.fetchone()
-
-    accounts = []
-    cursor.execute("SELECT * FROM UserAccounts")  # gets all data stored in UserAccounts table
-    row = cursor.fetchone()
-    while row is not None:
-        if row[2] == account_id:
-            accounts.append(row[0])  # all account numbers owned by same user stored in accounts
-        row = cursor.fetchone()
-
     today = date.today()
     mondays = []
     if today.weekday() == 0:
@@ -111,3 +109,36 @@ def reports_weekly():
 
     legend = 'Expenditure report for last 4 weeks'
     return render_template('report_final.html', values=totals, labels=dates, legend=legend)
+
+
+@report_building.route("/yearly")
+def reports_yearly():
+    accounts = get_info()
+    conn = get_conn()
+    cursor = conn.cursor(buffered=True)
+    years = []
+    today = date.today()
+    years.append(str(today.month) + "/" + str(today.year))
+
+    for i in range(11):
+        today = today - timedelta(days=30)
+        years.append(str(today.month) + "/" + str(today.year))
+
+    totals = []
+    cursor.execute("SELECT * FROM Transactions")  # selects all transactions from transactions table
+    row = cursor.fetchone()  # fetches first row of table
+
+    for y in years:
+        day = str(today.day) + "/" + y
+        total = 0
+        while row is not None:
+            if row[6] in day and row[1] in accounts:  # checking so only correct transactions shown on graph
+                total += row[5]  # adds transaction price to running total
+            row = cursor.fetchone()
+        totals.append(total)
+
+    years.reverse()
+    totals.reverse()  # reverses arrays to show in chronological order least->most recent on graph
+
+    legend = 'Expenditure report for last 12 months'
+    return render_template('report_final.html', values=totals, labels=years, legend=legend)
