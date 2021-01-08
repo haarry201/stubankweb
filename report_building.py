@@ -53,11 +53,13 @@ def reports_7days():
     row = cursor.fetchone()  # fetches first row of table
 
     values = []
+    biggest = 0
     for d in dates:
         total = 0
         while row is not None:
             if d in row[6] and row[1] in accounts:  # checking so only correct transactions shown on graph
                 total += row[5]  # adds transaction price to running total
+                if row[5] > biggest: biggest = row[5]
             row = cursor.fetchone()
         values.append(total)
 
@@ -65,7 +67,7 @@ def reports_7days():
     values.reverse()  # reverses arrays to show in chronological order least->most recent on graph
 
     legend = 'Expenditure report for last 7 days'
-    return render_template('report_final.html', values=values, labels=dates, legend=legend)
+    return render_template('report_final.html', values=values, labels=dates, legend=legend, big=biggest)
 
 
 @report_building.route('/weekly')
@@ -84,6 +86,7 @@ def reports_weekly():
             mondays.append(today)
 
     totals = []
+    biggest = 0
     cursor.execute("SELECT * FROM Transactions")  # selects all transactions from transactions table
     row = cursor.fetchone()  # fetches first row of table
 
@@ -97,6 +100,7 @@ def reports_weekly():
         while row is not None:
             if row[6] in days and row[1] in accounts:  # checking so only correct transactions shown on graph
                 total += row[5]  # adds transaction price to running total
+                if row[5] > biggest: biggest = row[5]
             row = cursor.fetchone()
         totals.append(total)
 
@@ -108,7 +112,7 @@ def reports_weekly():
     totals.reverse()  # reverses arrays to show in chronological order least->most recent on graph
 
     legend = 'Expenditure report for last 4 weeks'
-    return render_template('report_final.html', values=totals, labels=dates, legend=legend)
+    return render_template('report_final.html', values=totals, labels=dates, legend=legend, big=biggest)
 
 
 @report_building.route("/yearly")
@@ -125,6 +129,7 @@ def reports_yearly():
         years.append(str(today.month) + "/" + str(today.year))
 
     totals = []
+    biggest = 0
     cursor.execute("SELECT * FROM Transactions")  # selects all transactions from transactions table
     row = cursor.fetchone()  # fetches first row of table
 
@@ -134,6 +139,7 @@ def reports_yearly():
         while row is not None:
             if row[6] in day and row[1] in accounts:  # checking so only correct transactions shown on graph
                 total += row[5]  # adds transaction price to running total
+                if row[5] > biggest: biggest = row[5]
             row = cursor.fetchone()
         totals.append(total)
 
@@ -141,4 +147,4 @@ def reports_yearly():
     totals.reverse()  # reverses arrays to show in chronological order least->most recent on graph
 
     legend = 'Expenditure report for last 12 months'
-    return render_template('report_final.html', values=totals, labels=years, legend=legend)
+    return render_template('report_final.html', values=totals, labels=years, legend=legend, big=biggest)
