@@ -11,14 +11,14 @@ bank_transfer_page = Blueprint('bank_transfer_page', __name__, template_folder='
 def bank_transfer():
     if request.method == 'POST':
         email = request.form.get("email")
-        account_type = request.form.get("account type")
+        account_type = request.form.get("account_type")
         if account_type == "student current account":
             account_type_id = '123'
         if account_type == "savings account":
             account_type_id = '100'
-        account_num = request.form.get("account number")
-        sort_code = request.form.get("sort code")
-        transfer_value = int(request.form.get("transfer value"))
+        account_num = request.form.get("account_number")
+        sort_code = request.form.get("sort_code")
+        transfer_value = int(request.form.get("transfer_value"))
 
         try:
             db_connector = DbConnector()
