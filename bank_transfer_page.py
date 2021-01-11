@@ -1,7 +1,8 @@
 from flask import Flask, Blueprint, render_template, request
 from controllers.DbConnector import DbConnector
-from random import *
 from mysql.connector import MySQLConnection, Error
+from datetime import datetime
+import random
 
 bank_transfer_page = Blueprint('bank_transfer_page', __name__, template_folder='templates')
 
@@ -53,6 +54,7 @@ def bank_transfer():
 
             while row is not None:
                 if row[0] == account_num and row[1] == sort_code:
+                    receiver_user_id = row[2]
                     transferee_value_current = int(row[5])
                     new_transferee_value = transferee_value_current + transfer_value
                     cursor.execute("UPDATE UserAccounts SET CurrentBalance = (%s) WHERE"
@@ -62,6 +64,62 @@ def bank_transfer():
 
                 else:
                     row = cursor.fetchone()
+
+
+
+
+            cursor.execute("SELECT * FROM UserAccounts")
+            row = cursor.fetchone()
+
+            while row is not None:
+                if row[2] == user_id:
+                    transferer_account_num = row[0]
+                    transferer_sort_code = row[1]
+                    break
+
+                else:
+                    row = cursor.fetchone()
+
+            cursor.execute("SELECT * FROM UserInfo")
+            row = cursor.fetchone()
+
+            while row is not None:
+                if row[0] == receiver_user_id:
+                    receiver_name = row[5] + row[6]
+                    break
+
+                else:
+                    row = cursor.fetchone()
+
+            now = datetime.now()
+            dt_string = now.strftime("%Y-%m-%d-%H-%M-")
+            date = now.strftime("%Y-%m-%d")
+            hours = now.strftime("%H")
+            minutes = now.strftime("%M")
+
+            time = (int(hours)*60) + int(minutes)
+            print(time)
+
+            ran = random.randrange(10 ** 80)
+            myhex = "%016x" % ran
+            myhex = myhex[:16]
+
+            transaction_id = dt_string + myhex
+
+            balance_change = transfer_value - transfer_value - transfer_value
+
+            transaction_type = "direct transfer"
+
+            card_num_sending = 0000000000000000
+
+            longitude = 0.000
+            latitude = 0.000
+
+            cursor.execute("INSERT INTO Transactions VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                           (transaction_id, transferer_account_num, account_num, transferer_sort_code, sort_code,
+                            balance_change, date, time, transaction_type, card_num_sending, receiver_name,
+                            longitude, latitude))
+
 
             conn.commit()
             cursor.close()
