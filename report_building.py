@@ -66,6 +66,9 @@ def reports_7days():
     dates.reverse()
     values.reverse()  # reverses arrays to show in chronological order least->most recent on graph
 
+    if biggest == 0:
+        biggest = "N/A"
+
     legend = 'Expenditure report for last 7 days'
     return render_template('report_final.html', values=values, labels=dates, legend=legend, big=biggest)
 
@@ -111,6 +114,9 @@ def reports_weekly():
     dates.reverse()
     totals.reverse()  # reverses arrays to show in chronological order least->most recent on graph
 
+    if biggest == 0:
+        biggest = "N/A"
+
     legend = 'Expenditure report for last 4 weeks'
     return render_template('report_final.html', values=totals, labels=dates, legend=legend, big=biggest)
 
@@ -145,6 +151,9 @@ def reports_yearly():
 
     years.reverse()
     totals.reverse()  # reverses arrays to show in chronological order least->most recent on graph
+
+    if biggest == 0:
+        biggest = "N/A"
 
     legend = 'Expenditure report for last 12 months'
     return render_template('report_final.html', values=totals, labels=years, legend=legend, big=biggest)
