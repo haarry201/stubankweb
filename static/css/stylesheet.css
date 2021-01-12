@@ -13,6 +13,26 @@
     border-color: #0d518f;
 }
 
+.dark-mode .card-img-bg{
+    background-color: white;
+}
+.icon-img {
+    position: relative;
+    float: left;
+  /* Adjust these values accordingly */
+  top: 10px;
+  left: 5px;
+}
+.offer-flex{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
 
 .text-in-vanta{
     text-align: center;
@@ -47,4 +67,15 @@
       .index-h1{
           font-size: 30px;
       }
+      /*.icon-img {*/
+      /*    position: relative;*/
+      /*    float: none;*/
+      /*    !* Adjust these values accordingly *!*/
+      /*    top: 10px;*/
+      /*    left: 5px;*/
+      /*}*/
+      .icon h2{
+          font-size: 30px;
+      }
+
   } 
