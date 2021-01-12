@@ -1,10 +1,11 @@
 $.validator.addMethod("passwordRules", function(value, element) {
 
     return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,100}$/.test( value );
-}, "* Password must contain one uppercase letter, one lowercase and one digit");
+}, "* Password must contain one uppercase letter, one lowercase, one digit and be 8-100 characters long");
 
 $.validator.addMethod("postcodeRules", function(value, element) {
-    return this.optional(element) || /^[a-z]{1,2}\d[a-z\d]?\s*\d[a-z]{2}$/.test( value );
+
+    return this.optional(element) || /^[A-Za-z]{1,2}[0-9A-Za-z]{1,2}[ ]?[0-9]?[A-Za-z]{2}$/.test( value );
 }, "* Postcode must be a valid postcode");
 
 $.validator.addMethod("accountNumberRules", function(value, element) {
