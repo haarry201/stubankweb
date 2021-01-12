@@ -34,8 +34,13 @@ def bank_application():
 
             cursor.execute ("SELECT * FROM UserInfo")
             row = cursor.fetchone()
-            if row[1] == email:
-                    user_id = row[0]
+            while row is not None:
+                if row[1] == email:
+                        user_id = row[0]
+                        break
+                else:
+                    row = cursor.fetchone()
+
 
             cursor.execute("INSERT INTO Accounts VALUES (%s, %s)", (account_num, sort_code))
 
@@ -53,6 +58,5 @@ def bank_application():
                                    src="register.html")
 
         return render_template('index.html')
-
 
     return render_template('bank_application.html')
