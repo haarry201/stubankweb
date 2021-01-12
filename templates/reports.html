@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Account</title>
+    <title>Reports</title>
     <link href="{{ url_for('static', filename='css/halfmoon.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
+    <script src='https://pagecdn.io/lib/chart/2.9.3/Chart.min.js'></script>
 </head>
 
 <body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true" data-set-preferred-mode-onload="true">
@@ -71,6 +72,57 @@
                 <input type="submit" value="Show expenditure report for last 4 weeks" formaction="/reports/weekly">
                 <input type="submit" value="Show expenditure report for last 12 months" formaction="/reports/yearly">
             </form>
+            <canvas id="report" width="600" height="400"></canvas>
+            <script>
+                Chart.defaults.global.responsive = false;
+
+                var chartData = {
+                    labels : [{% for item in labels %}
+                        "{{item}}",
+                        {% endfor %}],
+                    datasets : [{
+                        label: '{{ legend }}',
+                        fill: true,
+                        lineTension: 0.1,
+                        backgroundColor: "rgba(75,192,192,0.4)",
+                        borderColor: "rgba(75,192,192,1)",
+                        borderCapStyle: 'butt',
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        borderJoinStyle: 'miter',
+                        pointBorderColor: "rgba(75,192,192,1)",
+                        pointBackgroundColor: "#fff",
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                        pointHoverBorderWidth: 2,
+                        pointRadius: 1,
+                        pointHitRadius: 10,
+                        data : [{% for item in values %}
+                            {{item}},
+                            {% endfor %}],
+                        spanGaps: false
+                    }]
+                }
+
+                var ctx = document.getElementById("report").getContext("2d");
+
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: chartData,
+                });
+            </script>
+            <p id="transaction">Biggest transaction: {{ big }}</p>
+            <script>
+                if( '{{ hidden }}' === 'true'){
+                    document.getElementById("report").hidden = true;
+                    document.getElementById("transaction").hidden = true;
+                } else{
+                    document.getElementById("report").hidden = false;
+                    document.getElementById("transaction").hidden = false;
+                }
+            </script>
             <nav class="navbar navbar-fixed-bottom">
                 <div class="container-fluid">
                     <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
