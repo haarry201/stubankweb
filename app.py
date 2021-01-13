@@ -6,6 +6,7 @@ from login_page import login_page
 from bank_acc_application_page import bank_acc_application_page
 from bank_transfer_page import bank_transfer_page
 from offer_page import offer_page
+from new_offer_page import new_offer_page
 import os
 
 app = Flask(__name__)
@@ -17,6 +18,8 @@ app.register_blueprint(bank_acc_application_page, url_prefix="/bank_application.
 app.register_blueprint(bank_transfer_page, url_prefix="/bank_transfer.html")
 app.register_blueprint(manage_pools, url_prefix="/manage_pools.html")
 app.register_blueprint(offer_page, url_prefix="/offers.html")
+app.register_blueprint(new_offer_page, url_prefix="/new_offer.html")
+
 
 
 @app.route('/')
