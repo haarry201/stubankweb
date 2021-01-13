@@ -1,11 +1,18 @@
 $.validator.addMethod("passwordRules", function(value, element) {
 
     return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,100}$/.test( value );
-}, "* Password must contain one uppercase letter, one lowercase and one digit");
+}, "* Password must contain one uppercase letter, one lowercase, one digit and be 8-100 characters long");
 
 $.validator.addMethod("postcodeRules", function(value, element) {
 
-    return this.optional(element) || /^[a-z]{1,2}\d[a-z\d]?\s*\d[a-z]{2}$/.test( value );
+    return this.optional(element) || /^[A-Za-z]{1,2}[0-9A-Za-z]{1,2}[ ]?[0-9]?[A-Za-z]{2}$/.test( value );
+}, "* Postcode must be a valid postcode");
+
+$.validator.addMethod("accountNumberRules", function(value, element) {
+    return this.optional(element) || /^(?=.*\d).{8}$/.test( value );
+}, "* Postcode must be a valid postcode");
+$.validator.addMethod("sortCodeRules", function(value, element) {
+    return this.optional(element) || /^(?=.*\d).{6}$/.test( value );
 }, "* Postcode must be a valid postcode");
 
 
@@ -81,6 +88,49 @@ $(function(){
             password: {
                 required: "Please provide a password",
             },
+        },
+    });
+})
+
+$(function(){
+    $("form[name='transfer_form']").validate({
+        // CODE GOES HERE
+        rules: {
+            email: {
+                required: true,
+                email: true,
+            },
+            account_number:{
+                required: true,
+                accountNumberRules: true
+            },
+            sort_code:{
+                required: true,
+                sortCodeRules: true
+            },
+            transfer_value:{
+                required: true,
+                number: true,
+            }
+
+        },
+        messages: {
+            email: {
+                required: "Please provide an email address",
+                email: "Please enter a valid email address",
+            },
+            account_number:{
+                required: "Please provide the account number",
+                accountNumberRules: "Please provide a valid account number in the form xxxxxxxx",
+            },
+            sort_code:{
+                required:"Please provide the sort code",
+                sortCodeRules: "Please provide a valid sort code in the form xxxxxx",
+            },
+            transfer_value:{
+                required: "Please provide the transfer value",
+                number: "Please provide the transfer value as a number",
+            }
         },
     });
 })
