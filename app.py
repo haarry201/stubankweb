@@ -8,6 +8,7 @@ from bank_transfer_page import bank_transfer_page
 from offer_page import offer_page
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = secret_key  # generates secret key for unique session id
 app.register_blueprint(login_page, url_prefix="/login.html")
 app.register_blueprint(register_page, url_prefix="/register.html")
 app.register_blueprint(account_page, url_prefix="/accounts.html")
@@ -19,7 +20,10 @@ app.register_blueprint(offer_page, url_prefix="/offers.html")
 
 @app.route('/')
 def index_page():
+    if 'name' in session:
+        session.pop('name')  # removes stored session attributes as logging out
     return render_template('index.html')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

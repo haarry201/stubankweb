@@ -1,7 +1,7 @@
 import random, string
 import hashlib, binascii, os
 
-from flask import Flask, Blueprint, render_template, request
+from flask import Flask, Blueprint, render_template, request, session
 from controllers.DbConnector import DbConnector
 from mysql.connector import MySQLConnection, Error
 
@@ -49,10 +49,11 @@ def register_page_func():
                 conn.commit()
                 cursor.close()
                 conn.close()
+                session['name'] = first_name
             except Error as error:
                 print(error)
                 return render_template("error.html", msg="An unexpected error occurred, please try again",
                                        src="register.html")
 
-            return render_template("accounts.html", user=first_name)
+            return render_template("accounts.html", user=session['name'])
     return render_template('register.html')
