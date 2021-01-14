@@ -32,10 +32,10 @@
                     <a class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Our Accounts</a>
+                    <a href="{{url_for('extra_info.accounts')}}" class="nav-link">Our Accounts</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">About Us</a>
+                    <a href="{{url_for('extra_info.about_us')}}" class="nav-link">About Us</a>
                 </li>
             </ul>
             <form class="form-inline d-none d-md-flex ml-auto" action="..." method="...">
@@ -52,8 +52,8 @@
           </button>
                     <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
                         <a href="#" class="dropdown-item">Home</a>
-                        <a href="#" class="dropdown-item">Our Accounts</a>
-                        <a href="#" class="dropdown-item">About us</a>
+                        <a href="{{url_for('extra_info.accounts')}}" class="dropdown-item">Our Accounts</a>
+                        <a href="{{url_for('extra_info.about_us')}}" class="dropdown-item">About us</a>
                         <div class="dropdown-divider"></div>
                         <div class="dropdown-content">
                             <form action="..." method="...">
@@ -115,7 +115,7 @@
                                         This is our classic card that you can get
                                     </p>
                                     <div class="text-right">
-                                        <a href="#" class="btn">Read more</a>
+                                        <a href="{{url_for('extra_info.accounts')}}" class="btn">Read more</a>
                                     </div>
                                 </div>
                             </div>
@@ -131,7 +131,7 @@
                                         This is our limited edition card that is only available for a short time!
                                     </p>
                                     <div class="text-right">
-                                        <a href="#" class="btn">Read more</a>
+                                        <a href="{{url_for('extra_info.accounts')}}" class="btn">Read more</a>
                                     </div>
                                 </div>
                             </div>
@@ -153,7 +153,7 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- ml-auto = margin-left: auto -->
                         <li class="nav-item">
-                            <a href="#" class="nav-link">Contact</a>
+                            <a href="{{url_for('extra_info.contact')}}" class="nav-link">Contact</a>
                         </li>
                     </ul>
                     <!-- Navbar text -->
