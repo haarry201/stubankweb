@@ -74,222 +74,62 @@
     </nav>
     <div class="content-wrapper">
         <div class="offer-flex">
-            <div class="w-400 mw-full"> <!-- w-600 = width: 60rem (600px), mw-full = max-width: 100% -->
-                <div class="card p-0"> <!-- p-0 = padding: 0 -->
-                    <div class="card-img-bg">
-                        <img src="https://images.unidays.world/i/18f8fbd4-b793-4e4c-9e84-b0c98cc0a136?format=raw"
-                             class="img-fluid rounded-top" alt="Adidas Logo">
-                        <!-- rounded-top = rounded corners on the top -->
-                    </div>
-                    <!-- First content container nested inside card -->
-                    <div class="content">
-                        <div class="icon">
-                            <img src="{{ url_for('static', filename='assets/unidays-logo.png') }}"
-                                 class="img-fluid rounded-top sidebar-icon icon-img" alt="Adidas Logo" height="50px"
-                                 width="50px">
-                            <h2>35% Off App</h2>
+            {% for offer in all_offers %}
+                <div class="w-400 mw-full"> <!-- w-600 = width: 60rem (600px), mw-full = max-width: 100% -->
+                    <div class="card p-0"> <!-- p-0 = padding: 0 -->
+                        <div class="card-img-bg">
+                            <img src={{ offer.img_url }}
+                                         class="img-fluid rounded-top" alt="Brand Logo">
+                            <!-- rounded-top = rounded corners on the top -->
                         </div>
-                        <div>
-                            <p>Posted</p>
-                            <span class="text-muted">
-                                          <i class="fa fa-clock-o mr-5" aria-hidden="true"></i> 10/12/2020
-                                <!-- mr-5 = margin-right: 0.5rem (5px) -->
-                                        </span>
-                        </div>
-                        <div>
-                            <p>Expires</p>
-                            <span class="text-muted">
-                                      <i class="fa fa-clock-o mr-5" aria-hidden="true"></i> 17/12/2021
-                                <!-- mr-5 = margin-right: 0.5rem (5px) -->
-                                    </span>
-                        </div>
-                        {#                  <div>#}
-                        {#                    <span class="badge">#}
-                        {#                      <i class="fa fa-comments text-primary mr-5" aria-hidden="true"></i> 5 comments <!-- text-primary = color: primary-color, mr-5 = margin-right: 0.5rem (5px) -->#}
-                        {#                    </span>#}
-                        {#                    <span class="badge ml-5"> <!-- ml-5 = margin-left: 0.5rem (5px) -->#}
-                        {#                      <i class="fa fa-heart text-danger mr-5" aria-hidden="true"></i> 124 likes <!-- text-danger = color: danger-color, mr-5 = margin-right: 0.5rem (5px) -->#}
-                        {#                    </span>#}
-                        {#                  </div>#}
-                    </div>
-                    <hr/>
-                    <div class="content">
-                        <h2 class="content-title">
-                            Description
-                        </h2>
-                        <p>
-                            Enter this code in the promotional code area during checkout in order to benefit from 35%
-                            Off purchases made via the adidas App.
-                        </p>
-                    </div>
-                    <form action="..." method="..." class="p-5">
-                        <input class="btn btn-success btn-block " type="submit" value="Take Me There"
-                               formaction="https://www.myunidays.com/GB/en-GB/partners/adidas35/access/online">
-                    </form>
-                </div>
-            </div>
-            <div class="w-400 mw-full"> <!-- w-600 = width: 60rem (600px), mw-full = max-width: 100% -->
-                <div class="card p-0"> <!-- p-0 = padding: 0 -->
-                    <div class="card-img-bg">
-                        <img src="https://images.unidays.world/i/18f8fbd4-b793-4e4c-9e84-b0c98cc0a136?format=raw"
-                             class="img-fluid rounded-top" alt="Adidas Logo">
-                        <!-- rounded-top = rounded corners on the top -->
-                    </div>
-                    <!-- First content container nested inside card -->
-                    <div class="content">
-                        <div class="icon">
-                            <img src="{{ url_for('static', filename='assets/unidays-logo.png') }}"
-                                 class="img-fluid rounded-top sidebar-icon icon-img" alt="Adidas Logo" height="50px"
-                                 width="50px">
-                            <h2>35% Off App</h2>
-                        </div>
-                        <div>
-                            <p>Posted</p>
-                            <span class="text-muted">
-                          <i class="fa fa-clock-o mr-5" aria-hidden="true"></i> 10/12/2020
-                                <!-- mr-5 = margin-right: 0.5rem (5px) -->
+                        <!-- First content container nested inside card -->
+                        <div class="content">
+                            <div class="icon">
+                                <img src="{{ url_for('static', filename='assets/unidays-logo.png') }}"
+                                     class="img-fluid rounded-top sidebar-icon icon-img" alt="Unidays Logo"
+                                     height="50px"
+                                     width="50px">
+                                <h2>{{ offer.offer_title }}</h2>
+                            </div>
+                            <div>
+                                <p>Posted</p>
+                                <span class="text-muted">
+                          <i class="fa fa-clock-o mr-5" aria-hidden="true"></i> {{ offer.add_date }}
+                                    <!-- mr-5 = margin-right: 0.5rem (5px) -->
                         </span>
-                        </div>
-                        <div>
-                            <p>Expires</p>
-                            <span class="text-muted">
-                      <i class="fa fa-clock-o mr-5" aria-hidden="true"></i> 17/12/2021
-                                <!-- mr-5 = margin-right: 0.5rem (5px) -->
+                            </div>
+                            <div>
+                                <p>Expires</p>
+                                <span class="text-muted">
+                      <i class="fa fa-clock-o mr-5" aria-hidden="true"></i> {{ offer.expiry_date }}
+                                    <!-- mr-5 = margin-right: 0.5rem (5px) -->
                     </span>
+                            </div>
+                            {#                  <div>#}
+                            {#                    <span class="badge">#}
+                            {#                      <i class="fa fa-comments text-primary mr-5" aria-hidden="true"></i> 5 comments <!-- text-primary = color: primary-color, mr-5 = margin-right: 0.5rem (5px) -->#}
+                            {#                    </span>#}
+                            {#                    <span class="badge ml-5"> <!-- ml-5 = margin-left: 0.5rem (5px) -->#}
+                            {#                      <i class="fa fa-heart text-danger mr-5" aria-hidden="true"></i> 124 likes <!-- text-danger = color: danger-color, mr-5 = margin-right: 0.5rem (5px) -->#}
+                            {#                    </span>#}
+                            {#                  </div>#}
                         </div>
-                        {#                  <div>#}
-                        {#                    <span class="badge">#}
-                        {#                      <i class="fa fa-comments text-primary mr-5" aria-hidden="true"></i> 5 comments <!-- text-primary = color: primary-color, mr-5 = margin-right: 0.5rem (5px) -->#}
-                        {#                    </span>#}
-                        {#                    <span class="badge ml-5"> <!-- ml-5 = margin-left: 0.5rem (5px) -->#}
-                        {#                      <i class="fa fa-heart text-danger mr-5" aria-hidden="true"></i> 124 likes <!-- text-danger = color: danger-color, mr-5 = margin-right: 0.5rem (5px) -->#}
-                        {#                    </span>#}
-                        {#                  </div>#}
+                        <hr/>
+                        <div class="content">
+                            <h2 class="content-title">
+                                Description
+                            </h2>
+                            <p>
+                                {{ offer.description }}
+                            </p>
+                        </div>
+                        <form action="..." method="..." class="p-5">
+                            <input class="btn btn-success btn-block " type="submit" value="Take Me There"
+                                   formaction={{ offer.url }}>
+                        </form>
                     </div>
-                    <hr/>
-                    <div class="content">
-                        <h2 class="content-title">
-                            Description
-                        </h2>
-                        <p>
-                            Enter this code in the promotional code area during checkout in order to benefit from 35%
-                            Off purchases made via the adidas App.
-                        </p>
-                    </div>
-                    <form action="..." method="..." class="p-5">
-                        <input class="btn btn-success btn-block " type="submit" value="Take Me There"
-                               formaction="https://www.myunidays.com/GB/en-GB/partners/adidas35/access/online">
-                    </form>
                 </div>
-            </div>
-            <div class="w-400 mw-full"> <!-- w-600 = width: 60rem (600px), mw-full = max-width: 100% -->
-                <div class="card p-0"> <!-- p-0 = padding: 0 -->
-                    <div class="card-img-bg">
-                        <img src="https://images.unidays.world/i/18f8fbd4-b793-4e4c-9e84-b0c98cc0a136?format=raw"
-                             class="img-fluid rounded-top" alt="Adidas Logo">
-                        <!-- rounded-top = rounded corners on the top -->
-                    </div>
-                    <!-- First content container nested inside card -->
-                    <div class="content">
-                        <div class="icon">
-                            <img src="{{ url_for('static', filename='assets/unidays-logo.png') }}"
-                                 class="img-fluid rounded-top sidebar-icon icon-img" alt="Adidas Logo" height="50px"
-                                 width="50px">
-                            <h2>35% Off App</h2>
-                        </div>
-                        <div>
-                            <p>Posted</p>
-                            <span class="text-muted">
-                          <i class="fa fa-clock-o mr-5" aria-hidden="true"></i> 10/12/2020
-                                <!-- mr-5 = margin-right: 0.5rem (5px) -->
-                        </span>
-                        </div>
-                        <div>
-                            <p>Expires</p>
-                            <span class="text-muted">
-                      <i class="fa fa-clock-o mr-5" aria-hidden="true"></i> 17/12/2021
-                                <!-- mr-5 = margin-right: 0.5rem (5px) -->
-                    </span>
-                        </div>
-                        {#                  <div>#}
-                        {#                    <span class="badge">#}
-                        {#                      <i class="fa fa-comments text-primary mr-5" aria-hidden="true"></i> 5 comments <!-- text-primary = color: primary-color, mr-5 = margin-right: 0.5rem (5px) -->#}
-                        {#                    </span>#}
-                        {#                    <span class="badge ml-5"> <!-- ml-5 = margin-left: 0.5rem (5px) -->#}
-                        {#                      <i class="fa fa-heart text-danger mr-5" aria-hidden="true"></i> 124 likes <!-- text-danger = color: danger-color, mr-5 = margin-right: 0.5rem (5px) -->#}
-                        {#                    </span>#}
-                        {#                  </div>#}
-                    </div>
-                    <hr/>
-                    <div class="content">
-                        <h2 class="content-title">
-                            Description
-                        </h2>
-                        <p>
-                            Enter this code in the promotional code area during checkout in order to benefit from 35%
-                            Off purchases made via the adidas App.
-                        </p>
-                    </div>
-                    <form action="..." method="..." class="p-5">
-                        <input class="btn btn-success btn-block " type="submit" value="Take Me There"
-                               formaction="https://www.myunidays.com/GB/en-GB/partners/adidas35/access/online">
-                    </form>
-                </div>
-            </div>
-            <div class="w-400 mw-full"> <!-- w-600 = width: 60rem (600px), mw-full = max-width: 100% -->
-                <div class="card p-0"> <!-- p-0 = padding: 0 -->
-                    <div class="card-img-bg">
-                        <img src="https://images.unidays.world/i/18f8fbd4-b793-4e4c-9e84-b0c98cc0a136?format=raw"
-                             class="img-fluid rounded-top" alt="Adidas Logo">
-                        <!-- rounded-top = rounded corners on the top -->
-                    </div>
-                    <!-- First content container nested inside card -->
-                    <div class="content">
-                        <div class="icon">
-                            <img src="{{ url_for('static', filename='assets/unidays-logo.png') }}"
-                                 class="img-fluid rounded-top sidebar-icon icon-img" alt="Adidas Logo" height="50px"
-                                 width="50px">
-                            <h2>35% Off App</h2>
-                        </div>
-                        <div>
-                            <p>Posted</p>
-                            <span class="text-muted">
-                          <i class="fa fa-clock-o mr-5" aria-hidden="true"></i> 10/12/2020
-                                <!-- mr-5 = margin-right: 0.5rem (5px) -->
-                        </span>
-                        </div>
-                        <div>
-                            <p>Expires</p>
-                            <span class="text-muted">
-                      <i class="fa fa-clock-o mr-5" aria-hidden="true"></i> 17/12/2021
-                                <!-- mr-5 = margin-right: 0.5rem (5px) -->
-                    </span>
-                        </div>
-                        {#                  <div>#}
-                        {#                    <span class="badge">#}
-                        {#                      <i class="fa fa-comments text-primary mr-5" aria-hidden="true"></i> 5 comments <!-- text-primary = color: primary-color, mr-5 = margin-right: 0.5rem (5px) -->#}
-                        {#                    </span>#}
-                        {#                    <span class="badge ml-5"> <!-- ml-5 = margin-left: 0.5rem (5px) -->#}
-                        {#                      <i class="fa fa-heart text-danger mr-5" aria-hidden="true"></i> 124 likes <!-- text-danger = color: danger-color, mr-5 = margin-right: 0.5rem (5px) -->#}
-                        {#                    </span>#}
-                        {#                  </div>#}
-                    </div>
-                    <hr/>
-                    <div class="content">
-                        <h2 class="content-title">
-                            Description
-                        </h2>
-                        <p>
-                            Enter this code in the promotional code area during checkout in order to benefit from 35%
-                            Off purchases made via the adidas App.
-                        </p>
-                    </div>
-                    <form action="..." method="..." class="p-5">
-                        <input class="btn btn-success btn-block " type="submit" value="Take Me There"
-                               formaction="https://www.myunidays.com/GB/en-GB/partners/adidas35/access/online">
-                    </form>
-                </div>
-            </div>
+            {% endfor %}
         </div>
         <!-- Card with no padding with multiple content containers nested inside of it -->
 
