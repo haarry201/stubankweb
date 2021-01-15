@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template, request, session
+from flask import Flask, Blueprint, render_template, request, session, redirect, url_for
 from controllers.DbConnector import DbConnector
 from mysql.connector import MySQLConnection, Error
 from controllers.DbConnector import DbConnector
@@ -16,15 +16,13 @@ def offer_page_func():
     try:
         cursor = conn.cursor(buffered=True)
         cursor.execute("SELECT * FROM Offers")  # gets all data stored in UserInfo table
-
         result = cursor.fetchall()
         for row in result:
-            print(row)
-            print(row[0])
             new_offer = Offer(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
             all_offers.append(new_offer)
     except Error as e:
         print(e)
+        return redirect(url_for('error_page.error_page_foo', code="e2", src="index.html"))
 
     finally:
         cursor.close()

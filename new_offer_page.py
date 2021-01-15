@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template, request, session
+from flask import Flask, Blueprint, render_template, request, session, redirect, url_for
 from mysql.connector import MySQLConnection, Error
 from controllers.DbConnector import DbConnector
 from controllers.Offer import Offer
@@ -36,8 +36,7 @@ def new_offer_page_func():
             cursor.close()
         except Error as error:
             print(error)
-            return render_template("error.html", msg="An unexpected error occurred, please try again",
-                                   src="register.html")
+            return redirect(url_for('error_page.error_page_foo', code="e2", src="index.html"))
     all_offers = []
     try:
         cursor = conn.cursor(buffered=True)
@@ -51,7 +50,7 @@ def new_offer_page_func():
             all_offers.append(new_offer)
     except Error as e:
         print(e)
-
+        return redirect(url_for('error_page.error_page_foo', code="e2", src="index.html"))
     finally:
         cursor.close()
         conn.close()
