@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template,request, session
+from flask import Flask, Blueprint, render_template, request, session, redirect, url_for
 from mysql.connector import MySQLConnection, Error
 from controllers.DbConnector import DbConnector
 from controllers.PasswordManager import PasswordManager
@@ -27,7 +27,10 @@ def login_page_func():
                                         security_answer.lower() == row[11].lower()):
                     # checks input data against stored data
                     session['name'] = row[5]
-                    return render_template("accounts.html", user=session['name'])
+                    session['user_role'] = row[12]
+                    return redirect(url_for('account_page.accounts_page'))
+                    #return render_template("accounts.html", user=session['name'])
+
                 else:
                     row = cursor.fetchone()
                     # if doesn't match, fetches next row stored in table
@@ -39,7 +42,5 @@ def login_page_func():
             cursor.close()
             conn.close()
             # closes connection
-
-        return render_template("error.html", msg="These login credentials do not match an existing user, please try "
-                                                 "again", src="login.html")
+        return redirect(url_for('error_page.error_page_foo', code="e1"))
     return render_template('login.html')
