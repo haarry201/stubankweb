@@ -1,6 +1,4 @@
-/* 
-  Primary card (Card with variables overridden in local scope)
-*/
+
 .card-primary {
     /* Card (light mode only) */
     color: #cfe7fd;
@@ -19,10 +17,11 @@
 .icon-img {
     position: relative;
     float: left;
-  /* Adjust these values accordingly */
-  top: 10px;
-  left: 5px;
+    /* Adjust these values accordingly */
+    top: 10px;
+    left: 5px;
 }
+
 .offer-flex{
     display: flex;
     flex-wrap: wrap;
