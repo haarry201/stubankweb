@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template,request
+from flask import Flask, Blueprint, render_template, request, redirect, url_for
 from controllers.DbConnector import DbConnector
 from random import *
 from mysql.connector import MySQLConnection, Error
@@ -17,8 +17,7 @@ def bank_application():
             account_type_id = '100'
             agreed_overdraft = 0
         else:
-            return render_template("error.html", msg="An unexpected error occurred, please try again",
-                                   src="register.html")
+            return redirect(url_for('error_page.error_page_foo', code="e2", src="accounts.html"))
         email = request.form.get("email")
         account_num = ''.join(["{}".format(randint(0, 9)) for num in range(0, 8)])
         sort_code = ''.join(["{}".format(randint(0, 9)) for num in range(0, 6)])
@@ -54,8 +53,7 @@ def bank_application():
             conn.close()
         except Error as error:
             print(error)
-            return render_template("error.html", msg="An unexpected error occurred, please try again",
-                                   src="register.html")
+            return redirect(url_for('error_page.error_page_foo',code="e2", src="accounts.html"))
 
         return render_template('index.html')
 

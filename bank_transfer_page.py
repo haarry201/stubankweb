@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template, request
+from flask import Flask, Blueprint, render_template, request, redirect, url_for
 from controllers.DbConnector import DbConnector
 from mysql.connector import MySQLConnection, Error
 from datetime import datetime
@@ -126,8 +126,7 @@ def bank_transfer():
             conn.close()
         except Error as error:
             print(error)
-            return render_template("error.html", msg="An unexpected error occurred, please try again",
-                                   src="register.html")
+            return redirect(url_for('error_page.error_page_foo', code="e2", src="accounts.html"))
 
         return render_template('index.html')
 
