@@ -14,7 +14,7 @@
 <div class="page-wrapper with-navbar with-navbar-fixed-bottom">
     <div class="sticky-alerts"></div>
    <nav class="navbar">
-            <a href="#" class="navbar-brand rounded">
+            <a href="{{ url_for('index_page') }}" class="navbar-brand rounded">
                 <img src="{{url_for('static', filename='assets/logo.png')}}" alt="StuBankLogo"> StuBank
             </a>
             <ul class="navbar-nav d-none d-md-flex">
@@ -106,7 +106,7 @@
             <ul class="navbar-nav ml-auto">
                 <!-- ml-auto = margin-left: auto -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Contact</a>
+                    <a href="{{url_for('extra_info.contact')}}" class="nav-link">Contact</a>
                 </li>
             </ul>
             <!-- Navbar text -->
