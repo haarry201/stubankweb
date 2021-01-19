@@ -17,7 +17,7 @@ def get_info():
     db_connector = DbConnector()
     conn = db_connector.getConn()
     db_connector.closeConn(conn)
-    cursor = conn.cursor(buffered=True)
+    cursor = conn.cursor(buffered=True) 
     cursor.execute("SELECT * FROM UserInfo")  # gets all data stored in UserInfo table
     row = cursor.fetchone()
     while row is not None:
