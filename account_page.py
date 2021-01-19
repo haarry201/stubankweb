@@ -76,6 +76,8 @@ def accounts_page():
 
             if "direct" in str(row[8]).lower():
                 t_type = "Direct Transfer"
+            elif "card" in str(row[8]).lower():
+                t_type = "Card Payment"
             elif "recurring" in str(row[8]).lower():
                 t_type = "Recurring Transaction"
             transactions.append(t_type)
