@@ -18,7 +18,8 @@ def bank_transfer():
             account_type_id = '100'
         account_num = request.form.get("account_number")
         sort_code = request.form.get("sort_code")
-        transfer_value = int(request.form.get("transfer_value"))
+        transfer_value = request.form.get("transfer_value")
+        transfer_value = int(float(transfer_value) * 100)
 
         try:
             db_connector = DbConnector()

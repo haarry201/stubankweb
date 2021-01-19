@@ -82,7 +82,8 @@ def accounts_page():
                 t_type = "Recurring Transaction"
             transactions.append(t_type)
 
-            amount = abs(row[5])
+            amount = (abs(row[5])/100)
+            amount = "%.2f" % amount
             transactions.append(amount)
             year = date_of_transaction[0:4]
             month = date_of_transaction[5:7]
