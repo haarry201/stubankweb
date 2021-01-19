@@ -86,28 +86,45 @@
             </div>
             <div class="table-class card shadow">
                 <h1 class="text-center">Recent Transactions</h1>
-                <table class="table small">
-                    <thead>
-                        <tr>
-                            <th>Details</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tr>
-                        <td>
-                            <strong>Recipient: </strong> Alfreds Futterkiste<br>
-                            <strong>Account Source:</strong> Current Account<br>
-                            <strong>Balance after:</strong> £1000.00
-                            <br>
-                            <strong>Transaction type:</strong> Transfer
-                            <br>
-                        </td>
-                        <td>£155.00</td>
-                        <td>12/12/2020</td>
-                    </tr>
-                </table>
+                <div id="transactions_table"></div>
             </div>
+            <script>
+                var data = [{% for item in transactions %}
+                    "{{item}}",
+                {% endfor %}]
+
+                if (data.length > 0){
+                    // Draw HTML table
+                    var per_row = 5; // 5 cells per row
+                    var html = "<table class='table small'><thead><tr><th>Details</th><th>Amount</th><th>Date</th></tr></thead>";
+
+                    // Loop through array and add table cells
+                    for (var i=0; i<data.length; i++) {
+                        if(i%per_row===0){
+                            html += "<td><strong>Recipient: </strong>" + data[i] + "<br>";
+                        } else if(i%per_row===1){
+                            html += "<strong>Account Source: </strong>" + data[i];
+                        } else if (i%per_row===2){
+                            html += "<br><strong>Transaction Type: </strong>" + data[i] + "<br></td>";
+                        } else if (i%per_row===3){
+                            html += "<td>£" + data[i] + "</td>";
+                        } else{
+                            html += "<td>" + data[i] + "</td>";
+                        }
+
+                        // Break into next row
+                        var next = i+1;
+                        if (next%per_row===0 && next!==data.length) {
+                            html += "</tr><tr>";
+                        }
+                    }
+                    html += "</tr></table>";
+
+                    document.getElementById("transactions_table").innerHTML = html;
+                } else{
+                    document.getElementById("transactions_table").innerHTML = "<p>There have been no transactions from this user in the past 2 weeks</p>"
+                }
+            </script>
             <nav class="navbar navbar-fixed-bottom">
                 <div class="container-fluid">
                     <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>

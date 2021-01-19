@@ -34,7 +34,7 @@ def accounts_page():
     else:
         current_bal = format(current_bal, '.2f')  # rounds to 2dp to display as amount of money
 
-    cursor.execute("SELECT * FROM Transactions")
+    cursor.execute("SELECT * FROM Transactions ORDER BY Date DESC")
     row = cursor.fetchone()
     transactions = []
 
@@ -64,30 +64,30 @@ def accounts_page():
         month = date_of_transaction[5:7]
         day = date_of_transaction[8:10]
         date_to_check = date(int(year), int(month), int(day))
-        print(str(start_boundary) + " " + str(date_to_check) + " " + str(end_boundary))
         # recipient, account source, transaction type, amount, date
         if str(row[1]) in accounts and (end_boundary <= date_to_check <= start_boundary):  # primary conditions to meet
             recipient = str(row[10])
+            transactions.append(recipient)
             if str(row[1]) == current_acc:
                 source = "Current Account"
             elif str(row[1]):
                 source = "Savings Account"
+            transactions.append(source)
 
             if "direct" in str(row[8]).lower():
                 t_type = "Direct Transfer"
             elif "recurring" in str(row[8]).lower():
                 t_type = "Recurring Transaction"
+            transactions.append(t_type)
 
             amount = abs(row[5])
+            transactions.append(amount)
             year = date_of_transaction[0:4]
             month = date_of_transaction[5:7]
             day = date_of_transaction[8:10]
             transaction_date = day + "/" + month + "/" + year
-            transaction = [recipient, source, t_type, amount, transaction_date]
-            transactions.append(transaction)
+            transactions.append(transaction_date)
         row = cursor.fetchone()
-
-    print(transactions)
 
     if 'name' in session:
         return render_template('accounts.html', title='Home', user=session['name'], savings=savings_bal, current=current_bal, transactions=transactions)
