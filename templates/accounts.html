@@ -17,7 +17,7 @@
             <a href="{{ url_for('index_page') }}" class="navbar-brand rounded">
                 <img src="{{url_for('static', filename='assets/logo.png')}}" alt="StuBankLogo"> StuBank
             </a>
-            <ul class="navbar-nav d-none d-md-flex">
+            <ul class="navbar-nav d-none d-xl-flex">
                 <li class="nav-item active">
                     <a href="{{url_for('account_page.accounts_page')}}" class="nav-link">Home</a>
                 </li>
@@ -37,13 +37,11 @@
                     <a href="{{url_for('manage_pools.manage_pools_func')}}" class="nav-link">Manage Pools</a>
                 </li>
             </ul>
-            <form class="form-inline d-none d-md-flex ml-auto" action="..." method="...">
+            <form class="form-inline d-none d-xl-flex ml-auto" action="..." method="...">
                 <input class="btn btn-danger" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
                 <input class="btn btn-danger" type="submit" value="Apply for an Account" formaction="{{ url_for('bank_acc_application_page.bank_application') }}">
-                <input class="btn" type="submit" value="Transfer" formaction="/bank_transfer.html">
-
             </form>
-            <div class="navbar-content d-md-none ml-auto">
+            <div class="navbar-content d-xl-none ml-auto">
                 <div class="dropdown with-arrow">
                     <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">
                         Menu
@@ -72,7 +70,6 @@
             <div class="card shadow">
                 <h1 class="text-center">
                     Welcome {{ session['name'] }}!
-                    {{ session['user_role'] }}
                 </h1>
                 <div class="card card-primary text-center">
                     <h2 class="card-title m-0 text-smoothing-auto">Current Account Balance: £{{ current }}</h2>
@@ -81,7 +78,7 @@
             </div>
             <div class="align-content-lg-center">
                 <form action="..." method="...">
-                    <input class="btn btn-danger btn-block mb-5 p-5" type="submit" value="View expenditure reports" formaction="/reports/home">
+                    <input class="btn btn-danger btn-block" type="submit" value="View expenditure reports" formaction="/reports/home">
                 </form>
             </div>
             <div class="table-class card shadow">

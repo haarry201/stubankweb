@@ -14,12 +14,12 @@ def error_page_foo():
         src = request.args['src']
     except:
         print()
-
     error_codes = {"e1": "These login credentials do not match an existing user, please try again",
                    "e2": "An unexpected error occurred, please try again",
                    "e3": "Please ensure that all text boxes are filled in",
                    "e4": "Password is too short, please try another one",
                    "e5": "404 Not Found",
-                   "e6": "Unauthorised Access"
+                   "e6": "Unauthorised Access",
+                   "e7": "There appears to be an error with this transaction, your account has been locked ",
                    }
     return render_template('error.html', error_codes=error_codes,code=code, src=src)

@@ -9,7 +9,7 @@ login_page = Blueprint('login_page', __name__, template_folder='templates')
 @login_page.route('/', methods=['GET', 'POST'])
 def login_page_func():
     try:
-        if 'user_id' in session:
+        if 'user_id' in session and 'name' in session:
             return redirect(url_for('account_page.accounts_page'))
         else:
             pass
