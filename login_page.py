@@ -36,7 +36,13 @@ def login_page_func():
                 if email == row[1] and (pwd_manager.check_password(password, row) and security_question == row[10] and
                                         security_answer.lower() == row[11].lower()):
                     # checks input data against stored data
+                    two_factor_is_enabled = row[13]
+                    if two_factor_is_enabled:
+
+                        session['needs_auth'] = True
                     session['user_id'] = row[0]
+                    session['email'] = email
+                    session['otp_key'] = row[4]
                     session['name'] = row[5]
                     session['user_role'] = row[12]
                     return redirect(url_for('account_page.accounts_page'))
