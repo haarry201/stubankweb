@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 from display_pool import display_pool
-from manage_pools import manage_pools
+from manage_pools import manage_pools, create_money_pool
 from register_page import register_page
 from account_page import account_page
 from login_page import login_page
@@ -21,7 +21,7 @@ app.register_blueprint(register_page, url_prefix="/register.html")
 app.register_blueprint(account_page, url_prefix="/accounts.html")
 app.register_blueprint(bank_acc_application_page, url_prefix="/bank_application.html")
 app.register_blueprint(bank_transfer_page, url_prefix="/bank_transfer.html")
-app.register_blueprint(manage_pools, url_prefix="/manage_pools.html")
+app.register_blueprint(manage_pools, url_prefix="/manage_pools/")
 app.register_blueprint(display_pool, url_prefix="/display_pool.html")
 app.register_blueprint(expenditure_reports, url_prefix="/reports/")
 app.register_blueprint(extra_info, url_prefix="/extrainfo/")
