@@ -8,6 +8,13 @@ account_page = Blueprint('account_page', __name__, template_folder='templates')
 
 @account_page.route('/')
 def accounts_page():
+    try:
+        if 'user_id' in session:
+            pass
+        else:
+            return redirect(url_for('login_page.login_page_func'))
+    except:
+        return redirect(url_for('login_page.login_page_func'))
     conn = expenditure_reports.get_conn()
     accounts = expenditure_reports.get_info()  # uses previously written functionality to get all accounts owned by user
     cursor = conn.cursor(buffered=True)

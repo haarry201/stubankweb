@@ -9,6 +9,13 @@ bank_transfer_page = Blueprint('bank_transfer_page', __name__, template_folder='
 
 @bank_transfer_page.route('/', methods=['GET', 'POST'])
 def bank_transfer():
+    try:
+        if 'user_id' in session:
+            pass
+        else:
+            return redirect(url_for('login_page.login_page_func'))
+    except:
+        return redirect(url_for('login_page.login_page_func'))
     if request.method == 'POST':
         email = request.form.get("email")
         account_type = request.form.get("account_type")

@@ -8,6 +8,16 @@ login_page = Blueprint('login_page', __name__, template_folder='templates')
 
 @login_page.route('/', methods=['GET', 'POST'])
 def login_page_func():
+    try:
+        if 'user_id' in session:
+            return redirect(url_for('account_page.accounts_page'))
+        else:
+            pass
+
+    except:
+        # not already logged in, procede
+        pass
+
     if request.method == "POST":
         pwd_manager = PasswordManager()
         email = request.form.get("email")
@@ -26,6 +36,7 @@ def login_page_func():
                 if email == row[1] and (pwd_manager.check_password(password, row) and security_question == row[10] and
                                         security_answer.lower() == row[11].lower()):
                     # checks input data against stored data
+                    session['user_id'] = row[0]
                     session['name'] = row[5]
                     session['user_role'] = row[12]
                     return redirect(url_for('account_page.accounts_page'))

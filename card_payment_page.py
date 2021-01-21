@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template, request, redirect, url_for
+from flask import Flask, Blueprint, render_template, request, redirect, url_for,session
 from controllers.DbConnector import DbConnector
 from mysql.connector import MySQLConnection, Error
 from datetime import datetime
@@ -9,6 +9,13 @@ card_payment_page = Blueprint('card_payment_page', __name__, template_folder='te
 
 @card_payment_page.route('/', methods=['GET', 'POST'])
 def card_payment():
+    try:
+        if 'user_id' in session:
+            pass
+        else:
+            return redirect(url_for('login_page.login_page_func'))
+    except:
+        return redirect(url_for('login_page.login_page_func'))
     if request.method == 'POST':
         email = request.form.get("email")
         receiver_name = request.form.get("receiver_name")
