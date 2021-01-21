@@ -62,5 +62,5 @@ def new_offer_page_func():
         finally:
             cursor.close()
             conn.close()
-        return render_template('new_offer.html', title='Home', all_offers=all_offers)
+        return render_template('admin_pages/new_offer.html', title='Home', all_offers=all_offers)
     return redirect(url_for('error_page.error_page_foo', code="e6", src="index.html"))

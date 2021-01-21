@@ -38,8 +38,13 @@ def login_page_func():
                     # checks input data against stored data
                     session['user_id'] = row[0]
                     session['name'] = row[5]
-                    session['user_role'] = row[12]
-                    return redirect(url_for('account_page.accounts_page'))
+                    user_role = row[12]
+                    session['user_role'] = user_role
+
+                    if user_role == 'Admin':
+                        return redirect(url_for('admin_home_page.admin_home_page_func'))
+                    else:
+                        return redirect(url_for('account_page.accounts_page'))
                     #return render_template("accounts.html", user=session['name'])
 
                 else:
