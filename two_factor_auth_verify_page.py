@@ -4,11 +4,11 @@ from controllers.DbConnector import DbConnector
 from controllers.PasswordManager import PasswordManager
 from controllers.TwoFactorAuthentication import TwoFactorAuthentication
 
-two_factor_auth_page = Blueprint('two_factor_auth_page', __name__, template_folder='templates')
+two_factor_auth_verify_page = Blueprint('two_factor_auth_verify_page', __name__, template_folder='templates')
 
 
-@two_factor_auth_page.route('/', methods=['GET', 'POST'])
-def two_factor_auth_page_func():
+@two_factor_auth_verify_page.route('/', methods=['GET', 'POST'])
+def two_factor_auth_verify_page_func():
     try:
         if 'needs_auth' in session:
             pass
@@ -29,4 +29,4 @@ def two_factor_auth_page_func():
         else:
             session.clear()
             return redirect(url_for('error_page.error_page_foo', code="e2"))
-    return render_template('two_factor.html')
+    return render_template('two_factor_verification.html')

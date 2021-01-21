@@ -68,6 +68,10 @@
         </nav>
         <div class="content-wrapper">
             <div class="card shadow">
+                <div class="alert alert-danger" role="alert">
+                  <h4 class="alert-heading">Two Factor Alert</h4>
+                  You havent enavled two factor authentication on this accound <a href="{{url_for('two_factor_auth_set_up_page.two_factor_auth_set_up_page_func')}}" class="alert-link">Click Here To do so</a>.
+                </div>
                 <h1 class="text-center">
                     Welcome {{ session['name'] }}!
                 </h1>
