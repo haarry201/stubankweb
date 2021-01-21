@@ -3,8 +3,9 @@ import hashlib, binascii, os
 
 from flask import Flask, Blueprint, render_template, request, session, redirect, url_for
 from controllers.DbConnector import DbConnector
-from controllers.TwoFactorAuthentication import TwoFactorAuthentication
 from mysql.connector import MySQLConnection, Error
+
+from controllers.TwoFactorAuthentication import TwoFactorAuthentication
 
 register_page = Blueprint('register_page', __name__, template_folder='templates')
 
@@ -31,7 +32,7 @@ def register_page_func():
                 random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(16))
             # generate random 16 digit hex to use as primary key for UserInfo table
             two_fa_manager = TwoFactorAuthentication()
-            otp_secret_key = two_fa_manager.get_random_secret_key() # generate otp secret key
+            otp_secret_key = two_fa_manager.get_random_secret_key()            # generate one-time password
             salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')  # generate salt for password hashing
             pwd = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'), salt, 100000)
             pwdhash = binascii.hexlify(pwd)  # hash password using salt, this is what is stored in database
