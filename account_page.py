@@ -13,26 +13,31 @@ def accounts_page():
     cursor = conn.cursor(buffered=True)
     cursor.execute("SELECT * FROM UserAccounts")  # gets all data stored in UserAccounts table
     row = cursor.fetchone()
-    savings_bal = 0; current_bal = 0
+    found_savings = False
+    found_current = False
     savings_acc = ''; current_acc = ''
     while row is not None:
         if str(row[0]) in accounts:
             if str(row[3]) == '100':
-                savings_bal = float(row[5])  # if account is a 'savings' account, sets savings balance
+                savings_bal_pence = int(row[5])
+                savings_bal_pounds = savings_bal_pence/100  # if account is a 'savings' account, sets savings balance
                 savings_acc = str(row[0])
+                found_savings = True
             else:
-                current_bal = float(row[5])  # if account is a 'student' account, sets student balance
+                current_bal_pence = int(row[5])
+                current_bal_pounds = current_bal_pence/100  # if account is a 'student' account, sets student balance
                 current_acc = str(row[0])
+                found_current = True
         row = cursor.fetchone()
-    if savings_bal == 0:
+    if not found_savings:
         savings_bal = 'N/A'
     else:
-        savings_bal = format(savings_bal, '.2f')  # rounds to 2dp to display as amount of money
+        savings_bal = format(savings_bal_pounds, '.2f')  # rounds to 2dp to display as amount of money
 
-    if current_bal == 0:
+    if not found_current:
         current_bal = 'N/A'
     else:
-        current_bal = format(current_bal, '.2f')  # rounds to 2dp to display as amount of money
+        current_bal = format(current_bal_pounds, '.2f')  # rounds to 2dp to display as amount of money
 
     cursor.execute("SELECT * FROM Transactions ORDER BY Date DESC")
     row = cursor.fetchone()
