@@ -83,14 +83,14 @@
             </form>
         </div>
         <div class="card" id="chart-div">
-                <canvas id="report"></canvas>
+            <canvas id="report"></canvas>
         </div>
 
         <script>
             var canvas = document.getElementById('report');
             var heightRatio = 0.66;
             var w = window.innerWidth;
-            canvas.width = w*0.66;
+            canvas.width = w * 0.66;
             //Doesn't change on window resize, rather on reload
             //Not ideal but better performance wise and not many users will be resizing alot
             canvas.height = canvas.width * heightRatio;
@@ -144,31 +144,31 @@
             }
         </script>
     </div>
-        <nav class="navbar navbar-fixed-bottom">
-            <div class="container-fluid">
-                <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
+    <nav class="navbar navbar-fixed-bottom">
+        <div class="container-fluid">
+            <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
 
-                <!-- JavaScript -->
-                <script type="text/javascript">
-                    // Dark mode toggle
-                    function toggleDark() {
-                        halfmoon.toggleDarkMode();
-                    }
-                </script>
-                <ul class="navbar-nav ml-auto">
-                    <!-- ml-auto = margin-left: auto -->
-                    <li class="nav-item">
-                        <a href="{{ url_for('extra_info.contact') }}" class="nav-link">Contact</a>
-                    </li>
-                </ul>
-                <!-- Navbar text -->
-                <span class="navbar-text">
+            <!-- JavaScript -->
+            <script type="text/javascript">
+                // Dark mode toggle
+                function toggleDark() {
+                    halfmoon.toggleDarkMode();
+                }
+            </script>
+            <ul class="navbar-nav ml-auto">
+                <!-- ml-auto = margin-left: auto -->
+                <li class="nav-item">
+                    <a href="{{ url_for('extra_info.contact') }}" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            <!-- Navbar text -->
+            <span class="navbar-text">
                         <p class="bottom-text">
                             &copy; <strong>StuBank </strong> a project by Team35
                         </p>
                     </span>
-            </div>
-        </nav>
+        </div>
+    </nav>
     <!-- Halfmoon JS -->
     <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
 </div>
