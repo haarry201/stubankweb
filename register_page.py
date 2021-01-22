@@ -46,7 +46,6 @@ def register_page_func():
             try:
                 db_connector = DbConnector()
                 conn = db_connector.getConn()
-                db_connector.closeConn(conn)
                 cursor = conn.cursor()
                 cursor.execute(query, args)
                 conn.commit()

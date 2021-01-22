@@ -8,7 +8,6 @@ expenditure_reports = Blueprint('expenditure_reports', __name__, template_folder
 def get_conn():
     db_connector = DbConnector()
     conn = db_connector.getConn()
-    db_connector.closeConn(conn)
     return conn
 
 
@@ -16,8 +15,7 @@ def get_info():
     account_id = ''
     db_connector = DbConnector()
     conn = db_connector.getConn()
-    db_connector.closeConn(conn)
-    cursor = conn.cursor(buffered=True) 
+    cursor = conn.cursor(buffered=True)
     cursor.execute("SELECT * FROM UserInfo")  # gets all data stored in UserInfo table
     row = cursor.fetchone()
     while row is not None:
@@ -257,5 +255,4 @@ def reports_yearly():
 def reports():
     db_connector = DbConnector()
     conn = db_connector.getConn()
-    db_connector.closeConn(conn)
     return render_template('reports.html', hidden="true", values='', labels='', legend='', big='')

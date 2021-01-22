@@ -38,7 +38,6 @@ def bank_application():
         try:
             db_connector = DbConnector()
             conn = db_connector.getConn()
-            db_connector.closeConn(conn)
             cursor = conn.cursor(buffered=True)
 
             cursor.execute ("SELECT * FROM UserInfo")
