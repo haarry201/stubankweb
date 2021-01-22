@@ -46,6 +46,24 @@
     width: 160px;
     height: 160px;
 }
+#report{
+    width: 100%;
+}
+.bottom-text{
+    font-size: small;
+}
+
+/*#chart-div{*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    background-color: white;*/
+
+/*}*/
+
+
+/*.dark-mode #chart-div{*/
+/*    background-color: white;*/
+/*}*/
 
 
 
