@@ -15,8 +15,10 @@ bank_transfer_page = Blueprint('bank_transfer_page', __name__, template_folder='
 def bank_transfer():
     try:
         if 'user_id' in session:
-            user_id = session['user_id']
-            pass
+            if session['needs_auth'] == True:
+                return redirect(url_for('login_page.login_page_func'))
+            else:
+                pass
         else:
             return redirect(url_for('login_page.login_page_func'))
     except:

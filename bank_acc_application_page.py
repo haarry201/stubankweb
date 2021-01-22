@@ -8,6 +8,16 @@ bank_acc_application_page = Blueprint('bank_acc_application_page', __name__, tem
 
 @bank_acc_application_page.route('/', methods=['GET', 'POST'])
 def bank_application():
+    try:
+        if 'user_id' in session:
+            if session['needs_auth'] == True:
+                return redirect(url_for('login_page.login_page_func'))
+            else:
+                pass
+        else:
+            return redirect(url_for('login_page.login_page_func'))
+    except:
+        return redirect(url_for('login_page.login_page_func'))
     if request.method == 'POST':
         account_type = request.form.get("account type")
         if account_type == "student current account":
