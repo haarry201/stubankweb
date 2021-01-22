@@ -10,7 +10,10 @@ account_page = Blueprint('account_page', __name__, template_folder='templates')
 def accounts_page():
     try:
         if 'user_id' in session:
-            pass
+            if session['needs_auth'] == True:
+                return redirect(url_for('login_page.login_page_func'))
+            else:
+                pass
         else:
             return redirect(url_for('login_page.login_page_func'))
     except:
@@ -105,6 +108,6 @@ def accounts_page():
         row = cursor.fetchone()
 
     if 'name' in session:
-        return render_template('accounts.html', title='Home', user=session['name'], savings=savings_bal, current=current_bal, transactions=transactions)
+        return render_template('accounts.html', title='Home', user=session['name'], savings=savings_bal, current=current_bal, transactions=transactions, two_factor_enabled=session['two_factor_enabled'])
     else:
         return redirect(url_for('error_page.error_page_foo',code="e1", src="index.html"))

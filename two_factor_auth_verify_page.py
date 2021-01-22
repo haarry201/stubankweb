@@ -11,6 +11,7 @@ two_factor_auth_verify_page = Blueprint('two_factor_auth_verify_page', __name__,
 def two_factor_auth_verify_page_func():
     try:
         if 'needs_auth' in session:
+            secret_key = session['secret_auth_key']
             pass
         elif 'user_id' in session and 'name' in session:
             return redirect(url_for('account_page.accounts_page'))
@@ -23,8 +24,9 @@ def two_factor_auth_verify_page_func():
     if request.method == "POST":
         two_fa_manager = TwoFactorAuthentication()
         users_code = request.form.get("auth-code")  # gets all input from login form
-        is_valid = two_fa_manager.verify_users_code(users_code)
+        is_valid = two_fa_manager.verify_users_code(users_code, secret_key)
         if is_valid:
+            session['needs_auth'] = False
             return redirect(url_for('account_page.accounts_page'))
         else:
             session.clear()

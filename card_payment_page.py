@@ -14,8 +14,10 @@ card_payment_page = Blueprint('card_payment_page', __name__, template_folder='te
 def card_payment():
     try:
         if 'user_id' in session:
-            user_id = session['user_id']
-            pass
+            if session['needs_auth'] == True:
+                return redirect(url_for('login_page.login_page_func'))
+            else:
+                pass
         else:
             return redirect(url_for('login_page.login_page_func'))
     except:

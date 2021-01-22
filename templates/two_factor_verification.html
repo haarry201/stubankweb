@@ -48,11 +48,19 @@
                 <div class="col"></div>
                 <div class="card text-center">
                     <h1>Verify:</h1>
-                    <form class="p-card" action="{{ url_for("two_factor_auth_page.two_factor_auth_page_func") }}" method="post"
+                    <form class="p-card" action="{{ url_for("two_factor_auth_verify_page.two_factor_auth_verify_page_func") }}" method="post"
                           name="AuthForm">
                         <div class="form-group">
                             <label class="required" for="auth-code">Enter the authentication code:</label>
-                            <input class="form-control" type="text" id="auth-code" name="auth-code">
+                            <input
+                                    class="form-control"
+                                    type="text"
+                                    name="auth-code"
+                                    id="auth-code"
+                                    inputmode="numeric"
+                                    pattern="[0-9]*"
+                                    autocomplete="one-time-code"
+                            />
                         </div>
                         <input class="btn btn-primary" type="submit" value="Submit">
                     </form>

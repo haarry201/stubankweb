@@ -53,11 +53,12 @@ def register_page_func():
                 cursor.close()
                 conn.close()
                 session['needs_auth'] = False
+                session['secret_auth_key'] = otp_secret_key
+                session['two_factor_enabled'] = False
                 session['email'] = email
                 session['name'] = first_name
                 session['user_role'] = user_role
                 session['user_id'] = user_id
-
             except Error as error:
                 print(error)
                 return redirect(url_for('error_page.error_page_foo', code="e2"))
