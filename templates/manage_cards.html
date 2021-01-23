@@ -43,6 +43,8 @@
             <input class="btn btn-danger" type="submit" value="Apply for an Account"
                    formaction="{{ url_for('bank_acc_application_page.bank_application') }}">
             <input class="btn" type="submit" value="Transfer" formaction="/bank_transfer.html">
+            <input class="btn btn-danger" type="submit" value="Apply for a new card"
+                   formaction="{{ url_for('apply_new_card.apply_new_card_func') }}">
 
         </form>
         <div class="navbar-content d-md-none ml-auto">
@@ -72,7 +74,9 @@
             </div>
         </div>
     </nav>
+
     <div class="content-wrapper">
+
         <div class="card shadow">
             <h1 class="text-center">
                 Manage Cards
@@ -108,6 +112,7 @@
             </div>
 
         </div>
+
 
         <nav class="navbar navbar-static-bottom">
             <div class="container-fluid">

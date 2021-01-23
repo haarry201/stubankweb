@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, session, redirect, url_for
+from flask import Blueprint, render_template, session, redirect, url_for, request
 from controllers.DbConnector import DbConnector
 from mysql.connector import MySQLConnection, Error
 from controllers.Card import Card
+
 
 manage_cards = Blueprint('manage_cards', __name__, template_folder='templates')
 
@@ -34,6 +35,3 @@ def manage_cards_func():
 def view_card_info():
     return
 
-
-def apply_new_card():
-    return
