@@ -39,12 +39,13 @@
             </li>
         </ul>
         <form class="form-inline d-none d-md-flex ml-auto" action="..." method="...">
+            <input class="btn btn-danger" type="submit" value="Apply New Card"
+                   formaction="{{ url_for('apply_new_card.apply_new_card_func') }}">
             <input class="btn btn-danger" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
             <input class="btn btn-danger" type="submit" value="Apply for an Account"
                    formaction="{{ url_for('bank_acc_application_page.bank_application') }}">
             <input class="btn" type="submit" value="Transfer" formaction="/bank_transfer.html">
-            <input class="btn btn-danger" type="submit" value="Apply for a new card"
-                   formaction="{{ url_for('apply_new_card.apply_new_card_func') }}">
+
 
         </form>
         <div class="navbar-content d-md-none ml-auto">
@@ -110,6 +111,7 @@
                 </div>
 
             </div>
+
 
         </div>
 
