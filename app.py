@@ -12,6 +12,7 @@ from error_page import error_page
 from offer_page import offer_page
 from new_offer_page import new_offer_page
 from card_payment_page import card_payment_page
+from manage_cards import manage_cards
 import os
 
 app = Flask(__name__)
@@ -29,6 +30,7 @@ app.register_blueprint(error_page, url_prefix="/error.html")
 app.register_blueprint(offer_page, url_prefix="/offers.html")
 app.register_blueprint(new_offer_page, url_prefix="/new_offer.html")
 app.register_blueprint(card_payment_page, url_prefix="/card_payment.html")
+app.register_blueprint(manage_cards, url_prefix="/manage_cards.html")
 
 
 
