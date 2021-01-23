@@ -109,12 +109,8 @@
                           <h5 class="modal-title">Join a Pool</h5>
                           <form action="..." method="...">
                               <div class="form-group">
-                                  <label for="username" class="required">Pool Name</label>
-                                  <input type="text" id="username" class="form-control" required="required">
-                              </div>
-                              <div class="form-group">
-                                  <label for="password" class="required">Pool Password</label>
-                                  <input type="password" id="password" class="form-control" required="required">
+                                  <label for="pool_code" class="required">Pool Join Code</label>
+                                  <input type="text" id="pool_code" class="form-control" required="required">
                               </div>
                               <input class="btn btn-primary" type="submit" value="Join Pool">
                               <a href="#" class="btn btn-secondary" role="button">Cancel</a>
@@ -130,16 +126,16 @@
                               <span aria-hidden="true">&times;</span>
                           </a>
                           <h5 class="modal-title">Create a New Pool</h5>
-                          <form action="..." method="...">
+                          <form action="{{url_for('manage_pools.create_money_pool', filename='manage_pools.html')}}" method="post">
                               <div class="form-group">
                                   <label for="username" class="required">Pool Name</label>
-                                  <input type="text" id="username" class="form-control" required="required">
+                                  <input type="text" id="pool_name" name="pool_name" class="form-control" required="required">
                               </div>
                               <div class="form-group">
                                   <label for="password" class="required">Pool Password</label>
-                                  <input type="password" id="password" class="form-control" required="required">
+                                  <input type="password" id="pool_password" name="pool_password" class="form-control" required="required">
                               </div>
-                              <a href="{{{url_for('extra_info.contact')}}" class="btn btn-secondary" role="submit">Contact</a>
+                              <input class="btn btn-primary" type="submit" value="Create">
                               <a href="#" class="btn btn-secondary" role="button">Cancel</a>
                           </form>
                       </div>
@@ -166,8 +162,8 @@
                     <!-- Navbar text -->
                     <span class="navbar-text">
                         <p>
-                            &copy; <strong>StuBank </strong> a project by Team35
-                        </p>
+            &copy; <strong>StuBank </strong> 2021
+            </p>
                     </span>
                 </div>
             </nav>

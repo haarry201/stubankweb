@@ -1,16 +1,30 @@
-from flask import Flask, Blueprint, render_template, request, redirect, url_for
+from flask import Flask, Blueprint, render_template, request, redirect, url_for, session
+
+from controllers import Transaction
 from controllers.DbConnector import DbConnector
 from mysql.connector import MySQLConnection, Error
 from datetime import datetime
 import random
+
+from controllers.Transaction import MLTransaction
 
 bank_transfer_page = Blueprint('bank_transfer_page', __name__, template_folder='templates')
 
 
 @bank_transfer_page.route('/', methods=['GET', 'POST'])
 def bank_transfer():
+    try:
+        if 'user_id' in session:
+            if session['needs_auth'] == True:
+                return redirect(url_for('login_page.login_page_func'))
+            else:
+                user_id = session['user_id']
+                pass
+        else:
+            return redirect(url_for('login_page.login_page_func'))
+    except:
+        return redirect(url_for('login_page.login_page_func'))
     if request.method == 'POST':
-        email = request.form.get("email")
         account_type = request.form.get("account_type")
         if account_type == "student current account":
             account_type_id = '123'
@@ -21,20 +35,21 @@ def bank_transfer():
         transfer_value = request.form.get("transfer_value")
         transfer_value = int(float(transfer_value) * 100)
 
+        now = datetime.now()
+        dt_string = now.strftime("%Y-%m-%d-%H-%M-")
+        date = now.strftime("%Y-%m-%d")
+        hours = now.strftime("%H")
+        minutes = now.strftime("%M")
+
+        time = (int(hours) * 60) + int(minutes)
+
+        longitude = 0.000
+        latitude = 0.000
+
         try:
             db_connector = DbConnector()
             conn = db_connector.getConn()
-            db_connector.closeConn(conn)
             cursor = conn.cursor(buffered=True)
-
-            cursor.execute("SELECT * FROM UserInfo")
-            row = cursor.fetchone()
-            while row is not None:
-                if row[1] == email:
-                    user_id = row[0]
-                    break
-                else:
-                    row = cursor.fetchone()
 
             cursor.execute("SELECT * FROM UserAccounts")
             row = cursor.fetchone()
@@ -92,15 +107,6 @@ def bank_transfer():
                 else:
                     row = cursor.fetchone()
 
-            now = datetime.now()
-            dt_string = now.strftime("%Y-%m-%d-%H-%M-")
-            date = now.strftime("%Y-%m-%d")
-            hours = now.strftime("%H")
-            minutes = now.strftime("%M")
-
-            time = (int(hours)*60) + int(minutes)
-            print(time)
-
             ran = random.randrange(10 ** 80)
             myhex = "%016x" % ran
             myhex = myhex[:16]
@@ -113,8 +119,16 @@ def bank_transfer():
 
             card_num_sending = 0000000000000000
 
-            longitude = 0.000
-            latitude = 0.000
+            # Determining whether transaction can go ahead by machine learning
+            t_list = Transaction.fetch_transactions(transferer_account_num)
+            new_transaction = MLTransaction(receiver_name, transfer_value, latitude, longitude, time)
+            if len(t_list) < 5:
+                print("not enough prior transactions")
+            else:
+                p_fraud = new_transaction.analyse_transaction(t_list)
+                print("Probabiliy of fraud =", p_fraud)
+                if p_fraud > 1:
+                    return redirect(url_for('error_page.error_page_foo', code="e7", src="card_payment.html"))
 
             cursor.execute("INSERT INTO Transactions VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                            (transaction_id, transferer_account_num, account_num, transferer_sort_code, sort_code,

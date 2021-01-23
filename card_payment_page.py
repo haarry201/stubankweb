@@ -1,16 +1,28 @@
-from flask import Flask, Blueprint, render_template, request, redirect, url_for
+from flask import Flask, Blueprint, render_template, request, redirect, url_for, session
 from controllers.DbConnector import DbConnector
 from mysql.connector import MySQLConnection, Error
 from datetime import datetime
 import random
+
+from controllers.Transaction import MLTransaction
+import controllers.Transaction as Transaction
 
 card_payment_page = Blueprint('card_payment_page', __name__, template_folder='templates')
 
 
 @card_payment_page.route('/', methods=['GET', 'POST'])
 def card_payment():
+    try:
+        if 'user_id' in session:
+            if session['needs_auth'] == True:
+                return redirect(url_for('login_page.login_page_func'))
+            else:
+                pass
+        else:
+            return redirect(url_for('login_page.login_page_func'))
+    except:
+        return redirect(url_for('login_page.login_page_func'))
     if request.method == 'POST':
-        email = request.form.get("email")
         receiver_name = request.form.get("receiver_name")
         account_type = request.form.get("account_type")
         if account_type == "student current account":
@@ -20,7 +32,15 @@ def card_payment():
         latitude = request.form.get("latitude")
         longitude = request.form.get("longitude")
         transfer_value = request.form.get("transfer_value")
-        transfer_value = int(float(transfer_value)*100)
+        transfer_value = int(float(transfer_value) * 100)
+
+        now = datetime.now()
+        dt_string = now.strftime("%Y-%m-%d-%H-%M-")
+        date = now.strftime("%Y-%m-%d")
+        hours = now.strftime("%H")
+        minutes = now.strftime("%M")
+
+        time = (int(hours) * 60) + int(minutes)
 
         # Account number and sort code for the card payment account
         # demonstrating how it would work if set up on recievers card processor when paying
@@ -30,17 +50,30 @@ def card_payment():
         try:
             db_connector = DbConnector()
             conn = db_connector.getConn()
-            db_connector.closeConn(conn)
             cursor = conn.cursor(buffered=True)
 
-            cursor.execute("SELECT * FROM UserInfo")
+            cursor.execute("SELECT * FROM UserAccounts")
             row = cursor.fetchone()
+
             while row is not None:
-                if row[1] == email:
-                    user_id = row[0]
+                if row[2] == user_id:
+                    transferer_account_num = row[0]
+                    transferer_sort_code = row[1]
                     break
+
                 else:
                     row = cursor.fetchone()
+
+            # Determining whether transaction can go ahead by machine learning
+            t_list = Transaction.fetch_transactions(transferer_account_num)
+            new_transaction = MLTransaction(receiver_name, transfer_value, latitude, longitude, time)
+            if len(t_list) < 5:
+                print("not enough prior transactions")
+            else:
+                p_fraud = new_transaction.analyse_transaction(t_list)
+                print("Probabiliy of fraud =", p_fraud)
+                if p_fraud > 1:
+                    return redirect(url_for('error_page.error_page_foo', code="e7", src="card_payment.html"))
 
             cursor.execute("SELECT * FROM UserAccounts")
             row = cursor.fetchone()
@@ -72,26 +105,6 @@ def card_payment():
                 else:
                     row = cursor.fetchone()
 
-            cursor.execute("SELECT * FROM UserAccounts")
-            row = cursor.fetchone()
-
-            while row is not None:
-                if row[2] == user_id:
-                    transferer_account_num = row[0]
-                    transferer_sort_code = row[1]
-                    break
-
-                else:
-                    row = cursor.fetchone()
-            now = datetime.now()
-            dt_string = now.strftime("%Y-%m-%d-%H-%M-")
-            date = now.strftime("%Y-%m-%d")
-            hours = now.strftime("%H")
-            minutes = now.strftime("%M")
-
-            time = (int(hours) * 60) + int(minutes)
-            print(time)
-
             ran = random.randrange(10 ** 80)
             myhex = "%016x" % ran
             myhex = myhex[:16]
@@ -103,7 +116,6 @@ def card_payment():
             transaction_type = "card transfer"
 
             card_num_sending = 0000000000000000
-
 
             cursor.execute("INSERT INTO Transactions VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                            (transaction_id, transferer_account_num, account_num, transferer_sort_code, sort_code,
@@ -117,6 +129,6 @@ def card_payment():
             print(error)
             return redirect(url_for('error_page.error_page_foo', code="e2", src="accounts.html"))
 
-        return render_template('accounts.html')
+        return redirect(url_for('account_page.accounts_page'))
 
     return render_template('card_payment.html')

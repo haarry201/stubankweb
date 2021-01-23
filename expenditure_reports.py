@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template, session
+from flask import Flask, Blueprint, render_template, session, redirect, url_for
 from controllers.DbConnector import DbConnector
 from datetime import date, timedelta
 
@@ -8,7 +8,6 @@ expenditure_reports = Blueprint('expenditure_reports', __name__, template_folder
 def get_conn():
     db_connector = DbConnector()
     conn = db_connector.getConn()
-    db_connector.closeConn(conn)
     return conn
 
 
@@ -16,12 +15,11 @@ def get_info():
     account_id = ''
     db_connector = DbConnector()
     conn = db_connector.getConn()
-    db_connector.closeConn(conn)
     cursor = conn.cursor(buffered=True)
     cursor.execute("SELECT * FROM UserInfo")  # gets all data stored in UserInfo table
     row = cursor.fetchone()
     while row is not None:
-        if row[5] == session['name']:
+        if row[0] == session['user_id']:
             account_id = row[0]  # gets currently logged in user's account id to use while searching UserAccounts
         row = cursor.fetchone()
 
@@ -38,6 +36,16 @@ def get_info():
 
 @expenditure_reports.route('/7days')
 def reports_7days():
+    try:
+        if 'user_id' in session:
+            if session['needs_auth'] == True:
+                return redirect(url_for('login_page.login_page_func'))
+            else:
+                pass
+        else:
+            return redirect(url_for('login_page.login_page_func'))
+    except:
+        return redirect(url_for('login_page.login_page_func'))
     accounts = get_info()  # gets all accounts owned by user that is currently logged in
     conn = get_conn()
     cursor = conn.cursor(buffered=True)
@@ -109,6 +117,16 @@ def reports_7days():
 
 @expenditure_reports.route('/weekly')
 def reports_weekly():
+    try:
+        if 'user_id' in session:
+            if session['needs_auth'] == True:
+                return redirect(url_for('login_page.login_page_func'))
+            else:
+                pass
+        else:
+            return redirect(url_for('login_page.login_page_func'))
+    except:
+        return redirect(url_for('login_page.login_page_func'))
     accounts = get_info()  # gets all user owned accounts
     conn = get_conn()
     cursor = conn.cursor(buffered=True)
@@ -170,6 +188,16 @@ def reports_weekly():
 
 @expenditure_reports.route("/yearly")
 def reports_yearly():
+    try:
+        if 'user_id' in session:
+            if session['needs_auth'] == True:
+                return redirect(url_for('login_page.login_page_func'))
+            else:
+                pass
+        else:
+            return redirect(url_for('login_page.login_page_func'))
+    except:
+        return redirect(url_for('login_page.login_page_func'))
     accounts = get_info()  # gets all user owned accounts
     conn = get_conn()
     cursor = conn.cursor(buffered=True)
@@ -255,7 +283,16 @@ def reports_yearly():
 
 @expenditure_reports.route('/home')
 def reports():
+    try:
+        if 'user_id' in session:
+            if session['needs_auth'] == True:
+                return redirect(url_for('login_page.login_page_func'))
+            else:
+                pass
+        else:
+            return redirect(url_for('login_page.login_page_func'))
+    except:
+        return redirect(url_for('login_page.login_page_func'))
     db_connector = DbConnector()
     conn = db_connector.getConn()
-    db_connector.closeConn(conn)
     return render_template('reports.html', hidden="true", values='', labels='', legend='', big='')

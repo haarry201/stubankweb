@@ -57,6 +57,7 @@ $(function(){
                 required: "Please provide a password",
             },
         },
+        errorClass: "is-invalid",
     });
 })
 $(function(){
@@ -89,6 +90,7 @@ $(function(){
                 required: "Please provide a password",
             },
         },
+        errorClass: "is-invalid",
     });
 })
 
@@ -132,5 +134,6 @@ $(function(){
                 number: "Please provide the transfer value as a number",
             }
         },
+        errorClass: "is-invalid",
     });
 })
