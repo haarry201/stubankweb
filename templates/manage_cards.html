@@ -81,20 +81,34 @@
                 <p>
                     Here are all of your currently owned cards.</br>
                 </p>
+                <div class="table-class card shadow">
+                    <h1 class="text-center">Your Cards</h1>
+                    <table class="table small">
+                        <thead>
+                        <tr>
+                            <th>Card Number</th>
+                            <th>Card Type</th>
+                            <th>Start Date</th>
+                            <th>Expiry Date</th>
+                            <th>Pin Number</th>
+                        </tr>
+                        </thead>
+                        {% for card in all_user_cards %}
+                            <tr>
+                                <td>{{ card.card_number }}</td>
+                                <td>{{ card.card_type_id }}</td>
+                                <td>{{ card.start_date }}</td>
+                                <td>{{ card.expiry_date }}</td>
+                                <td>{{ card.pin_number }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+
             </div>
 
         </div>
-        <div class="table-class card shadow">
-            <h1 class="text-center">Your Cards</h1>
-            <table class="table small">
 
-
-                //DISPLAY CARDS HERE
-
-
-
-            </table>
-        </div>
         <nav class="navbar navbar-static-bottom">
             <div class="container-fluid">
                 <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>

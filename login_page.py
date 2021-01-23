@@ -28,6 +28,7 @@ def login_page_func():
                     # checks input data against stored data
                     session['name'] = row[5]
                     session['user_role'] = row[12]
+                    session['userID'] = row[0]
                     return redirect(url_for('account_page.accounts_page'))
                     #return render_template("accounts.html", user=session['name'])
 
