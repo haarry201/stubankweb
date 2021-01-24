@@ -42,7 +42,44 @@
     color: white;
 }
 
+#qrcode{
+    width: 160px;
+    height: 160px;
+}
+#report{
+    width: 100%;
+}
+.bottom-text{
+    font-size: small;
+}
 
+/*#chart-div{*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    background-color: white;*/
+
+/*}*/
+
+
+/*.dark-mode #chart-div{*/
+/*    background-color: white;*/
+/*}*/
+
+/* IE specific code, issue with home page graphics showing up*/
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        .index-h1{
+            color: black;
+        }
+        .index-p{
+            color: black;
+        }
+        .dark-mode .index-h1{
+            color: white;
+        }
+        .dark-mode .index-p{
+            color: white;
+        }
+}
 
   @media only screen and (max-width: 700px) {
       h1{
@@ -76,5 +113,10 @@
       .icon h2{
           font-size: 30px;
       }
+      .navbar-text{
+          font-size: 9px;
+      }
+
+
 
   } 

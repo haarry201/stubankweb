@@ -15,14 +15,16 @@ bank_transfer_page = Blueprint('bank_transfer_page', __name__, template_folder='
 def bank_transfer():
     try:
         if 'user_id' in session:
-            user_id = session['user_id']
-            pass
+            if session['needs_auth'] == True:
+                return redirect(url_for('login_page.login_page_func'))
+            else:
+                user_id = session['user_id']
+                pass
         else:
             return redirect(url_for('login_page.login_page_func'))
     except:
         return redirect(url_for('login_page.login_page_func'))
     if request.method == 'POST':
-        email = request.form.get("email")
         account_type = request.form.get("account_type")
         if account_type == "student current account":
             account_type_id = '123'
@@ -47,7 +49,6 @@ def bank_transfer():
         try:
             db_connector = DbConnector()
             conn = db_connector.getConn()
-            db_connector.closeConn(conn)
             cursor = conn.cursor(buffered=True)
 
             cursor.execute("SELECT * FROM UserAccounts")

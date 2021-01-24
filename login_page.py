@@ -10,7 +10,12 @@ login_page = Blueprint('login_page', __name__, template_folder='templates')
 def login_page_func():
     try:
         if 'user_id' in session and 'name' in session:
-            return redirect(url_for('account_page.accounts_page'))
+            if session['needs_auth'] == True:
+                # 2fa but not authenticated yet
+                session.clear()
+                pass
+            else:
+                return redirect(url_for('account_page.accounts_page'))
         else:
             pass
 
@@ -36,14 +41,28 @@ def login_page_func():
                 if email == row[1] and (pwd_manager.check_password(password, row) and security_question == row[10] and
                                         security_answer.lower() == row[11].lower()):
                     # checks input data against stored data
-                    session['user_id'] = row[0]
-                    session['name'] = row[5]
-                    user_role = row[12]
-                    session['user_role'] = user_role
-
-                    if user_role == 'Admin':
-                        return redirect(url_for('admin_home_page.admin_home_page_func'))
+                    two_factor_is_enabled = row[13]
+                    if two_factor_is_enabled:
+                        session['needs_auth'] = True
+                        session['two_factor_enabled'] = True
+                        session['user_id'] = row[0]
+                        session['email'] = email
+                        session['secret_auth_key'] = row[4]
+                        session['name'] = row[5]
+                        session['user_role'] = row[12]
+                        return redirect(url_for('two_factor_auth_verify_page.two_factor_auth_verify_page_func'))
                     else:
+                        session['needs_auth'] = False
+                        session['two_factor_enabled'] = False
+                        session['user_id'] = row[0]
+                        session['email'] = email
+                        session['secret_auth_key'] = row[4]
+                        session['name'] = row[5]
+                        session['user_role'] = row[12]
+                        if row[12] == 'Admin':
+                            return redirect(url_for('admin_home_page.admin_home_page_func'))
+                        else:
+                            return redirect(url_for('account_page.accounts_page'))
                         return redirect(url_for('account_page.accounts_page'))
                     #return render_template("accounts.html", user=session['name'])
 

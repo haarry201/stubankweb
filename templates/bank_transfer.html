@@ -81,10 +81,6 @@
                 <div class="card text-center">
                     <form action="{{ url_for("bank_transfer_page.bank_transfer") }}" method="post" name="transfer_form">
                         <div class="form-group">
-                            <label for="email">Enter email address associated with account:</label>
-                            <input class="form-control" type="text" id="email" name="email">
-                        </div>
-                        <div class="form-group">
                             <label for="account_type">Choose which account to transfer from:</label>
                             <select class="form-control" name="account_type" id="account_type">
                                 <option value="student current account">Student Current Account</option>
@@ -142,8 +138,8 @@
             <!-- Navbar text -->
             <span class="navbar-text">
                         <p>
-                            &copy; <strong>StuBank </strong> a project by Team35
-                        </p>
+            &copy; <strong>StuBank </strong> 2021
+            </p>
                     </span>
         </div>
     </nav>
