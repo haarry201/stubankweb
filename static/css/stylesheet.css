@@ -65,7 +65,21 @@
 /*    background-color: white;*/
 /*}*/
 
-
+/* IE specific code, issue with home page graphics showing up*/
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        .index-h1{
+            color: black;
+        }
+        .index-p{
+            color: black;
+        }
+        .dark-mode .index-h1{
+            color: white;
+        }
+        .dark-mode .index-p{
+            color: white;
+        }
+}
 
   @media only screen and (max-width: 700px) {
       h1{
