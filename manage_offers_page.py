@@ -62,8 +62,8 @@ def manage_offers_page_func():
                 print(row[0])
                 new_offer = Offer(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7])
                 all_offers.append(new_offer)
-        except Error as e:
-            print(e)
+        except Error as error:
+            print(error)
             return redirect(url_for('error_page.error_page_foo', code="e2", src="index.html"))
         finally:
             cursor.close()

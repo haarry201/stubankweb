@@ -30,7 +30,7 @@ def admin_home_page_func():
                 cursor.execute("UPDATE UserInfo SET UserRole = (%s) WHERE EmailAddress = (%s)", (user_role,user_email))
                 conn.commit()
                 cursor.close()
-            except Error as e:
+            except Error as error:
                 return redirect(url_for('error_page.error_page_foo', code="e2", src="index.html"))
         admin_users = []
         db_connector = DbConnector()

@@ -70,8 +70,8 @@ def login_page_func():
                     row = cursor.fetchone()
                     # if doesn't match, fetches next row stored in table
 
-        except Error as e:
-            print(e)
+        except Error as error:
+            pass
 
         finally:
             cursor.close()
