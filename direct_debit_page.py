@@ -34,9 +34,12 @@ def direct_debit_func():
 
         # Generating random recurring transaction ID
         ran = random.randrange(10 ** 80)
-        myhex = "%016x" % ran
-        myhex = myhex[:16]
-        recurring_transaction_id = myhex
+        my_hex = "%016x" % ran
+        my_hex = my_hex[:16]
+        recurring_transaction_id = my_hex
+
+        # Defining date and time of transaction
+        now = datetime.datetime.now()
 
         try:
             db_connector = DbConnector()
@@ -45,7 +48,8 @@ def direct_debit_func():
             cursor = conn.cursor(buffered=True)
 
             cursor.execute("INSERT INTO RecurringTransactions VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
-                           (recurring_transaction_id, account_num_sending, account_num_receiving))
+                           (recurring_transaction_id, account_num_sending, account_num_receiving, sort_code_sending,
+                            sort_code_receiving, ))
 
 
         except Error as error:
