@@ -26,12 +26,9 @@ def direct_debit_func():
         sort_code_sending = request.form.get("sortCodeSending")
         sort_code_receiving = request.form.get("sortCodeReceiving")
         recurrence_frequency = request.form.get("frequency")
+        reference = request.form.get("reference")
         amount = request.form.get("amount")
         transfer_value = int(float(amount) * 100)
-
-        # Account number and sort code for the card payment account for demonstration
-        account_num = "00213181"
-        sort_code = "286376"
 
         # Generating random recurring transaction ID
         ran = random.randrange(10 ** 80)
@@ -51,8 +48,7 @@ def direct_debit_func():
 
             cursor.execute("INSERT INTO RecurringTransactions VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
                            (recurring_transaction_id, account_num_sending, account_num_receiving, sort_code_sending,
-                            sort_code_receiving, datetime_formatted, recurrence_frequency,  ))
-
+                            sort_code_receiving, datetime_formatted, recurrence_frequency, reference))
 
         except Error as error:
             print(error)
