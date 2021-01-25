@@ -60,7 +60,7 @@ def login_page_func():
                         session['name'] = row[5]
                         user_role = row[12]
                         session['user_role'] = user_role
-                        if user_role== 'Admin':
+                        if user_role == 'Admin':
                             return redirect(url_for('admin_home_page.admin_home_page_func'))
                         else:
                             return redirect(url_for('account_page.accounts_page'))

@@ -27,42 +27,31 @@
         <a href="{{ url_for('index_page') }}" class="navbar-brand rounded">
             <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="StuBankLogo"> StuBank
         </a>
-        <ul class="navbar-nav d-none d-md-flex">
+        <ul class="navbar-nav d-none d-xl-flex">
             <li class="nav-item active">
-                <a href="#" class="nav-link">Home</a>
+                <a href="{{ url_for('admin_home_page.admin_home_page_func') }}" class="nav-link">Home</a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">Move Money</a>
+                <a href="{{ url_for('manage_offers_page.manage_offers_page_func') }}" class="nav-link">Manage Offers</a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">Account Settings </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">Manage Cards</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">Manage Overdraft</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">Manage Pools</a>
+                <a href="#" class="nav-link">Manage Cards </a>
             </li>
         </ul>
-        <form class="form-inline d-none d-md-flex ml-auto" action="..." method="...">
+        <form class="form-inline d-none d-xl-flex ml-auto" action="..." method="...">
             <input class="btn btn-danger" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
         </form>
-        <div class="navbar-content d-md-none ml-auto">
+        <div class="navbar-content d-xl-none ml-auto">
             <div class="dropdown with-arrow">
                 <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">
                     Menu
                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
-                    <a href="#" class="dropdown-item">Home</a>
-                    <a href="#" class="dropdown-item">Move Money</a>
-                    <a href="#" class="dropdown-item">Account Settings</a>
+                    <a href="{{ url_for('account_page.accounts_page') }}" class="dropdown-item">Home</a>
+                    <a href="{{ url_for('manage_offers_page.manage_offers_page_func') }}" class="dropdown-item">Manage
+                        Offers</a>
                     <a href="#" class="dropdown-item">Manage Cards</a>
-                    <a href="#" class="dropdown-item">Manage Overdraft</a>
-                    <a href="#" class="dropdown-item">Manage Pools</a>
                     <div class="dropdown-divider"></div>
                     <div class="dropdown-content">
                         <form action="..." method="...">
@@ -74,7 +63,6 @@
             </div>
         </div>
     </nav>
-
     <div class="content-wrapper">
         <div class="offer-flex">
             {% if not all_offers %}

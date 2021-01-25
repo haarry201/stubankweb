@@ -13,16 +13,14 @@ def manage_offers_page_func():
     try:
         user_role = session.get('user_role')
     except Error as e:
-        print("error, no session key set")
+        print("error, no session key set will be redirected")
     if user_role == ("Admin" or "Offer_Admin"):
         db_connector = DbConnector()
         conn = db_connector.getConn()
         if request.method == "POST":
             if 'delete' in request.form:
                 # Deleting offer
-                print(request.form.get('delete'))
                 offer_id = int(request.form.get('delete'))
-                print(type(offer_id))
                 cursor = conn.cursor()
                 # cursor.execute("DELETE * FROM Offers WHERE OfferID = %s", offer_id)
                 cursor.execute("DELETE FROM Offers WHERE OfferID = %s",(offer_id,))

@@ -10,6 +10,16 @@ offer_page = Blueprint('offer_page', __name__, template_folder='templates')
 
 @offer_page.route('/')
 def offer_page_func():
+    try:
+        if 'user_id' in session:
+            if session['needs_auth'] == True:
+                return redirect(url_for('login_page.login_page_func'))
+            else:
+                pass
+        else:
+            return redirect(url_for('login_page.login_page_func'))
+    except:
+        return redirect(url_for('login_page.login_page_func'))
     db_connector = DbConnector()
     conn = db_connector.getConn()
     all_offers = []
