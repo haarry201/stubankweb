@@ -10,11 +10,14 @@ from expenditure_reports import expenditure_reports
 from extra_info import extra_info
 from error_page import error_page
 from offer_page import offer_page
-from new_offer_page import new_offer_page
+from manage_offers_page import manage_offers_page
 from card_payment_page import card_payment_page
 from manage_cards import manage_cards
 from apply_new_card import apply_new_card
 from admin_new_card import admin_new_card
+from two_factor_auth_set_up import two_factor_auth_set_up_page
+from two_factor_auth_verify_page import two_factor_auth_verify_page
+from admin_home_page import admin_home_page
 import os
 
 app = Flask(__name__)
@@ -30,11 +33,18 @@ app.register_blueprint(expenditure_reports, url_prefix="/reports/")
 app.register_blueprint(extra_info, url_prefix="/extrainfo/")
 app.register_blueprint(error_page, url_prefix="/error.html")
 app.register_blueprint(offer_page, url_prefix="/offers.html")
-app.register_blueprint(new_offer_page, url_prefix="/new_offer.html")
+app.register_blueprint(manage_offers_page, url_prefix="/manage_offers.html")
 app.register_blueprint(card_payment_page, url_prefix="/card_payment.html")
+<<<<<<< app.py
 app.register_blueprint(manage_cards, url_prefix="/manage_cards.html")
 app.register_blueprint(apply_new_card, url_prefix="/apply_new_card.html")
 app.register_blueprint(admin_new_card, url_prefix="/new_card.html")
+=======
+app.register_blueprint(two_factor_auth_verify_page, url_prefix="/two_factor_verification.html")
+app.register_blueprint(two_factor_auth_set_up_page, url_prefix="/two_factor_set_up.html")
+app.register_blueprint(admin_home_page, url_prefix="/admin_home.html")
+
+>>>>>>> app.py
 
 
 

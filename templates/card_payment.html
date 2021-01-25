@@ -35,9 +35,6 @@
                 <a href="{{ url_for('manage_cards.manage_cards_func') }}" class="nav-link">Manage Cards</a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">Manage Overdraft</a>
-            </li>
-            <li class="nav-item">
                 <a href="{{ url_for('manage_pools.manage_pools_func') }}" class="nav-link">Manage Pools</a>
             </li>
         </ul>
@@ -80,10 +77,6 @@
                 <div class="col"></div>
                 <div class="card text-center">
                     <form action="{{ url_for("card_payment_page.card_payment") }}" method="post" name="transfer_form">
-                        <div class="form-group">
-                            <label for="email">Enter email address associated with account:</label>
-                            <input class="form-control" type="text" id="email" name="email">
-                        </div>
                         <div class="form-group">
                             <label for="receiver_name">Enter receiver name:</label>
                             <input class="form-control" type="text" id="receiver_name" name="receiver_name">
@@ -148,8 +141,8 @@
             <!-- Navbar text -->
             <span class="navbar-text">
                         <p>
-                            &copy; <strong>StuBank </strong> a project by Team35
-                        </p>
+            &copy; <strong>StuBank </strong> 2021
+            </p>
                     </span>
         </div>
     </nav>

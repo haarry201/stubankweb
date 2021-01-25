@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{{ url_for('static', filename='assets/favicon.ico') }}">
-    <title>Login</title>
+    <title>Two Factor Auth Verification</title>
     <link href="{{ url_for('static', filename='css/halfmoon.css') }}" rel="stylesheet"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -47,33 +47,22 @@
             <div class="row pt-20">
                 <div class="col"></div>
                 <div class="card text-center">
-                    <h1>Login:</h1>
-                    <form class="p-card" action="{{ url_for("login_page.login_page_func") }}" method="post"
-                          name="LoginForm">
+                    <h1>Verify:</h1>
+                    <form class="p-card" action="{{ url_for("two_factor_auth_verify_page.two_factor_auth_verify_page_func") }}" method="post"
+                          name="AuthForm">
                         <div class="form-group">
-                            <label class="required" for="email">Email:</label>
-                            <input class="form-control" type="text" id="email" name="email">
+                            <label class="required" for="auth-code">Enter the authentication code:</label>
+                            <input
+                                    class="form-control"
+                                    type="text"
+                                    name="auth-code"
+                                    id="auth-code"
+                                    inputmode="numeric"
+                                    pattern="[0-9]*"
+                                    autocomplete="one-time-code"
+                            />
                         </div>
-                        <div class="form-group">
-                            <label class="required" for="password">Password:</label>
-                            <input class="form-control" type="password" id="password" name="password">
-                        </div>
-                        <div class="form-group">
-                            <label class="required" for=security_question">Security Question:</label>
-                            <select class="form-control" id=security_question" name="security_question">
-                                <option value="--">--</option>
-                                <option value="What is your mother's maiden name?">What is your mother's maiden name?
-                                </option>
-                                <option value="What was your first pet's name?">What was your first pet's name?</option>
-                                <option value="What was your favourite primary school subject?">What was your favourite
-                                    primary
-                                    school subject?
-                                </option>
-                            </select><br>
-                            <label class="required" for="security_answer">Security Question Answer:</label>
-                            <input class="form-control" type="text" id="security_answer" name="security_answer"><br>
-                        </div>
-                        <input class="btn btn-primary" type="submit" value="Login">
+                        <input class="btn btn-primary" type="submit" value="Submit">
                     </form>
                 </div>
                 <div class="col"></div>

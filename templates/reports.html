@@ -13,13 +13,13 @@
 
 <body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true"
       data-set-preferred-mode-onload="true">
-<div class="page-wrapper with-navbar">
+<div class="page-wrapper with-navbar with-navbar-fixed-bottom">
     <div class="sticky-alerts"></div>
     <nav class="navbar">
         <a href="{{ url_for('index_page') }}" class="navbar-brand rounded">
             <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="StuBankLogo"> StuBank
         </a>
-        <ul class="navbar-nav d-none d-md-flex">
+        <ul class="navbar-nav d-none d-xl-flex">
             <li class="nav-item active">
                 <a href="{{ url_for('account_page.accounts_page') }}" class="nav-link">Home</a>
             </li>
@@ -39,14 +39,12 @@
                 <a href="{{ url_for('manage_pools.manage_pools_func') }}" class="nav-link">Manage Pools</a>
             </li>
         </ul>
-        <form class="form-inline d-none d-md-flex ml-auto" action="..." method="...">
+        <form class="form-inline d-none d-xl-flex ml-auto" action="..." method="...">
             <input class="btn btn-danger" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
             <input class="btn btn-danger" type="submit" value="Apply for an Account"
                    formaction="{{ url_for('bank_acc_application_page.bank_application') }}">
-            <input class="btn" type="submit" value="Transfer" formaction="/bank_transfer.html">
-
         </form>
-        <div class="navbar-content d-md-none ml-auto">
+        <div class="navbar-content d-xl-none ml-auto">
             <div class="dropdown with-arrow">
                 <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">
                     Menu
@@ -74,13 +72,28 @@
         </div>
     </nav>
     <div class="content-wrapper">
-        <form action="..." method="...">
-            <input type="submit" value="Show expenditure report for last 7 days" formaction="/reports/7days">
-            <input type="submit" value="Show expenditure report for last 4 weeks" formaction="/reports/weekly">
-            <input type="submit" value="Show expenditure report for last 12 months" formaction="/reports/yearly">
-        </form>
-        <canvas id="report" width="600" height="400"></canvas>
+        <div class="btn-group" role="group" aria-label="Button group">
+            <form action="..." method="...">
+                <input class="btn" type="submit" value="Show expenditure report for last 7 days"
+                       formaction="/reports/7days">
+                <input class="btn" type="submit" value="Show expenditure report for last 4 weeks"
+                       formaction="/reports/weekly">
+                <input class="btn" type="submit" value="Show expenditure report for last 12 months"
+                       formaction="/reports/yearly">
+            </form>
+        </div>
+        <div class="card" id="chart-div">
+            <canvas id="report"></canvas>
+        </div>
+
         <script>
+            var canvas = document.getElementById('report');
+            var heightRatio = 0.66;
+            var w = window.innerWidth;
+            canvas.width = w * 0.66;
+            //Doesn't change on window resize, rather on reload
+            //Not ideal but better performance wise and not many users will be resizing alot
+            canvas.height = canvas.width * heightRatio;
             Chart.defaults.global.responsive = false;
 
             var chartData = {
@@ -130,32 +143,32 @@
                 document.getElementById("transaction").hidden = false;
             }
         </script>
-        <nav class="navbar navbar-fixed-bottom">
-            <div class="container-fluid">
-                <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
+    </div>
+    <nav class="navbar navbar-fixed-bottom">
+        <div class="container-fluid">
+            <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
 
-                <!-- JavaScript -->
-                <script type="text/javascript">
-                    // Dark mode toggle
-                    function toggleDark() {
-                        halfmoon.toggleDarkMode();
-                    }
-                </script>
-                <ul class="navbar-nav ml-auto">
-                    <!-- ml-auto = margin-left: auto -->
-                    <li class="nav-item">
-                        <a href="{{ url_for('extra_info.contact') }}" class="nav-link">Contact</a>
-                    </li>
-                </ul>
-                <!-- Navbar text -->
-                <span class="navbar-text">
-                        <p>
+            <!-- JavaScript -->
+            <script type="text/javascript">
+                // Dark mode toggle
+                function toggleDark() {
+                    halfmoon.toggleDarkMode();
+                }
+            </script>
+            <ul class="navbar-nav ml-auto">
+                <!-- ml-auto = margin-left: auto -->
+                <li class="nav-item">
+                    <a href="{{ url_for('extra_info.contact') }}" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            <!-- Navbar text -->
+            <span class="navbar-text">
+                        <p class="bottom-text">
                             &copy; <strong>StuBank </strong> a project by Team35
                         </p>
                     </span>
-            </div>
-        </nav>
-    </div>
+        </div>
+    </nav>
     <!-- Halfmoon JS -->
     <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
 </div>

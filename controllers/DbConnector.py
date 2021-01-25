@@ -23,7 +23,3 @@ class DbConnector:
         config = self.getConfig()
         conn = mysql.connector.connect(**config)
         return conn
-
-    def closeConn(self, conn):
-        conn.close
-        return
