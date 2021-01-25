@@ -51,7 +51,7 @@ def direct_debit_func():
 
             cursor.execute("INSERT INTO RecurringTransactions VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
                            (recurring_transaction_id, account_num_sending, account_num_receiving, sort_code_sending,
-                            sort_code_receiving, datetime_formatted, recurrence_frequency ))
+                            sort_code_receiving, datetime_formatted, recurrence_frequency,  ))
 
 
         except Error as error:
