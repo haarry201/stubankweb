@@ -4,10 +4,10 @@ from controllers.DbConnector import DbConnector
 from controllers.PasswordManager import PasswordManager
 from classes import CardInfo
 
-admin_new_card_page = Blueprint('admin_new_card', __name__, template_folder='templates')
+admin_new_card = Blueprint('admin_new_card', __name__, template_folder='templates')
 
 
-@admin_new_card_page.route('/', methods=['GET', 'POST'])
+@admin_new_card.route('/', methods=['GET', 'POST'])
 def admin_new_card_func():
     allcards = []
     print("here")
@@ -16,8 +16,15 @@ def admin_new_card_func():
         conn = db_connector.getConn()
         cursor = conn.cursor()
         if request.method == "POST":
+
+            cursor.execute("SELECT CardTypeID FROM CardInfo ORDER BY CardTypeID DESC LIMIT 1;")
+            row = cursor.fetchone()
+            last_id = row[0]
+            new_number = int(last_id) + 1
+            new_id = str(new_number).zfill(3)
+
             desc = request.form.get("description")
-            card = CardInfo.CardInfo(desc, "001")
+            card = CardInfo.CardInfo(desc, new_id)
             query = "INSERT INTO CardInfo " \
                     "VALUES(%s, %s)"
             args = (card.type_id, card.desc)
