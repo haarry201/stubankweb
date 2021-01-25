@@ -33,46 +33,42 @@ def login_page_func():
             db_connector = DbConnector()
             conn = db_connector.getConn()
             cursor = conn.cursor(buffered=True)
-            cursor.execute("SELECT * FROM UserInfo")  # gets all data stored in UserInfo table
-
-            row = cursor.fetchone()  # fetches first row of table
-
-            while row is not None:
-                if email == row[1] and (pwd_manager.check_password(password_to_check,row[2],row[3]) and security_question == row[10] and
-                                        security_answer.lower() == row[11].lower()):
-                    # checks input data against stored data
-                    two_factor_is_enabled = row[13]
-                    if two_factor_is_enabled:
-                        session['needs_auth'] = True
-                        session['two_factor_enabled'] = True
-                        session['user_id'] = row[0]
-                        session['email'] = email
-                        session['secret_auth_key'] = row[4]
-                        session['name'] = row[5]
-                        session['user_role'] = row[12]
-                        return redirect(url_for('two_factor_auth_verify_page.two_factor_auth_verify_page_func'))
-                    else:
-                        session['needs_auth'] = False
-                        session['two_factor_enabled'] = False
-                        session['user_id'] = row[0]
-                        session['email'] = email
-                        session['secret_auth_key'] = row[4]
-                        session['name'] = row[5]
-                        user_role = row[12]
-                        session['user_role'] = user_role
-                        if user_role == 'Admin':
-                            return redirect(url_for('admin_home_page.admin_home_page_func'))
+            cursor.execute("SELECT * FROM UserInfo WHERE EmailAddress = (%s)", (email,))
+            result = cursor.fetchall()
+            for row in result:
+                # Verify sent password
+                db_pwd = row[2]
+                db_salt = row[3]
+                db_sq_question = row[10]
+                db_sq_answer = row[11]
+                is_users_pwd = pwd_manager.check_password(password_to_check, db_pwd, db_salt)
+                if is_users_pwd:
+                    if security_question == db_sq_question and security_answer.lower() == db_sq_answer.lower():
+                        is_two_factor_enabled = row[4]
+                        if is_two_factor_enabled:
+                            session['needs_auth'] = True
+                            session['two_factor_enabled'] = True
+                            session['user_id'] = row[0]
+                            session['email'] = email
+                            session['secret_auth_key'] = row[4]
+                            session['name'] = row[5]
+                            session['user_role'] = row[12]
+                            return redirect(url_for('two_factor_auth_verify_page.two_factor_auth_verify_page_func'))
                         else:
-                            return redirect(url_for('account_page.accounts_page'))
-                    #return render_template("accounts.html", user=session['name'])
-
-                else:
-                    row = cursor.fetchone()
-                    # if doesn't match, fetches next row stored in table
-
+                            session['needs_auth'] = False
+                            session['two_factor_enabled'] = False
+                            session['user_id'] = row[0]
+                            session['email'] = email
+                            session['secret_auth_key'] = row[4]
+                            session['name'] = row[5]
+                            user_role = row[12]
+                            session['user_role'] = user_role
+                            if user_role == 'Admin':
+                                return redirect(url_for('admin_home_page.admin_home_page_func'))
+                            else:
+                                return redirect(url_for('account_page.accounts_page'))
         except Error as error:
-            pass
-
+            return redirect(url_for('error_page.error_page_foo', code="e1"))
         finally:
             cursor.close()
             conn.close()
