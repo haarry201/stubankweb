@@ -61,7 +61,7 @@ $(function(){
     });
 })
 $(function(){
-    $("form[name='emailChangeForm']").validate({
+    $("form[name='ChangeEmailForm']").validate({
         rules: {
             new_email: {
                 required: true,
@@ -78,7 +78,7 @@ $(function(){
     });
 })
 $(function(){
-    $("form[name='changePasswordForm']").validate({
+    $("form[name='ChangePasswordForm']").validate({
         rules: {
             new_password: {
                 required: true,

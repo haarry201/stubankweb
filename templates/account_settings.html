@@ -134,6 +134,42 @@
                 }
 
             </script>
+{#            Not ideal having script here but for some reason not working without it#}
+            <script type="text/javascript">
+                $(document).ready((function () {
+                    $("form[name='ChangeEmailForm']").validate({
+                        rules: {
+                            new_email: {
+                                required: true,
+                                email: true
+                            },
+                        },
+                        messages: {
+                            new_email: {
+                                required: "Please provide an email address",
+                                email: "Please enter a valid email address"
+                            },
+                        },
+                        errorClass: "is-invalid",
+                    });
+                }),
+                (function () {
+                    $("form[name='ChangePasswordForm']").validate({
+                        rules: {
+                            new_password: {
+                                required: true,
+                                passwordRules: true,
+                            }
+                        },
+                        messages: {
+                            new_password: {
+                                required: "Please provide a password",
+                            },
+                        },
+                        errorClass: "is-invalid",
+                    });
+                }))
+            </script>
             <div class="alert alert-success" role="alert">
                 <h4 class="alert-heading">{{ changed_data }} Changed</h4>
                 <p>You have successfully changed your {{ changed_data.lower() }}</p>
@@ -153,7 +189,7 @@
                 <div>
                     <div class="card text-center">
                         <form action="{{ url_for("account_settings_page.account_settings_page_func") }}" method="post"
-                              name="emailChangeForm" id="emailChangeForm">
+                              name="ChangeEmailForm" id="ChangeEmailForm">
                             <p>{{ session['email'] }}</p>
                             <div class="form-group">
                                 <label for="new_email">Enter new email:</label>
@@ -170,7 +206,7 @@
                     <hr>
                     <div class="card text-center">
                         <form action="{{ url_for("account_settings_page.account_settings_page_func") }}" method="post"
-                              name="changePasswordForm" id="changePasswordForm">
+                              name="ChangePasswordForm" id="ChangePasswordForm">
                             <div class="form-group">
                                 <label for="current_password">Enter current password:</label>
                                 <input class="form-control" type="password" id="current_password"
@@ -189,8 +225,8 @@
                             <p>Two factor authentication is enabled:</p>
                             <form action="{{ url_for("account_settings_page.account_settings_page_func") }}"
                                   method="post"
-                                  name="removeTwoFactor"
-                                  id="removeTwoFactor"
+                                  name="RemoveTwoFactor"
+                                  id="RemoveTwoFactor"
                             >
                                 <div class="form-group">
                                     <label for="auth_code">Enter Auth Code for removal verification:</label>
