@@ -61,6 +61,39 @@ $(function(){
     });
 })
 $(function(){
+    $("form[name='emailChangeForm']").validate({
+        rules: {
+            new_email: {
+                required: true,
+                email: true
+            },
+        },
+        messages: {
+            new_email: {
+                required: "Please provide an email address",
+                email: "Please enter a valid email address"
+            },
+        },
+        errorClass: "is-invalid",
+    });
+})
+$(function(){
+    $("form[name='changePasswordForm']").validate({
+        rules: {
+            new_password: {
+                required: true,
+                passwordRules: true,
+            }
+        },
+        messages: {
+            new_password: {
+                required: "Please provide a password",
+            },
+        },
+        errorClass: "is-invalid",
+    });
+})
+$(function(){
     $("form[name='LoginForm']").validate({
         // CODE GOES HERE
         rules: {

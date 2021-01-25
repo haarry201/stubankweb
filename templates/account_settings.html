@@ -106,7 +106,6 @@
                         <a href="#" class="dropdown-item">Manage Cards</a>
                         <a href="#" class="dropdown-item">Manage Overdraft</a>
                         <a href="{{ url_for('manage_pools.manage_pools_func') }}" class="dropdown-item">Manage Pools</a>
-
                         <div class="dropdown-divider"></div>
                         <div class="dropdown-content">
                             <form action="..." method="...">
@@ -125,19 +124,19 @@
         {% if changed_data != "" %}
             <script type="text/javascript">
                 // Toasts success alert
-                window.onload = function() {
-                halfmoon.initStickyAlert({
-                  content: "You have successfully changed your {{ changed_data.lower() }}",
-                  title: "{{changed_data}} Changed",
-                  alertType: "alert-success",
-                  fillType: "filled-lm"
-                });
-              }
+                window.onload = function () {
+                    halfmoon.initStickyAlert({
+                        content: "You have successfully changed your {{ changed_data.lower() }}",
+                        title: "{{changed_data}} Changed",
+                        alertType: "alert-success",
+                        fillType: "filled-lm"
+                    });
+                }
 
             </script>
             <div class="alert alert-success" role="alert">
                 <h4 class="alert-heading">{{ changed_data }} Changed</h4>
-            <p>You have successfully changed your {{ changed_data.lower() }}</p>
+                <p>You have successfully changed your {{ changed_data.lower() }}</p>
             </div>
         {% endif %}
         {% if session['two_factor_enabled'] == False %}
@@ -154,34 +153,34 @@
                 <div>
                     <div class="card text-center">
                         <form action="{{ url_for("account_settings_page.account_settings_page_func") }}" method="post"
-                              name="email-change-form">
+                              name="emailChangeForm" id="emailChangeForm">
                             <p>{{ session['email'] }}</p>
                             <div class="form-group">
-                                <label for="new-email">Enter new email:</label>
-                                <input class="form-control" type="text" id="new-email" name="new-email">
+                                <label for="new_email">Enter new email:</label>
+                                <input class="form-control" type="text" id="new_email" name="new_email">
                             </div>
                             <div class="form-group">
-                                <label for="current-password">Enter current password:</label>
-                                <input class="form-control" type="password" id="current-password"
-                                       name="current-password">
+                                <label for="current_password">Enter current password:</label>
+                                <input class="form-control" type="password" id="current_password"
+                                       name="current_password">
                             </div>
-                            <input class="btn btn-primary" type="submit" name="email-change" value="Change Email">
+                            <input class="btn btn-primary" type="submit" name="email_change" value="Change Email">
                         </form>
                     </div>
                     <hr>
                     <div class="card text-center">
                         <form action="{{ url_for("account_settings_page.account_settings_page_func") }}" method="post"
-                              name="change-password-form">
+                              name="changePasswordForm" id="changePasswordForm">
                             <div class="form-group">
-                                <label for="current-password">Enter current password:</label>
-                                <input class="form-control" type="password" id="current-password"
-                                       name="current-password">
+                                <label for="current_password">Enter current password:</label>
+                                <input class="form-control" type="password" id="current_password"
+                                       name="current_password">
                             </div>
                             <div class="form-group">
                                 <label for="new-password">Enter new password:</label>
-                                <input class="form-control" type="password" id="new-password" name="new-password">
+                                <input class="form-control" type="password" id="new_password" name="new_password">
                             </div>
-                            <input class="btn btn-primary" type="submit" name="pwd-change" value="Change Password">
+                            <input class="btn btn-primary" type="submit" name="pwd_change" value="Change Password">
                         </form>
                     </div>
                     <hr>
@@ -190,12 +189,17 @@
                             <p>Two factor authentication is enabled:</p>
                             <form action="{{ url_for("account_settings_page.account_settings_page_func") }}"
                                   method="post"
-                                  name="remove-two-factor">
+                                  name="removeTwoFactor"
+                                  id="removeTwoFactor"
+                            >
                                 <div class="form-group">
-                                    <label for="receiver_name">Enter Auth Code for removal verification:</label>
-                                    <input class="form-control" type="text" id="auth-code" name="auth-code">
+                                    <label for="auth_code">Enter Auth Code for removal verification:</label>
+                                    <input class="form-control" type="text" id="auth_code" name="auth_code"
+                                           inputmode="numeric"
+                                           pattern="[0-9]*"
+                                           autocomplete="one-time-code">
                                 </div>
-                                <input class="btn btn-danger" name="auth-remove" type="submit"
+                                <input class="btn btn-danger" name="auth_remove" type="submit"
                                        value="Remove Authentication">
                             </form>
                         </div>

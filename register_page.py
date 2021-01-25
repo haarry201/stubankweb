@@ -28,6 +28,16 @@ def register_page_func():
         elif len(password) < 6:
             return redirect(url_for('error_page.error_page_foo', code="e4", src="register.html"))
         else:
+            db_connector = DbConnector()
+            conn = db_connector.getConn()
+            cursor = conn.cursor(buffered=True)
+            cursor.execute("SELECT EmailAddress FROM UserInfo WHERE EmailAddress = (%s)", (email,))
+            result = cursor.fetchall()
+            for row in result:
+                print(row)
+                if row[0].lower() == email.lower():
+                    #User with email already exists
+                    return redirect(url_for('error_page.error_page_foo', code="e10"))
             user_id = ''.join(
                 random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(16))
             # generate random 16 digit hex to use as primary key for UserInfo table

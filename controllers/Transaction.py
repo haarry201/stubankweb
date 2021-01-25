@@ -6,6 +6,7 @@ from controllers.DbConnector import DbConnector
 '''
     File name: Transaction.py
     Author: Jacob Scase
+    Credits: Jacob Scase
     Date created: 15/12/2020
     Date last modified: 21/01/2021
     Python Version: 3.7

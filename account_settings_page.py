@@ -27,11 +27,9 @@ def account_settings_page_func():
     except:
         return redirect(url_for('login_page.login_page_func'))
     if request.method == "POST":
-        print("aa")
-        if 'email-change' in request.form:
-            new_email = request.form.get('new-email')
-            current_pwd = request.form.get('current-password')
-            new_pwd = request.form.get('new-password')
+        if 'email_change' in request.form:
+            new_email = request.form.get('new_email')
+            current_pwd = request.form.get('current_password')
             pwd_manager = PasswordManager()
             db_connector = DbConnector()
             conn = db_connector.getConn()
@@ -64,9 +62,9 @@ def account_settings_page_func():
                 else:
                     return redirect(url_for('error_page.error_page_foo', code="e8", src="accounts.html"))
 
-        elif 'pwd-change' in request.form:
-            current_pwd = request.form.get('current-password')
-            new_pwd = request.form.get('new-password')
+        elif 'pwd_change' in request.form:
+            current_pwd = request.form.get('current_password')
+            new_pwd = request.form.get('new_password')
             pwd_manager = PasswordManager()
             db_connector = DbConnector()
             conn = db_connector.getConn()
@@ -90,8 +88,9 @@ def account_settings_page_func():
                 else:
                     return redirect(url_for('error_page.error_page_foo', code="e8", src="accounts.html"))
 
-        elif 'auth-remove' in request.form:
-            auth_code = request.form.get('auth-code')
+        elif 'auth_remove' in request.form:
+            print("removing auth")
+            auth_code = request.form.get('auth_code')
             users_secret_key = session['secret_auth_key']
             two_fa_manager = TwoFactorAuthentication()
             if two_fa_manager.verify_users_code(auth_code,users_secret_key):
