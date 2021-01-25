@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{{ url_for('static', filename='assets/favicon.ico') }}">
-    <title>Bank Account Application</title>
+    <title>Apply for New Card</title>
     <link href="{{ url_for('static', filename='css/halfmoon.css') }}" rel="stylesheet"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
 </head>
@@ -71,19 +71,17 @@
         </nav>
     <div class="content-wrapper">
         <div class="card text-center">
-            <form action="{{ url_for("bank_acc_application_page.bank_application") }}" method="post"
+            <form action="{{ url_for("apply_new_card.apply_new_card_func") }}" method="post"
                   name="application_form">
-                <div class="form-group">
-                    <label for="email">Enter email address associated with account:</label>
-                    <input class="form-control" type="text" id="email" name="email">
-                </div>
 
                 <div class="form-group">
-                    <label for="account type">Choose an account type:</label>
+                    <label for="card type">Choose a card type:</label>
 
-                    <select name="account type" id="account type">
-                        <option value="student current account">Student Current Account</option>
-                        <option value="savings account">Savings Account</option>
+                    <select name="card type" id="card type">
+                        {% for card in card_types %}
+                        <option value="{{ card.type_id }}">{{ card.desc }}</option>
+                        {% endfor %}
+
                     </select>
                 </div>
 
@@ -113,8 +111,8 @@
             <!-- Navbar text -->
             <span class="navbar-text">
                         <p>
-            &copy; <strong>StuBank </strong> 2021
-            </p>
+                            &copy; <strong>StuBank </strong> a project by Team35
+                        </p>
                     </span>
         </div>
     </nav>
