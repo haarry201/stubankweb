@@ -23,7 +23,7 @@ def card_payment():
         transfer_value = int(float(transfer_value)*100)
 
         # Account number and sort code for the card payment account
-        # demonstrating how it would work if set up on recievers card processor when paying
+        # demonstrating how it would work if set up on receivers card processor when paying
         account_num = "00213181"
         sort_code = "286376"
 

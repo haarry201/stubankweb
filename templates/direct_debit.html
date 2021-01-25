@@ -47,26 +47,38 @@
             <div class="row pt-20">
                 <div class="col"></div>
                 <div class="card text-center">
-                    <h1>Login:</h1>
+                    <h1>Direct Debit:</h1>
                     <form class="p-card" method="post"
                           name="DirectDebit">
                         <div class="form-group">
-                            <label class="required" for="accountType">Personal</label>
+                            <label class="required" for="accountType">Student Current Account</label>
                             <input type="radio" id="accountType" name="accountType" value="Personal">
-                            <label for="accountType">Business</label>
+                            <label for="accountType">Savings Account</label>
                             <input type="radio" id="accountType" name="accountType" value="Business">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Enter email address associated with account:</label>
+                            <input class="form-control" type="text" id="email" name="email" pattern="\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b">
                         </div>
                         <div class="form-group">
                             <label class="required" for="accountName">Name on account:</label>
                             <input class="form-control" type="text" id="accountName" name="accountName"  maxlength="140" required="required">
                         </div>
                         <div class="form-group">
-                            <label class="required" for="sortCode">Sort code:</label>
-                            <input class="form-control" type="number" id="sortCode" name="sortCode" pattern="^(\d{2}\s?-?){2}\d{2}$" maxlength="8" required="required">
+                            <label class="required" for="sortCodeSending">Enter your Sort Code:</label>
+                            <input class="form-control" type="number" id="sortCodeSending" name="sortCodeSending" pattern="^(\d{2}\s?-?){2}\d{2}$" maxlength="6" required="required">
                         </div>
                         <div class="form-group">
-                            <label class="required" for="accountNum">Account Number:</label>
-                            <input class="form-control" type="text" id="accountNum" name="accountNum" pattern="/^[0-9]{8}$/" maxlength="8" required="required">
+                            <label class="required" for="sortCodeReceiving">Enter Sort Code of receiver:</label>
+                            <input class="form-control" type="number" id="sortCodeReceiving" name="sortCodeReceiving" pattern="^(\d{2}\s?-?){2}\d{2}$" maxlength="6" required="required">
+                        </div>
+                        <div class="form-group">
+                            <label class="required" for="accountNumSending">Enter your Account Number:</label>
+                            <input class="form-control" type="text" id="accountNumSending" name="accountNumSending" pattern="/^[0-9]{8}$/" maxlength="8" required="required">
+                        </div>
+                        <div class="form-group">
+                            <label class="required" for="accountNumReceiver">Enter Account Number of Receiver:</label>
+                            <input class="form-control" type="text" id="accountNumReceiver" name="accountNumReceiver" pattern="/^[0-9]{8}$/" maxlength="8" required="required">
                         </div>
                         <div class="form-group">
                             <label class="required" for="reference">Reference:</label>
@@ -89,6 +101,9 @@
                                 <option value="monthly"Monthly></option>
                                 <option value="annually"Annually></option>
                             </select>
+                        </div>
+                        <div class="form-group">
+
                         </div>
                     </form>
                 </div>
