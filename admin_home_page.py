@@ -12,7 +12,6 @@ admin_home_page = Blueprint('admin_home_page', __name__, template_folder='templa
 def admin_home_page_func():
     try:
         user_role = session.get('user_role')
-        print(user_role)
     except Error as e:
         print("error, no session key set")
     if user_role == ("Admin" or "Offer_Admin"):
@@ -21,13 +20,10 @@ def admin_home_page_func():
                 db_connector = DbConnector()
                 conn = db_connector.getConn()
                 if 'delete' in request.form:
-                    print("deleting")
                     user_role = 'User'
                     user_email = request.form.get('delete')
-                    print(user_email)
                 else:
                     user_email = request.form.get('email')
-                    print(user_email)
                     user_role = 'Admin'
                 cursor = conn.cursor()
                 # cursor.execute("DELETE * FROM Offers WHERE OfferID = %s", offer_id)
@@ -43,7 +39,6 @@ def admin_home_page_func():
         cursor.execute("SELECT EmailAddress FROM UserInfo WHERE UserRole != 'User'")
         result = cursor.fetchall()  # fetches first row of table
         for row in result:
-            print(row[0])
             admin_users.append(row[0])
         return render_template('/admin_pages/admin_home.html',admin_users=admin_users)
     else:
