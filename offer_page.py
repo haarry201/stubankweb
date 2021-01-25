@@ -18,7 +18,7 @@ def offer_page_func():
         cursor.execute("SELECT * FROM Offers")  # gets all data stored in UserInfo table
         result = cursor.fetchall()
         for row in result:
-            new_offer = Offer(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
+            new_offer = Offer(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7])
             all_offers.append(new_offer)
     except Error as e:
         print(e)

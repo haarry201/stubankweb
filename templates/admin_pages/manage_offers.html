@@ -85,7 +85,7 @@
                 </div>
             {% endif %}
             <div class="w-400 mw-full">
-                <form action="{{ url_for("new_offer_page.new_offer_page_func") }}" method="post" class="p-5"
+                <form action="{{ url_for("manage_offers_page.manage_offers_page_func") }}" method="post" class="p-5"
                       name="new_offer_form">
                     <div class="card p-0">
                         <div class="content">
@@ -149,11 +149,12 @@
                             </div>
                         </div>
 
-                        <input class="btn btn-success btn-block " type="submit" value="Add Offer">
+                        <input class="btn btn-success btn-block " type="submit" name="add" value="Add Offer">
                     </div>
                 </form>
             </div>
             {% for offer in all_offers %}
+
                 <div class="w-400 mw-full"> <!-- w-600 = width: 60rem (600px), mw-full = max-width: 100% -->
                     <div class="card p-0"> <!-- p-0 = padding: 0 -->
                         <div class="card-img-bg">
@@ -200,7 +201,18 @@
                             </h2>
                             <p>
                                 {{ offer.description }}
+                                {{ offer.offer_id }}
                             </p>
+                            {#                                <input class="btn btn-success btn-block" type="submit" name="delete"#}
+                            {#                                       value="{{ offer.offer_id}}">#}
+                            <form action="{{ url_for("manage_offers_page.manage_offers_page_func") }}" method="post"
+                                  class="p-5"
+                                  name="delete_offer_form">
+                                <button class="btn btn-square btn-danger" type="submit" name="delete"
+                                        value="{{ offer.offer_id }}"><i class="far fa-trash-alt"></i></button>
+                            </form>
+
+
                         </div>
                         <form action="..." method="..." class="p-5">
                             <input class="btn btn-success btn-block " type="submit" value="Take Me There"
