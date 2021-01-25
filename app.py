@@ -15,6 +15,7 @@ from card_payment_page import card_payment_page
 from two_factor_auth_set_up import two_factor_auth_set_up_page
 from two_factor_auth_verify_page import two_factor_auth_verify_page
 from admin_home_page import admin_home_page
+from account_settings_page import account_settings_page
 
 import os
 
@@ -36,6 +37,7 @@ app.register_blueprint(card_payment_page, url_prefix="/card_payment.html")
 app.register_blueprint(two_factor_auth_verify_page, url_prefix="/two_factor_verification.html")
 app.register_blueprint(two_factor_auth_set_up_page, url_prefix="/two_factor_set_up.html")
 app.register_blueprint(admin_home_page, url_prefix="/admin_home.html")
+app.register_blueprint(account_settings_page, url_prefix="/account_settings.html")
 
 
 

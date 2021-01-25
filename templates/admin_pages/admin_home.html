@@ -29,6 +29,9 @@
             <li class="nav-item">
                 <a href="#" class="nav-link">Manage Cards </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="nav-link">Account Settings</a>
+            </li>
         </ul>
         <form class="form-inline d-none d-xl-flex ml-auto" action="..." method="...">
             <input class="btn btn-danger" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
@@ -44,6 +47,7 @@
                     <a href="{{ url_for('manage_offers_page.manage_offers_page_func') }}" class="dropdown-item">Manage
                         Offers</a>
                     <a href="#" class="dropdown-item">Manage Cards</a>
+                    <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="dropdown-item">Home</a>
                     <div class="dropdown-divider"></div>
                     <div class="dropdown-content">
                         <form action="..." method="...">
@@ -57,6 +61,14 @@
     </nav>
     <div class="content-wrapper">
         <div class="card">
+        {% if session['two_factor_enabled'] == False %}
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Two Factor Alert</h4>
+                You havent enabled two factor authentication on this account <a
+                    href="{{ url_for('two_factor_auth_set_up_page.two_factor_auth_set_up_page_func') }}"
+                    class="alert-link">Click Here To do so</a>.
+            </div>
+        {% endif %}
             <div class="card-title">
                 <h1>Welcome Admin</h1>
             </div>

@@ -37,6 +37,10 @@
             <li class="nav-item">
                 <a href="#" class="nav-link">Manage Cards </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="nav-link">Account
+                    Settings</a>
+            </li>
         </ul>
         <form class="form-inline d-none d-xl-flex ml-auto" action="..." method="...">
             <input class="btn btn-danger" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
@@ -52,6 +56,7 @@
                     <a href="{{ url_for('manage_offers_page.manage_offers_page_func') }}" class="dropdown-item">Manage
                         Offers</a>
                     <a href="#" class="dropdown-item">Manage Cards</a>
+                    <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="dropdown-item">Home</a>
                     <div class="dropdown-divider"></div>
                     <div class="dropdown-content">
                         <form action="..." method="...">
@@ -100,8 +105,8 @@
                             <div>
                                 <p>Posted</p>
                                 <span class="text-muted">
-                          <i class="fa fa-clock-o mr-5" aria-hidden="true"></i> Today
-                        </span>
+                                    <i class="fa fa-clock-o mr-5" aria-hidden="true"></i> Today
+                                </span>
                             </div>
                             <div>
                                 <p>Expires</p>

@@ -20,13 +20,13 @@ def login_page_func():
             pass
 
     except:
-        # not already logged in, procede
+        # not already logged in, proceed
         pass
 
     if request.method == "POST":
         pwd_manager = PasswordManager()
         email = request.form.get("email")
-        password = request.form.get("password")
+        password_to_check = request.form.get("password")
         security_question = request.form.get("security_question")
         security_answer = request.form.get("security_answer")  # gets all input from login form
         try:
@@ -38,7 +38,7 @@ def login_page_func():
             row = cursor.fetchone()  # fetches first row of table
 
             while row is not None:
-                if email == row[1] and (pwd_manager.check_password(password, row) and security_question == row[10] and
+                if email == row[1] and (pwd_manager.check_password(password_to_check,row[2],row[3]) and security_question == row[10] and
                                         security_answer.lower() == row[11].lower()):
                     # checks input data against stored data
                     two_factor_is_enabled = row[13]

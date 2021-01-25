@@ -21,5 +21,7 @@ def error_page_foo():
                    "e5": "404 Not Found",
                    "e6": "Unauthorised Access",
                    "e7": "There appears to be an error with this transaction, your account has been locked ",
+                   "e8": "Verification Error!",
+                   "e9": "Error, Email address already in use",
                    }
     return render_template('error.html', error_codes=error_codes,code=code, src=src)

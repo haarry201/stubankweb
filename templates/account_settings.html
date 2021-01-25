@@ -17,105 +17,189 @@
       data-set-preferred-mode-onload="true">
 <div class="page-wrapper with-navbar with-navbar-fixed-bottom">
     <div class="sticky-alerts"></div>
-    <nav class="navbar">
-        <a href="{{ url_for('index_page') }}" class="navbar-brand rounded">
-            <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="StuBankLogo"> StuBank
-        </a>
-        <ul class="navbar-nav d-none d-md-flex">
-            <li class="nav-item active">
-                <a href="{{ url_for('account_page.accounts_page') }}" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url_for('bank_transfer_page.bank_transfer') }}" class="nav-link">Move Money</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">Account Settings </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">Manage Cards</a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url_for('manage_pools.manage_pools_func') }}" class="nav-link">Manage Pools</a>
-            </li>
-        </ul>
-        <form class="form-inline d-none d-md-flex ml-auto" action="..." method="...">
-            <input class="btn btn-danger" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
-            <input class="btn btn-danger" type="submit" value="Apply for an Account"
-                   formaction="{{ url_for('bank_acc_application_page.bank_application') }}">
-
-        </form>
-        <div class="navbar-content d-md-none ml-auto">
-            <div class="dropdown with-arrow">
-                <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">
-                    Menu
-                    <i class="fa fa-angle-down" aria-hidden="true"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
-                    <a href="{{ url_for('account_page.accounts_page') }}" class="dropdown-item">Home</a>
-                    <a href="{{ url_for('bank_transfer_page.bank_transfer') }}" class="dropdown-item">Move Money</a>
-                    <a href="#" class="dropdown-item">Account Settings</a>
-                    <a href="#" class="dropdown-item">Manage Cards</a>
-                    <a href="#" class="dropdown-item">Manage Overdraft</a>
-                    <a href="{{ url_for('manage_pools.manage_pools_func') }}" class="dropdown-item">Manage Pools</a>
-
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-content">
-                        <form action="..." method="...">
-                            <input class="btn btn-danger btn-block mb-5" type="submit" value="Logout"
-                                   formaction="{{ url_for('index_page') }}">
-                            <input class="btn btn-danger btn-block mb-5" type="submit" value="Apply for an Account"
-                                   formaction="{{ url_for('bank_acc_application_page.bank_application') }}">
-                        </form>
+    {% if session['user_role'] == 'Admin' %}
+        <nav class="navbar">
+            <a href="{{ url_for('index_page') }}" class="navbar-brand rounded">
+                <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="StuBankLogo"> StuBank
+            </a>
+            <ul class="navbar-nav d-none d-xl-flex">
+                <li class="nav-item active">
+                    <a href="{{ url_for('admin_home_page.admin_home_page_func') }}" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('manage_offers_page.manage_offers_page_func') }}" class="nav-link">Manage
+                        Offers</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Manage Cards </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="nav-link">Account
+                        Settings</a>
+                </li>
+            </ul>
+            <form class="form-inline d-none d-xl-flex ml-auto" action="..." method="...">
+                <input class="btn btn-danger" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
+            </form>
+            <div class="navbar-content d-xl-none ml-auto">
+                <div class="dropdown with-arrow">
+                    <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">
+                        Menu
+                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
+                        <a href="{{ url_for('account_page.accounts_page') }}" class="dropdown-item">Home</a>
+                        <a href="{{ url_for('manage_offers_page.manage_offers_page_func') }}" class="dropdown-item">Manage
+                            Offers</a>
+                        <a href="#" class="dropdown-item">Manage Cards</a>
+                        <a href="{{ url_for('account_settings_page.account_settings_page_func') }}"
+                           class="dropdown-item">Home</a>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-content">
+                            <form action="..." method="...">
+                                <input class="btn btn-danger btn-block mb-5" type="submit" value="Logout"
+                                       formaction="{{ url_for('index_page') }}">
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    {% else %}
+        <nav class="navbar">
+            <a href="{{ url_for('index_page') }}" class="navbar-brand rounded">
+                <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="StuBankLogo"> StuBank
+            </a>
+            <ul class="navbar-nav d-none d-md-flex">
+                <li class="nav-item active">
+                    <a href="{{ url_for('account_page.accounts_page') }}" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('bank_transfer_page.bank_transfer') }}" class="nav-link">Move Money</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Account Settings </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Manage Cards</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('manage_pools.manage_pools_func') }}" class="nav-link">Manage Pools</a>
+                </li>
+            </ul>
+            <form class="form-inline d-none d-md-flex ml-auto" action="..." method="...">
+                <input class="btn btn-danger" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
+                <input class="btn btn-danger" type="submit" value="Apply for an Account"
+                       formaction="{{ url_for('bank_acc_application_page.bank_application') }}">
+
+            </form>
+            <div class="navbar-content d-md-none ml-auto">
+                <div class="dropdown with-arrow">
+                    <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">
+                        Menu
+                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
+                        <a href="{{ url_for('account_page.accounts_page') }}" class="dropdown-item">Home</a>
+                        <a href="{{ url_for('bank_transfer_page.bank_transfer') }}" class="dropdown-item">Move Money</a>
+                        <a href="#" class="dropdown-item">Account Settings</a>
+                        <a href="#" class="dropdown-item">Manage Cards</a>
+                        <a href="#" class="dropdown-item">Manage Overdraft</a>
+                        <a href="{{ url_for('manage_pools.manage_pools_func') }}" class="dropdown-item">Manage Pools</a>
+
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-content">
+                            <form action="..." method="...">
+                                <input class="btn btn-danger btn-block mb-5" type="submit" value="Logout"
+                                       formaction="{{ url_for('index_page') }}">
+                                <input class="btn btn-danger btn-block mb-5" type="submit" value="Apply for an Account"
+                                       formaction="{{ url_for('bank_acc_application_page.bank_application') }}">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    {% endif %}
     <div class="content-wrapper">
+        {% if changed_data != "" %}
+            <script type="text/javascript">
+                // Toasts success alert
+                window.onload = function() {
+                halfmoon.initStickyAlert({
+                  content: "You have successfully changed your {{ changed_data.lower() }}",
+                  title: "{{changed_data}} Changed",
+                  alertType: "alert-success",
+                  fillType: "filled-lm"
+                });
+              }
+
+            </script>
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">{{ changed_data }} Changed</h4>
+            <p>You have successfully changed your {{ changed_data.lower() }}</p>
+            </div>
+        {% endif %}
+        {% if session['two_factor_enabled'] == False %}
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Two Factor Alert</h4>
+                You havent enabled two factor authentication on this account <a
+                    href="{{ url_for('two_factor_auth_set_up_page.two_factor_auth_set_up_page_func') }}"
+                    class="alert-link">Click Here To do so</a>.
+            </div>
+        {% endif %}
         <div class="container-fluid">
-            <div class="row pt-20">
+            <div class="row pt-5">
                 <div class="col"></div>
-                <div class="card text-center">
-                    <form action="{{ url_for("card_payment_page.card_payment") }}" method="post" name="transfer_form">
-                        <div class="form-group">
-                            <label for="receiver_name">Enter receiver name:</label>
-                            <input class="form-control" type="text" id="receiver_name" name="receiver_name">
-                        </div>
-                        <div class="form-group">
-                            <label for="account_type">Choose which account to transfer from:</label>
-                            <select class="form-control" name="account_type" id="account_type">
-                                <option value="student current account">Student Current Account</option>
-                                <option value="savings account">Savings Account</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <p for="receiver selected">Enter latitude and longitude of shop or leave blank</p>
-                            <p>Coordinates can be easily found here
-                                <a href="https://www.latlong.net">https://www.latlong.net</a>
-                            </p>
-                            <label for="latitude">Latitude:</label>
-                            <input class="form-control" type="text" id="latitude" name="latitude">
-                            <br>
-
-                            <label for="longitude">Longitude:</label>
-                            <input class="form-control" type="text" id="longitude" name="longitude">
-
-                        </div>
-
-                        <div class="form-group">
-                            <label class="required" for="amount">Enter amount to transfer:</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">£</span>
-                                </div>
-                                <input class="form-control" min="0.01" step="0.01" type="number" id="transfer_value"
-                                       name="transfer_value">
+                <div>
+                    <div class="card text-center">
+                        <form action="{{ url_for("account_settings_page.account_settings_page_func") }}" method="post"
+                              name="email-change-form">
+                            <p>{{ session['email'] }}</p>
+                            <div class="form-group">
+                                <label for="new-email">Enter new email:</label>
+                                <input class="form-control" type="text" id="new-email" name="new-email">
                             </div>
+                            <div class="form-group">
+                                <label for="current-password">Enter current password:</label>
+                                <input class="form-control" type="password" id="current-password"
+                                       name="current-password">
+                            </div>
+                            <input class="btn btn-primary" type="submit" name="email-change" value="Change Email">
+                        </form>
+                    </div>
+                    <hr>
+                    <div class="card text-center">
+                        <form action="{{ url_for("account_settings_page.account_settings_page_func") }}" method="post"
+                              name="change-password-form">
+                            <div class="form-group">
+                                <label for="current-password">Enter current password:</label>
+                                <input class="form-control" type="password" id="current-password"
+                                       name="current-password">
+                            </div>
+                            <div class="form-group">
+                                <label for="new-password">Enter new password:</label>
+                                <input class="form-control" type="password" id="new-password" name="new-password">
+                            </div>
+                            <input class="btn btn-primary" type="submit" name="pwd-change" value="Change Password">
+                        </form>
+                    </div>
+                    <hr>
+                    {% if session['two_factor_enabled'] == True %}
+                        <div class="card text-center">
+                            <p>Two factor authentication is enabled:</p>
+                            <form action="{{ url_for("account_settings_page.account_settings_page_func") }}"
+                                  method="post"
+                                  name="remove-two-factor">
+                                <div class="form-group">
+                                    <label for="receiver_name">Enter Auth Code for removal verification:</label>
+                                    <input class="form-control" type="text" id="auth-code" name="auth-code">
+                                </div>
+                                <input class="btn btn-danger" name="auth-remove" type="submit"
+                                       value="Remove Authentication">
+                            </form>
                         </div>
-
-                        <input class="btn btn-primary" type="submit" value="Submit">
-                    </form>
+                    {% endif %}
                 </div>
                 <div class="col"></div>
             </div>
