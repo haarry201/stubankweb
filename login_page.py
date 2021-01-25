@@ -3,6 +3,19 @@ from mysql.connector import MySQLConnection, Error
 from controllers.DbConnector import DbConnector
 from controllers.PasswordManager import PasswordManager
 
+'''
+File name: login_page.py
+Author: Rhys Minchin
+Credits: Rhys Minchin
+Date created: 08/12/2020
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: This provides the back-end for the login page. It gets the information from the login form and processes it
+         in order to determine what happens next. If there is a login error, the user is forwarded to the error page
+         and an appropriate error message is given. If not, the user is forwarded to their relevant homepage depending
+         on their role (if two factor authentication enabled) or to the two factor authentication page if not.
+'''
+
 login_page = Blueprint('login_page', __name__, template_folder='templates')
 
 

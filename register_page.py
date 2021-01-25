@@ -7,6 +7,19 @@ from mysql.connector import MySQLConnection, Error
 
 from controllers.TwoFactorAuthentication import TwoFactorAuthentication
 
+'''
+File name: register_page.py
+Author: Rhys Minchin
+Credits: Rhys Minchin
+Date created: 08/12/2020
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: This provides the back-end for the register page. It gets the information from the registration form and 
+         processes it in order to determine what happens next. If there is a registration error, the user is forwarded 
+         to the error page and an appropriate error message is given. If not, the user is forwarded to the accounts
+         homepage.
+'''
+
 register_page = Blueprint('register_page', __name__, template_folder='templates')
 
 

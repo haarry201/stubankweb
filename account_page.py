@@ -3,6 +3,17 @@ from controllers.DbConnector import DbConnector
 import expenditure_reports
 from datetime import date, timedelta
 
+'''
+File name: account_page.py
+Author: Rhys Minchin
+Credits: Rhys Minchin
+Date created: 08/12/2020
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for the user's homepage once logged in. This function collects recent transactions to display
+         on the homepage, as well as the user's current balance which will also be displayed on the homepage.
+'''
+
 account_page = Blueprint('account_page', __name__, template_folder='templates')
 
 

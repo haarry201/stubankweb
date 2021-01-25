@@ -1,6 +1,17 @@
 from flask import Flask, Blueprint, render_template, session, redirect, url_for, request
 from controllers.DbConnector import DbConnector
 
+'''
+File name: error.py
+Author: Rhys Minchin
+Credits: Rhys Minchin, Jacob Scase
+Date created: 10/12/2020
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Any error that occurs throughout the running of the program will redirect the user here. An appropriate error
+         message will show and the user can then be returned to where they were so they can try again.
+'''
+
 error_page = Blueprint('error_page', __name__, template_folder='templates')
 
 

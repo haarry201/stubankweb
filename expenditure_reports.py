@@ -2,6 +2,21 @@ from flask import Flask, Blueprint, render_template, session, redirect, url_for
 from controllers.DbConnector import DbConnector
 from datetime import date, timedelta
 
+'''
+File name: expenditure_reports.py
+Author: Rhys Minchin
+Credits: Rhys Minchin
+Date created: 16/12/2020
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: This file provides the back-end functionality for displaying expenditure reports to the user. The method
+         get_conn connects to the database, the method get_info returns all accounts owned by the currently logged in
+         user, the method reports_7days generates a report with the last week of spending, the method reports_weekly
+         generates a report with the last 4 weeks of spending and the method reports_yearly generates a report with the
+         last 12 months of spending. All information collected from the database is passed to a HTML template page
+         which displays the information as a bar chart.
+'''
+
 expenditure_reports = Blueprint('expenditure_reports', __name__, template_folder='templates')
 
 
