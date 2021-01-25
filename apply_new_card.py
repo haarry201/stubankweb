@@ -5,6 +5,7 @@ from controllers.Card import Card
 from datetime import datetime
 import random
 from random import choice
+from classes.CardInfo import CardInfo
 import string
 
 apply_new_card = Blueprint('apply_new_card', __name__, template_folder='templates')
@@ -48,6 +49,23 @@ def apply_new_card_func():
             print(error)
             return redirect(url_for('error_page.error_page_foo', code="e2", src="accounts.html"))
 
-        return render_template('index.html')
+        return render_template('manage_cards.html')
 
-    return render_template('apply_card.html')
+    try:
+        db_connector = DbConnector()
+        conn = db_connector.getConn()
+        cursor = conn.cursor()
+
+        card_types = []
+
+        cursor.execute("SELECT * FROM CardInfo")
+        result = cursor.fetchall()
+        for row in result:
+            card = CardInfo(row[0], row[1])
+            card_types.append(card)
+
+    except Error as e:
+        print(e)
+        return redirect(url_for('error_page.error_page_foo', code="e2", src="index.html"))
+
+    return render_template('apply_card.html', card_types=card_types)

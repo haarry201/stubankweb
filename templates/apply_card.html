@@ -78,7 +78,10 @@
                     <label for="card type">Choose a card type:</label>
 
                     <select name="card type" id="card type">
-                        <option value="001">Classic Red Card</option>
+                        {% for card in card_types %}
+                        <option value="{{ card.type_id }}">{{ card.desc }}</option>
+                        {% endfor %}
+
                     </select>
                 </div>
 

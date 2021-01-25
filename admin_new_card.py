@@ -24,7 +24,7 @@ def admin_new_card_func():
             new_id = str(new_number).zfill(3)
 
             desc = request.form.get("description")
-            card = CardInfo.CardInfo(desc, new_id)
+            card = CardInfo.CardInfo(new_id, desc)
             query = "INSERT INTO CardInfo " \
                     "VALUES(%s, %s)"
             args = (card.type_id, card.desc)

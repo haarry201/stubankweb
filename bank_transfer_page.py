@@ -129,6 +129,6 @@ def bank_transfer():
             print(error)
             return redirect(url_for('error_page.error_page_foo', code="e2", src="accounts.html"))
 
-        return render_template('index.html')
+        return render_template('accounts.html')
 
     return render_template('bank_transfer.html')
