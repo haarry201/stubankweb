@@ -27,7 +27,10 @@ def two_factor_auth_verify_page_func():
         is_valid = two_fa_manager.verify_users_code(users_code, secret_key)
         if is_valid:
             session['needs_auth'] = False
-            return redirect(url_for('account_page.accounts_page'))
+            if session['user_role'] == 'Admin':
+                return redirect(url_for('admin_home_page.admin_home_page_func'))
+            else:
+                return redirect(url_for('account_page.accounts_page'))
         else:
             session.clear()
             return redirect(url_for('error_page.error_page_foo', code="e2"))
