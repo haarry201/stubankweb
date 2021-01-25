@@ -25,6 +25,7 @@ def direct_debit_func():
         account_num_receiving = request.form.get("accountNumReceiving")
         sort_code_sending = request.form.get("sortCodeSending")
         sort_code_receiving = request.form.get("sortCodeReceiving")
+        recurrence_frequency = request.form.get("frequency")
         amount = request.form.get("amount")
         transfer_value = int(float(amount) * 100)
 
@@ -34,12 +35,13 @@ def direct_debit_func():
 
         # Generating random recurring transaction ID
         ran = random.randrange(10 ** 80)
-        my_hex = "%016x" % ran
-        my_hex = my_hex[:16]
-        recurring_transaction_id = my_hex
+        hex_num = "%016x" % ran
+        hex_num = hex_num[:16]
+        recurring_transaction_id = hex_num
 
         # Defining date and time of transaction
         now = datetime.datetime.now()
+        datetime_formatted = now.strftime("%d-%m-%Y")
 
         try:
             db_connector = DbConnector()
@@ -49,7 +51,7 @@ def direct_debit_func():
 
             cursor.execute("INSERT INTO RecurringTransactions VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
                            (recurring_transaction_id, account_num_sending, account_num_receiving, sort_code_sending,
-                            sort_code_receiving, ))
+                            sort_code_receiving, datetime_formatted, recurrence_frequency ))
 
 
         except Error as error:
