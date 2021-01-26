@@ -95,7 +95,6 @@ def account_page_func():
         date_to_check = date(int(year), int(month), int(day))  # gets date in right format to check
         if str(row[1]) in accounts and (end_boundary <= date_to_check <= start_boundary):  # primary conditions to meet
             recipient = str(row[10])
-            print("T",row)
             transactions.append(recipient)  # adds recipient of payment to array
             if str(row[1]) == current_acc:
                 source = "Current Account"
@@ -122,7 +121,6 @@ def account_page_func():
         row = cursor.fetchone()
     # if there is an error, user forwarded to error page. If not, forwarded to accounts page and appropriate information passed through
     if 'name' in session:
-        print(transactions)
         return render_template('accounts.html', title='Home', user=session['name'], savings=savings_bal, current=current_bal, transactions=transactions, two_factor_enabled=session['two_factor_enabled'])
     else:
         return redirect(url_for('error_page.error_page_func',code="e1", src="index.html"))

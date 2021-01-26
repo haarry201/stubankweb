@@ -19,6 +19,7 @@ from two_factor_auth_set_up_page import two_factor_auth_set_up_page
 from two_factor_auth_verify_page import two_factor_auth_verify_page
 from admin_home_page import admin_home_page
 from account_settings_page import account_settings_page
+from bank_transfer_internal_page import bank_transfer_internal_page
 
 import os
 
@@ -27,7 +28,7 @@ app.config['SECRET_KEY'] = os.urandom(12).hex()  # generates secret key for uniq
 app.register_blueprint(login_page, url_prefix="/login.html")
 app.register_blueprint(register_page, url_prefix="/register.html")
 app.register_blueprint(account_page, url_prefix="/accounts.html")
-app.register_blueprint(bank_acc_application_page, url_prefix="/bank_acc_application_page_func.html")
+app.register_blueprint(bank_acc_application_page, url_prefix="/bank_acc_application_page.html")
 app.register_blueprint(bank_transfer_page, url_prefix="/bank_transfer.html")
 app.register_blueprint(manage_pools, url_prefix="/manage_pools.html")
 app.register_blueprint(display_pool, url_prefix="/display_pool.html")
@@ -44,6 +45,7 @@ app.register_blueprint(two_factor_auth_verify_page, url_prefix="/two_factor_veri
 app.register_blueprint(two_factor_auth_set_up_page, url_prefix="/two_factor_set_up.html")
 app.register_blueprint(admin_home_page, url_prefix="/admin_home.html")
 app.register_blueprint(account_settings_page, url_prefix="/account_settings.html")
+app.register_blueprint(bank_transfer_internal_page, url_prefix="/bank_transfer_internal.html")
 
 
 

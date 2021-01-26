@@ -10,20 +10,20 @@ import random
 from controllers.Transaction import MLTransaction
 
 '''
-File name: bank_transfer_page.py
-Author: Harry Kenny
-Credits: Harry Kenny, Jacob Scase
+File name: bank_transfer_internal_page.py
+Author: Jacob Scase
+Credits: Jacob Scase
 Date created: 14/12/2020
 Date last modified: 25/01/2021
 Python version: 3.7
 Purpose: Back-end file for allowing the user to transfer money from one account to another
 '''
 
-bank_transfer_page = Blueprint('bank_transfer_page', __name__, template_folder='templates')
+bank_transfer_internal_page = Blueprint('bank_transfer_internal_page', __name__, template_folder='templates')
 
 
-@bank_transfer_page.route('/', methods=['GET', 'POST'])
-def bank_transfer_page_func():
+@bank_transfer_internal_page.route('/', methods=['GET', 'POST'])
+def bank_transfer_internal_page_func():
     try:
         if 'user_id' in session:
             if session['needs_auth'] == True:
@@ -38,10 +38,12 @@ def bank_transfer_page_func():
     if request.method == 'POST':
         account_info = request.form.get("account_sender_info")
         account_info_split = account_info.split(",")
+        account_receiver_info = request.form.get("account_receiver_info")
+        account_receiver_info_split = account_receiver_info.split(",")
         transferer_account_num = account_info_split[0]
         transferer_sort_code = account_info_split[1]
-        account_num = request.form.get("account_number")
-        sort_code = request.form.get("sort_code")
+        account_num = account_receiver_info_split[0]
+        sort_code = account_receiver_info_split[1]
         transfer_value = request.form.get("transfer_value")
         transfer_value = int(float(transfer_value) * 100)
 
@@ -57,13 +59,13 @@ def bank_transfer_page_func():
         latitude = 0.000
 
         try:
-            print()
             db_connector = DbConnector()
             conn = db_connector.getConn()
             cursor = conn.cursor(buffered=True)
 
             cursor.execute("UPDATE UserAccounts SET CurrentBalance = CurrentBalance - (%s) WHERE AccountNum = (%s) AND"
                            " SortCode = (%s)", (transfer_value, transferer_account_num, transferer_sort_code))
+
             cursor.execute("SELECT * FROM UserAccounts")
             row = cursor.fetchone()
 
@@ -79,12 +81,13 @@ def bank_transfer_page_func():
 
                 else:
                     row = cursor.fetchone()
+
             cursor.execute("SELECT * FROM UserInfo")
             row = cursor.fetchone()
 
             while row is not None:
                 if row[0] == receiver_user_id:
-                    receiver_name = row[5] + row[6]
+                    receiver_name = row[5] +" "+ row[6]
                     break
 
                 else:
@@ -118,7 +121,6 @@ def bank_transfer_page_func():
                             balance_change, date, time, transaction_type, card_num_sending, receiver_name,
                             longitude, latitude))
 
-
             conn.commit()
             cursor.close()
             conn.close()
@@ -133,10 +135,12 @@ def bank_transfer_page_func():
     conn = db_connector.getConn()
     cursor = conn.cursor(buffered=True)
 
-    cursor.execute("SELECT * FROM UserAccounts,UserAccountInfo WHERE UserID = (%s) AND UserAccounts.AccountTypeID = UserAccountInfo.AccountTypeID",(user_id,))
+    cursor.execute(
+        "SELECT * FROM UserAccounts,UserAccountInfo WHERE UserID = (%s) AND UserAccounts.AccountTypeID = UserAccountInfo.AccountTypeID",
+        (user_id,))
     result = cursor.fetchall()
     for row in result:
         print(row)
         user_bank_account = UserBankAccount(row[0], row[1], row[5], row[4], row[8], row[3])
         users_accounts.append(user_bank_account)
-    return render_template('bank_transfer.html', users_accounts=users_accounts)
+    return render_template('bank_transfer_internal.html', users_accounts=users_accounts)

@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="author" content="Harry Kenny">
-    <meta name="description" content="Bank transfer page">
+    <meta name="author" content="Jacob Scase">
+    <meta name="description" content="Internal bank transfer page">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{{ url_for('static', filename='assets/favicon.ico') }}">
-    <title>Bank Account Transfer</title>
+    <title>Bank Account Application</title>
     <link href="{{ url_for('static', filename='css/halfmoon.css') }}" rel="stylesheet"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -77,16 +77,12 @@
         </div>
     </nav>
     <div class="content-wrapper">
-        <div class="alert" role="alert">
-            <h4 class="alert-heading">Transfer to savings?</h4>
-            If you are looking to transfer through your own accounts <a href="{{ url_for("bank_transfer_internal_page.bank_transfer_internal_page_func") }}" class="alert-link">Click Here</a>.
-        </div>
         <div class="container-fluid">
             <div class="row pt-20">
                 <div class="col"></div>
                 <div class="card text-center">
-                    <form action="{{ url_for("bank_transfer_page.bank_transfer_page_func") }}" method="post"
-                          name="transfer_form">
+                    <form action="{{ url_for("bank_transfer_internal_page.bank_transfer_internal_page_func") }}" method="post"
+                          name="transfer_internal_form">
                         <div class="form-group">
                             <label for="account_sender_info">Choose which account to transfer from:</label>
                             <select class="form-control" name="account_sender_info" id="account_sender_info">
@@ -101,14 +97,16 @@
 
                         <div class="form-group">
                             <br>
-                            <p for="receiver selected">Enter account number and sort code of account to transfer to:</p>
-                            <label class="required" for="account_number">Account number:</label>
-                            <input class="form-control" type="text" id="account_number" name="account_number">
-                            <br>
-
-                            <label class="required" for="sort_code">Sort code:</label>
-                            <input class="form-control" type="text" id="sort_code" name="sort_code">
-
+                            <div>
+                                <select class="form-control" name="account_receiver_info" id="account_receiver_info">
+                                    {% for account in users_accounts %}
+                                        <p>{{ account.account_num }}</p>
+                                        <p>{{ account.account_type }}</p>
+                                        <option value="{{ account.account_num }},{{ account.sort_code }}">{{ account.account_type }}
+                                            - Account Num: {{ account.account_num }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
                         </div>
 
                         <div class="form-group">

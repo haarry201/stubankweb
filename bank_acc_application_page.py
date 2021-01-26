@@ -74,6 +74,6 @@ def bank_acc_application_page_func():
             print(error)
             return redirect(url_for('error_page.error_page_func',code="e2", src="accounts.html"))
 
-        return render_template('accounts.html')
+        return redirect(url_for('account_page.account_page_func'))
 
     return render_template('bank_application.html')
