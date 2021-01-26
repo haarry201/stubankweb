@@ -53,13 +53,14 @@
                             Our system uses the TOTP Protocol
                         </p>
                         <p>Download a suitable application, we recommend <a href="https://apps.apple.com/gb/app/google-authenticator/id388497605" target="_blank" rel="noreferrer noopener"> Google Authenticator</a></p>
-                        <div class="card">
+                        <div class="card qr-card">
                             <div id="qrcode">
 
                             </div>
                         </div>
                         <script type="text/javascript">
                             new QRCode(document.getElementById("qrcode"), "{{qr_code}}");
+                            document.getElementById("qr-card").style.backgroundColor = "white";
                         </script>
                         <form class="p-card" action="{{ url_for("two_factor_auth_set_up_page.two_factor_auth_set_up_page_func") }}" method="post" name="AuthForm">
                             <div class="form-group">

@@ -19,6 +19,9 @@ email: J.Scase@ncl.ac.uk
     background-color: #172636;
     border-color: #0d518f;
 }
+.dark-mode .qr-card{
+    background-color: white;
+}
 
 .dark-mode .card-img-bg{
     background-color: white;
@@ -52,9 +55,17 @@ email: J.Scase@ncl.ac.uk
 }
 
 #qrcode{
-    width: 160px;
-    height: 160px;
+    width: 256px;
+    height: 256px;
+
 }
+#qrcode img{
+    border-color: white;
+    border: 5px;
+    background-color: white;
+    margin-bottom :15px;
+}
+
 #report{
     width: 100%;
 }

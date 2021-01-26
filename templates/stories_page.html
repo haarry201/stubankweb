@@ -88,7 +88,7 @@
                                         </p>
                                     {% endif %}
                                         <p>
-                                        In total you have spent {{ (amount_spent_in_week*-1)/100 }}
+                                        In total you have spent £ {{ '{0:.2f}'.format((amount_spent_in_week)/100) }}
                                         </p>
 
 
@@ -115,7 +115,7 @@
                                         This Month:
                                     </h1>
                                     <p>
-                                        Overall you have spent <strong>{{ (amount_spent_in_month*-1)/100 }}</strong>
+                                        Overall you have spent <strong>£{{ '{0:.2f}'.format((amount_spent_in_month)/100) }}</strong>
                                     </p>
                                 </div>
                             </article>

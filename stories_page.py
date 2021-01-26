@@ -46,7 +46,7 @@ def stories_page_func():
     for row in result:
         # Parsing all datbase data into an object, then into different lists to be analysed
         transaction_date = row[12]
-        transaction_amount = int(row[11])
+        transaction_amount = int(row[11])*-1
         today_date = datetime.today().date()
         days_between = (today_date - transaction_date).days
         transaction_time = row[13]
@@ -76,7 +76,9 @@ def stories_page_func():
     conn.close()
     max_recipient_value = 0
     max_recipient_name = ""
+    print(spending_at_places)
     for recipient in spending_at_places:
+        print(spending_at_places[recipient])
         if spending_at_places[recipient] > max_recipient_value:
             max_recipient_value = spending_at_places[recipient]
             max_recipient_name = recipient
