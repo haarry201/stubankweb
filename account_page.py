@@ -41,7 +41,6 @@ def account_page_func():
     savings_acc = ''; current_acc = ''
     while row is not None:
         if str(row[0]) in accounts:
-            print(row)
             if str(row[3]) == '100':
                 savings_bal_pence = int(row[5])
                 savings_bal_pounds = savings_bal_pence/100  # if account is a 'savings' account, sets savings balance

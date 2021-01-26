@@ -27,13 +27,10 @@
                     <a href="{{ url_for('bank_transfer_page.bank_transfer_page_func') }}" class="nav-link">Move Money</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Account Settings </a>
+                    <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="nav-link">Account Settings </a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">Manage Cards</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Manage Overdraft</a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ url_for('manage_pools.manage_pools_func') }}" class="nav-link">Manage Pools</a>
@@ -52,9 +49,8 @@
                     <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
                         <a href="{{ url_for('account_page.account_page_func') }}" class="dropdown-item">Home</a>
                         <a href="{{ url_for('bank_transfer_page.bank_transfer_page_func') }}" class="dropdown-item">Move Money</a>
-                        <a href="#" class="dropdown-item">Account Settings</a>
+                        <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="dropdown-item">Account Settings</a>
                         <a href="#" class="dropdown-item">Manage Cards</a>
-                        <a href="#" class="dropdown-item">Manage Overdraft</a>
                         <a href="{{ url_for('manage_pools.manage_pools_func') }}" class="dropdown-item">Manage Pools</a>
 
                         <div class="dropdown-divider"></div>
@@ -76,6 +72,10 @@
                     You havent enabled two factor authentication on this account <a href="{{ url_for('two_factor_auth_set_up_page.two_factor_auth_set_up_page_func') }}" class="alert-link">Click Here To do so</a>.
                 </div>
                 {% endif %}
+                <div class="alert" role="alert">
+                    <h4 class="alert-heading">Simulate Card Payment</h4>
+                    To simulate a card payment <a href="{{ url_for('card_payment_page.card_payment_page_func') }}" class="alert-link">Click Here To do so</a>.
+                </div>
                 <h1 class="text-center">
                     Welcome {{ session['name'] }}!
                 </h1>

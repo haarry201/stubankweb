@@ -33,6 +33,7 @@ def error_page_func():
                    "e7": "There appears to be an error with this transaction, your account has been locked ",
                    "e8": "Verification Error!",
                    "e9": "Error, Email address already in use",
-                   "e10": "Error, this account appears to be in use"
+                   "e10": "Error, this account appears to be in use",
+                   "e11": "Error, you do not have the balance to process this transaction"
                    }  # error codes and description of what caused the error
     return render_template('error.html', error_codes=error_codes, code=code, src=src)

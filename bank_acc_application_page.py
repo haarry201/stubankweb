@@ -32,13 +32,13 @@ def bank_acc_application_page_func():
         account_type = request.form.get("account type")
         if account_type == "student current account":
             account_type_id = '123'
-            agreed_overdraft = 1500
+            agreed_overdraft = 150000
         elif account_type == "savings account":
             account_type_id = '100'
             agreed_overdraft = 0
         else:
             return redirect(url_for('error_page.error_page_func', code="e2", src="accounts.html"))
-        email = request.form.get("email")
+        email = session['email']
         account_num = ''.join(["{}".format(randint(0, 9)) for num in range(0, 8)])
         sort_code = ''.join(["{}".format(randint(0, 9)) for num in range(0, 6)])
 

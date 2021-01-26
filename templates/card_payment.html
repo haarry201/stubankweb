@@ -80,10 +80,14 @@
                                 <input class="form-control" type="text" id="receiver_name" name="receiver_name">
                             </div>
                             <div class="form-group">
-                                <label for="account_type">Choose which account to transfer from:</label>
-                                <select class="form-control" name="account_type" id="account_type">
-                                <option value="student current account">Student Current Account</option>
-                                <option value="savings account">Savings Account</option>
+                            <p>Choose account to send from</p>
+                                <select class="form-control" name="account_sender_info" id="account_sender_info">
+                                {% for account in users_accounts %}
+                                    <p>{{ account.account_num }}</p>
+                                    <p>{{ account.account_type }}</p>
+                                    <option value="{{ account.account_num }},{{ account.sort_code }}">{{ account.account_type }}
+                                        - Account Num: {{ account.account_num }}</option>
+                                {% endfor %}
                             </select>
                             </div>
 

@@ -40,8 +40,8 @@ def bank_transfer_page_func():
         account_info_split = account_info.split(",")
         transferer_account_num = account_info_split[0]
         transferer_sort_code = account_info_split[1]
-        account_num = request.form.get("account_number")
-        sort_code = request.form.get("sort_code")
+        receiver_account_num = request.form.get("account_number")
+        receiver_sort_code = request.form.get("sort_code")
         transfer_value = request.form.get("transfer_value")
         transfer_value = int(float(transfer_value) * 100)
 
@@ -57,38 +57,37 @@ def bank_transfer_page_func():
         latitude = 0.000
 
         try:
-            print()
             db_connector = DbConnector()
             conn = db_connector.getConn()
             cursor = conn.cursor(buffered=True)
+            cursor.execute("SELECT * FROM UserAccounts WHERE AccountNum = (%s) AND SortCode = (%s)",(transferer_account_num,transferer_sort_code))
+            result = cursor.fetchall()
+            for row in result:
+                current_user_balance = int(row[5])
+                current_user_overdraft = int(row[4])
+                potential_balance = current_user_balance-transfer_value
+                print(current_user_overdraft)
+                if potential_balance < min(0,current_user_overdraft*-1):
+                    return redirect(url_for('error_page.error_page_func', code="e11", src="card_payment_page_func.html"))
 
             cursor.execute("UPDATE UserAccounts SET CurrentBalance = CurrentBalance - (%s) WHERE AccountNum = (%s) AND"
                            " SortCode = (%s)", (transfer_value, transferer_account_num, transferer_sort_code))
-            cursor.execute("SELECT * FROM UserAccounts")
-            row = cursor.fetchone()
 
-            while row is not None:
-                if row[0] == account_num and row[1] == sort_code:
-                    receiver_user_id = row[2]
-                    transferee_value_current = int(row[5])
-                    new_transferee_value = transferee_value_current + transfer_value
-                    cursor.execute("UPDATE UserAccounts SET CurrentBalance = (%s) WHERE"
-                                   " AccountNum = (%s) AND SortCode = (%s)",
-                                   (new_transferee_value, account_num, sort_code))
-                    break
+            cursor.execute("SELECT * FROM UserAccounts WHERE AccountNum = (%s) AND SortCode = (%s)",(receiver_account_num,receiver_sort_code))
+            result = cursor.fetchall()
 
-                else:
-                    row = cursor.fetchone()
-            cursor.execute("SELECT * FROM UserInfo")
-            row = cursor.fetchone()
+            for row in result:
+                receiver_user_id = row[2]
+                transferee_value_current = int(row[5])
+                new_transferee_value = transferee_value_current + transfer_value
+                cursor.execute("UPDATE UserAccounts SET CurrentBalance = (%s) WHERE"
+                               " AccountNum = (%s) AND SortCode = (%s)",
+                               (new_transferee_value, receiver_account_num, receiver_sort_code))
 
-            while row is not None:
-                if row[0] == receiver_user_id:
-                    receiver_name = row[5] + row[6]
-                    break
-
-                else:
-                    row = cursor.fetchone()
+            cursor.execute("SELECT * FROM UserInfo WHERE UserID = (%s)", (receiver_user_id, ))
+            result = cursor.fetchall()
+            for row in result:
+                receiver_name = row[5] +" "+ row[6]
 
             ran = random.randrange(10 ** 80)
             myhex = "%016x" % ran
@@ -114,7 +113,7 @@ def bank_transfer_page_func():
                     return redirect(url_for('error_page.error_page_func', code="e7", src="card_payment_page_func.html"))
 
             cursor.execute("INSERT INTO Transactions VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                           (transaction_id, transferer_account_num, account_num, transferer_sort_code, sort_code,
+                           (transaction_id, transferer_account_num, receiver_account_num, transferer_sort_code, receiver_sort_code,
                             balance_change, date, time, transaction_type, card_num_sending, receiver_name,
                             longitude, latitude))
 
@@ -136,7 +135,6 @@ def bank_transfer_page_func():
     cursor.execute("SELECT * FROM UserAccounts,UserAccountInfo WHERE UserID = (%s) AND UserAccounts.AccountTypeID = UserAccountInfo.AccountTypeID",(user_id,))
     result = cursor.fetchall()
     for row in result:
-        print(row)
         user_bank_account = UserBankAccount(row[0], row[1], row[5], row[4], row[8], row[3])
         users_accounts.append(user_bank_account)
     return render_template('bank_transfer.html', users_accounts=users_accounts)
