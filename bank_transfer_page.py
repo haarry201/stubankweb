@@ -10,8 +10,8 @@ from controllers.Transaction import MLTransaction
 
 '''
 File name: bank_transfer_page.py
-Author: Jacob Scase
-Credits: Jacob Scase, Harry Kenny
+Author: Harry Kenny
+Credits: Harry Kenny, Jacob Scase
 Date created: 14/12/2020
 Date last modified: 25/01/2021
 Python version: 3.7
