@@ -37,7 +37,7 @@ def bank_application():
             account_type_id = '100'
             agreed_overdraft = 0
         else:
-            return redirect(url_for('error_page.error_page_foo', code="e2", src="accounts.html"))
+            return redirect(url_for('error_page.error_page_func', code="e2", src="accounts.html"))
         email = request.form.get("email")
         account_num = ''.join(["{}".format(randint(0, 9)) for num in range(0, 8)])
         sort_code = ''.join(["{}".format(randint(0, 9)) for num in range(0, 6)])
@@ -72,7 +72,7 @@ def bank_application():
             conn.close()
         except Error as error:
             print(error)
-            return redirect(url_for('error_page.error_page_foo',code="e2", src="accounts.html"))
+            return redirect(url_for('error_page.error_page_func',code="e2", src="accounts.html"))
 
         return render_template('accounts.html')
 

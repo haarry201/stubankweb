@@ -37,9 +37,9 @@ def register_page_func():
         security_answer = request.form.get("security_answer")
         user_role = "User"
         if first_name == '' or last_name == '' or email == '' or password == '' or first_line_of_address == '' or second_line_of_address == '' or postcode == '' or security_question == '--' or security_answer == '':
-            return redirect(url_for('error_page.error_page_foo', code="e3", src="register.html"))
+            return redirect(url_for('error_page.error_page_func', code="e3", src="register.html"))
         elif len(password) < 6:
-            return redirect(url_for('error_page.error_page_foo', code="e4", src="register.html"))
+            return redirect(url_for('error_page.error_page_func', code="e4", src="register.html"))
         else:
             db_connector = DbConnector()
             conn = db_connector.getConn()
@@ -50,7 +50,7 @@ def register_page_func():
                 print(row)
                 if row[0].lower() == email.lower():
                     #User with email already exists
-                    return redirect(url_for('error_page.error_page_foo', code="e10"))
+                    return redirect(url_for('error_page.error_page_func', code="e10"))
             user_id = ''.join(
                 random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(16))
             # generate random 16 digit hex to use as primary key for UserInfo table
@@ -83,6 +83,6 @@ def register_page_func():
                 session['user_id'] = user_id
             except Error as error:
                 print(error)
-                return redirect(url_for('error_page.error_page_foo', code="e2"))
+                return redirect(url_for('error_page.error_page_func', code="e2"))
             return redirect(url_for('account_page.accounts_page'))
     return render_template('register.html')

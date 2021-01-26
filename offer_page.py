@@ -42,7 +42,7 @@ def offer_page_func():
             all_offers.append(new_offer)
     except Error as error:
         print(error)
-        return redirect(url_for('error_page.error_page_foo', code="e2", src="index.html"))
+        return redirect(url_for('error_page.error_page_func', code="e2", src="index.html"))
 
     finally:
         cursor.close()

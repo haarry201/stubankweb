@@ -83,7 +83,7 @@ def card_payment():
                 p_fraud = new_transaction.analyse_transaction(t_list)
                 print("Probabiliy of fraud =", p_fraud)
                 if p_fraud > 1:
-                    return redirect(url_for('error_page.error_page_foo', code="e7", src="card_payment.html"))
+                    return redirect(url_for('error_page.error_page_func', code="e7", src="card_payment.html"))
 
             cursor.execute("SELECT * FROM UserAccounts")
             row = cursor.fetchone()
@@ -137,7 +137,7 @@ def card_payment():
             conn.close()
         except Error as error:
             print(error)
-            return redirect(url_for('error_page.error_page_foo', code="e2", src="accounts.html"))
+            return redirect(url_for('error_page.error_page_func', code="e2", src="accounts.html"))
 
         return redirect(url_for('account_page.accounts_page'))
 

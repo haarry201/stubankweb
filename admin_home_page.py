@@ -42,7 +42,7 @@ def admin_home_page_func():
                 conn.commit()
                 cursor.close()
             except Error as error:
-                return redirect(url_for('error_page.error_page_foo', code="e2", src="index.html"))
+                return redirect(url_for('error_page.error_page_func', code="e2", src="index.html"))
         admin_users = []
         db_connector = DbConnector()
         conn = db_connector.getConn()
@@ -53,4 +53,4 @@ def admin_home_page_func():
             admin_users.append(row[0])
         return render_template('/admin_pages/admin_home.html',admin_users=admin_users)
     else:
-        return redirect(url_for('error_page.error_page_foo', code="e6", src="index.html"))
+        return redirect(url_for('error_page.error_page_func', code="e6", src="index.html"))

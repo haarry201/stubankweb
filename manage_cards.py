@@ -35,7 +35,7 @@ def manage_cards_func():
 
     except Error as e:
         print(e)
-        return redirect(url_for('error_page.error_page_foo', code="e2", src="index.html"))
+        return redirect(url_for('error_page.error_page_func', code="e2", src="index.html"))
 
     return render_template('manage_cards.html', all_user_cards=all_user_cards)
 

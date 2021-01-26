@@ -82,10 +82,10 @@ def login_page_func():
                             else:
                                 return redirect(url_for('account_page.accounts_page'))
         except Error as error:
-            return redirect(url_for('error_page.error_page_foo', code="e1"))
+            return redirect(url_for('error_page.error_page_func', code="e1"))
         finally:
             cursor.close()
             conn.close()
             # closes connection
-        return redirect(url_for('error_page.error_page_foo', code="e1"))
+        return redirect(url_for('error_page.error_page_func', code="e1"))
     return render_template('login.html')

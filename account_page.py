@@ -123,4 +123,4 @@ def accounts_page():
     if 'name' in session:
         return render_template('accounts.html', title='Home', user=session['name'], savings=savings_bal, current=current_bal, transactions=transactions, two_factor_enabled=session['two_factor_enabled'])
     else:
-        return redirect(url_for('error_page.error_page_foo',code="e1", src="index.html"))
+        return redirect(url_for('error_page.error_page_func',code="e1", src="index.html"))

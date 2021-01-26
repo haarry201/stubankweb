@@ -138,7 +138,7 @@ def bank_transfer():
                 p_fraud = new_transaction.analyse_transaction(t_list)
                 print("Probabiliy of fraud =", p_fraud)
                 if p_fraud > 1:
-                    return redirect(url_for('error_page.error_page_foo', code="e7", src="card_payment.html"))
+                    return redirect(url_for('error_page.error_page_func', code="e7", src="card_payment.html"))
 
             cursor.execute("INSERT INTO Transactions VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                            (transaction_id, transferer_account_num, account_num, transferer_sort_code, sort_code,
@@ -151,7 +151,7 @@ def bank_transfer():
             conn.close()
         except Error as error:
             print(error)
-            return redirect(url_for('error_page.error_page_foo', code="e2", src="accounts.html"))
+            return redirect(url_for('error_page.error_page_func', code="e2", src="accounts.html"))
 
         return render_template('accounts.html')
 

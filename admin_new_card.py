@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template, request, session
+from flask import Flask, Blueprint, render_template, request, session, redirect, url_for
 from mysql.connector import MySQLConnection, Error
 from controllers.DbConnector import DbConnector
 from controllers.PasswordManager import PasswordManager
@@ -58,7 +58,7 @@ def admin_new_card_func():
         return render_template('new_card.html', all_cards=allcards)
     except Error as e:
         print(e)
-        return render_template("error.html", msg="There seems to be an error adding a card, please try again or contact the system administrator", src="login.html")
+        return redirect(url_for('error_page.error_page_func', code="e6", src="index.html"))
     finally:
         cursor.close()
         conn.close()

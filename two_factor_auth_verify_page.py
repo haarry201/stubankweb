@@ -43,5 +43,5 @@ def two_factor_auth_verify_page_func():
                 return redirect(url_for('account_page.accounts_page'))
         else:
             session.clear()
-            return redirect(url_for('error_page.error_page_foo', code="e2"))
+            return redirect(url_for('error_page.error_page_func', code="e2"))
     return render_template('two_factor_verification.html')
