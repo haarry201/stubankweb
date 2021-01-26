@@ -1,5 +1,4 @@
 from flask import Flask, Blueprint, render_template, session, redirect, url_for
-from controllers.DbConnector import DbConnector
 import expenditure_reports
 from datetime import date, timedelta
 

@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template, session, redirect, url_for
+from flask import Blueprint, render_template, session, redirect, url_for
 from controllers.DbConnector import DbConnector
 from datetime import date, timedelta
 

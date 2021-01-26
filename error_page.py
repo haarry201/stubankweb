@@ -1,5 +1,4 @@
-from flask import Flask, Blueprint, render_template, session, redirect, url_for, request
-from controllers.DbConnector import DbConnector
+from flask import Blueprint, render_template, request
 
 '''
 File name: error.py

@@ -1,7 +1,4 @@
-from flask import Flask, Blueprint, render_template,request
-from mysql.connector import MySQLConnection, Error
-from controllers.DbConnector import DbConnector
-from controllers.PasswordManager import PasswordManager
+from flask import Blueprint, render_template
 
 manage_pools = Blueprint('manage_pools', __name__, template_folder='templates')
 
