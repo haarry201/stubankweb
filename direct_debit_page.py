@@ -78,7 +78,7 @@ def direct_debit_func():
             while row is not None:
                 if row[1] == account_num_sending and row[3] == sort_code_sending:
                     account_num_receiving = row[2]
-                    recurring_transfer_value = int(row[5])
+                    recurring_transfer_value = int(row[7])
                     recurring_current_balance = recurring_transfer_value + transfer_value
                     cursor.execute("UPDATE RecurringTransactions SET CurrentBalance = (%s) WHERE"
                                    " AccountNum = (%s) AND SortCode = (%s)",
@@ -93,7 +93,8 @@ def direct_debit_func():
 
             cursor.execute("INSERT INTO RecurringTransactions VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
                            (recurring_transaction_id, account_num_sending, account_num_receiving, sort_code_sending,
-                            sort_code_receiving, transaction_date, next_payment_date, recurrence_frequency, reference))
+                            sort_code_receiving, transaction_date, next_payment_date, amount, balance_change,
+                            recurrence_frequency, reference, recurring_current_balance))
             conn.commit()
             cursor.close()
             conn.close()
