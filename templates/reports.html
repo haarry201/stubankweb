@@ -92,7 +92,7 @@
         <script>
             var canvas = document.getElementById('report');
             var heightRatio = 0.66;
-            var w = window.innerWidth;
+            var w = (window.innerWidth>1200)? 1200:window.innerWidth;
             canvas.width = w * 0.66;
             //Doesn't change on window resize, rather on reload
             //Not ideal but better performance wise and not many users will be resizing alot
