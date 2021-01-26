@@ -57,6 +57,45 @@ def direct_debit_func():
             db_connector.closeConn(conn)
             cursor = conn.cursor(buffered=True)
 
+            cursor.execute("SELECT * FROM UserInfo")
+            row = cursor.fetchone()
+            while row is not None:
+                if row[1] == email:
+                    user_id = row[0]
+                    break
+                else:
+                    row = cursor.fetchone()
+
+            cursor.execute("SELECT * FROM UserAccounts")
+            row = cursor.fetchone()
+
+            while row is not None:
+                if row[2] == user_id and row[3] == account_type_id:
+                    current_value = int(row[5])
+                    new_value = current_value - transfer_value
+                    cursor.execute("UPDATE UserAccounts SET CurrentBalance = (%s) WHERE UserID = (%s) AND"
+                                   " AccountTypeID = (%s)", (new_value, user_id, account_type_id))
+                    break
+
+                else:
+                    row = cursor.fetchone()
+
+            cursor.execute("SELECT * FROM RecurringTransactions")
+            row = cursor.fetchone()
+
+            while row is not None:
+                if row[1] == account_num_sending and row[3] == sort_code_sending:
+                    account_num_receiving = row[2]
+                    transferee_value_current = int(row[5])
+                    new_transferee_value = transferee_value_current + transfer_value
+                    cursor.execute("UPDATE UserAccounts SET CurrentBalance = (%s) WHERE"
+                                   " AccountNum = (%s) AND SortCode = (%s)",
+                                   (new_transferee_value, account_num_sending, sort_code_sending))
+                    break
+
+                else:
+                    row = cursor.fetchone()
+
             cursor.execute("INSERT INTO RecurringTransactions VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
                            (recurring_transaction_id, account_num_sending, account_num_receiving, sort_code_sending,
                             sort_code_receiving, datetime_formatted, recurrence_frequency, reference))
