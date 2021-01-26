@@ -23,7 +23,7 @@ def two_factor_auth_set_up_page_func():
         elif 'user_id' in session and 'name' in session:
             pass
         else:
-            return redirect(url_for('account_page.accounts_page'))
+            return redirect(url_for('account_page.account_page_func'))
     except:
         # not already logged in, proceed
         return redirect(url_for('login_page.login_page_func'))
@@ -46,7 +46,7 @@ def two_factor_auth_set_up_page_func():
             cursor.close()
             conn.close()
             session['two_factor_enabled'] = True
-            return redirect(url_for('account_page.accounts_page'))
+            return redirect(url_for('account_page.account_page_func'))
         else:
             return redirect(url_for('error_page.error_page_func', code="e2"))
     return render_template('two_factor_set_up.html',qr_code=qr_code)

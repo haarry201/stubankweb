@@ -61,7 +61,7 @@
                         <script type="text/javascript">
                             new QRCode(document.getElementById("qrcode"), "{{qr_code}}");
                         </script>
-                        <form class="p-card" action="{{ url_for(" two_factor_auth_set_up_page.two_factor_auth_set_up_page_func ") }}" method="post" name="AuthForm">
+                        <form class="p-card" action="{{ url_for("two_factor_auth_set_up_page.two_factor_auth_set_up_page_func") }}" method="post" name="AuthForm">
                             <div class="form-group">
                                 <label class="required" for="auth-code">Enter the authentication code:</label>
                                 <input class="form-control" type="text" name="auth-code" id="auth-code" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" />
@@ -87,7 +87,7 @@
                 <ul class="navbar-nav ml-auto">
                     <!-- ml-auto = margin-left: auto -->
                     <li class="nav-item">
-                        <a href="{{ url_for('extra_info.contact') }}" class="nav-link">Contact</a>
+                        <a href="{{ url_for('extra_info_page.contact') }}" class="nav-link">Contact</a>
                     </li>
                 </ul>
                 <!-- Navbar text -->

@@ -3,7 +3,7 @@ from controllers.DbConnector import DbConnector
 from datetime import date, timedelta
 
 '''
-File name: expenditure_reports.py
+File name: expenditure_reports_page.py
 Author: Rhys Minchin
 Credits: Rhys Minchin
 Date created: 16/12/2020
@@ -17,7 +17,7 @@ Purpose: This file provides the back-end functionality for displaying expenditur
          which displays the information as a bar chart.
 '''
 
-expenditure_reports = Blueprint('expenditure_reports', __name__, template_folder='templates')
+expenditure_reports_page = Blueprint('expenditure_reports_page', __name__, template_folder='templates')
 
 
 def get_conn():
@@ -49,7 +49,7 @@ def get_info():
     return accounts  # returns all accounts owned by currently logged in user
 
 
-@expenditure_reports.route('/7days')
+@expenditure_reports_page.route('/7days')
 def reports_7days():
     try:
         if 'user_id' in session:
@@ -130,7 +130,7 @@ def reports_7days():
     return render_template('reports.html', hidden="false", values=values, labels=dates, legend=legend, big=biggest2)
 
 
-@expenditure_reports.route('/weekly')
+@expenditure_reports_page.route('/weekly')
 def reports_weekly():
     try:
         if 'user_id' in session:
@@ -201,7 +201,7 @@ def reports_weekly():
     return render_template('reports.html', hidden="false", values=totals, labels=dates, legend=legend, big=biggest2)
 
 
-@expenditure_reports.route("/yearly")
+@expenditure_reports_page.route("/yearly")
 def reports_yearly():
     try:
         if 'user_id' in session:
@@ -296,7 +296,7 @@ def reports_yearly():
     return render_template('reports.html', hidden="false", values=totals, labels=dates_display, legend=legend, big=biggest2)
 
 
-@expenditure_reports.route('/home')
+@expenditure_reports_page.route('/home')
 def reports():
     try:
         if 'user_id' in session:

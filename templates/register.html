@@ -48,7 +48,7 @@
                     <div class="col"></div>
                     <div class="card text-center px-card">
                         <h1>Register:</h1>
-                        <form action="{{ url_for(" register_page.register_page_func ") }}" method="post" name="RegistrationForm">
+                        <form action="{{ url_for("register_page.register_page_func") }}" method="post" name="RegistrationForm">
                             <div class="form-group">
                                 <label class="required" for="firstname">First Name:</label>
                                 <input class="form-control" type="text" id="firstname" name="firstname"><br>
@@ -113,7 +113,7 @@
                 <ul class="navbar-nav ml-auto">
                     <!-- ml-auto = margin-left: auto -->
                     <li class="nav-item">
-                        <a href="{{ url_for('extra_info.contact') }}" class="nav-link">Contact</a>
+                        <a href="{{ url_for('extra_info_page.contact') }}" class="nav-link">Contact</a>
                     </li>
                 </ul>
                 <!-- Navbar text -->

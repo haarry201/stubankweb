@@ -21,7 +21,7 @@ def two_factor_auth_verify_page_func():
             secret_key = session['secret_auth_key']
             pass
         elif 'user_id' in session and 'name' in session:
-            return redirect(url_for('account_page.accounts_page'))
+            return redirect(url_for('account_page.account_page_func'))
         else:
             return redirect(url_for('login_page.login_page_func'))
     except:
@@ -37,7 +37,7 @@ def two_factor_auth_verify_page_func():
             if session['user_role'] == 'Admin':
                 return redirect(url_for('admin_home_page.admin_home_page_func'))
             else:
-                return redirect(url_for('account_page.accounts_page'))
+                return redirect(url_for('account_page.account_page_func'))
         else:
             session.clear()
             return redirect(url_for('error_page.error_page_func', code="e2"))

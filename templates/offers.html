@@ -25,10 +25,10 @@
             </a>
             <ul class="navbar-nav d-none d-xl-flex">
                 <li class="nav-item active">
-                    <a href="{{ url_for('account_page.accounts_page') }}" class="nav-link">Home</a>
+                    <a href="{{ url_for('account_page.account_page_func') }}" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url_for('bank_transfer_page.bank_transfer') }}" class="nav-link">Move Money</a>
+                    <a href="{{ url_for('bank_transfer_page.bank_transfer_page_func') }}" class="nav-link">Move Money</a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">Account Settings </a>
@@ -45,7 +45,7 @@
             </ul>
             <form class="form-inline d-none d-xl-flex ml-auto" action="..." method="...">
                 <input class="btn btn-danger" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
-                <input class="btn btn-danger" type="submit" value="Apply for an Account" formaction="{{ url_for('bank_acc_application_page.bank_application') }}">
+                <input class="btn btn-danger" type="submit" value="Apply for an Account" formaction="{{ url_for('bank_acc_application_page.bank_acc_application_page_func') }}">
             </form>
             <div class="navbar-content d-xl-none ml-auto">
                 <div class="dropdown with-arrow">
@@ -54,8 +54,8 @@
                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </button>
                     <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
-                        <a href="{{ url_for('account_page.accounts_page') }}" class="dropdown-item">Home</a>
-                        <a href="{{ url_for('bank_transfer_page.bank_transfer') }}" class="dropdown-item">Move Money</a>
+                        <a href="{{ url_for('account_page.account_page_func') }}" class="dropdown-item">Home</a>
+                        <a href="{{ url_for('bank_transfer_page.bank_transfer_page_func') }}" class="dropdown-item">Move Money</a>
                         <a href="#" class="dropdown-item">Account Settings</a>
                         <a href="#" class="dropdown-item">Manage Cards</a>
                         <a href="#" class="dropdown-item">Manage Overdraft</a>
@@ -65,7 +65,7 @@
                         <div class="dropdown-content">
                             <form action="..." method="...">
                                 <input class="btn btn-danger btn-block mb-5" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
-                                <input class="btn btn-danger btn-block mb-5" type="submit" value="Apply for an Account" formaction="{{ url_for('bank_acc_application_page.bank_application') }}">
+                                <input class="btn btn-danger btn-block mb-5" type="submit" value="Apply for an Account" formaction="{{ url_for('bank_acc_application_page.bank_acc_application_page_func') }}">
                             </form>
                         </div>
                     </div>
@@ -143,7 +143,7 @@
                 <ul class="navbar-nav ml-auto">
                     <!-- ml-auto = margin-left: auto -->
                     <li class="nav-item">
-                        <a href="{{ url_for('extra_info.contact') }}" class="nav-link">Contact</a>
+                        <a href="{{ url_for('extra_info_page.contact') }}" class="nav-link">Contact</a>
                     </li>
                 </ul>
                 <!-- Navbar text -->

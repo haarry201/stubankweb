@@ -55,7 +55,7 @@
                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </button>
                     <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
-                        <a href="{{ url_for('account_page.accounts_page') }}" class="dropdown-item">Home</a>
+                        <a href="{{ url_for('account_page.account_page_func') }}" class="dropdown-item">Home</a>
                         <a href="{{ url_for('manage_offers_page.manage_offers_page_func') }}" class="dropdown-item">Manage
                         Offers</a>
                         <a href="#" class="dropdown-item">Manage Cards</a>
@@ -80,7 +80,7 @@
                 </div>
                 {% endif %}
                 <div class="w-400 mw-full">
-                    <form action="{{ url_for(" manage_offers_page.manage_offers_page_func ") }}" method="post" class="p-5" name="new_offer_form">
+                    <form action="{{ url_for("manage_offers_page.manage_offers_page_func") }}" method="post" class="p-5" name="new_offer_form">
                         <div class="card p-0">
                             <div class="content">
                                 <div class="form-group">
@@ -182,7 +182,7 @@
                                 {{ offer.description }}
                             </p>
                             {# <input class="btn btn-success btn-block" type="submit" name="delete" #} {# value="{{ offer.offer_id}}">#}
-                            <form action="{{ url_for(" manage_offers_page.manage_offers_page_func ") }}" method="post" class="p-5" name="delete_offer_form">
+                            <form action="{{ url_for("manage_offers_page.manage_offers_page_func") }}" method="post" class="p-5" name="delete_offer_form">
                                 <button class="btn btn-square btn-danger" type="submit" name="delete" value="{{ offer.offer_id }}"><i class="far fa-trash-alt"></i></button>
                             </form>
 
@@ -210,7 +210,7 @@
                 <ul class="navbar-nav ml-auto">
                     <!-- ml-auto = margin-left: auto -->
                     <li class="nav-item">
-                        <a href="{{ url_for('extra_info.contact') }}" class="nav-link">Contact</a>
+                        <a href="{{ url_for('extra_info_page.contact') }}" class="nav-link">Contact</a>
                     </li>
                 </ul>
                 <!-- Navbar text -->

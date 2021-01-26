@@ -48,7 +48,7 @@
                     <div class="col"></div>
                     <div class="card text-center">
                         <h1>Login:</h1>
-                        <form class="p-card" action="{{ url_for(" login_page.login_page_func ") }}" method="post" name="LoginForm">
+                        <form class="p-card" action="{{ url_for("login_page.login_page_func") }}" method="post" name="LoginForm">
                             <div class="form-group">
                                 <label class="required" for="email">Email:</label>
                                 <input class="form-control" type="text" id="email" name="email">
@@ -91,7 +91,7 @@
                 <ul class="navbar-nav ml-auto">
                     <!-- ml-auto = margin-left: auto -->
                     <li class="nav-item">
-                        <a href="{{ url_for('extra_info.contact') }}" class="nav-link">Contact</a>
+                        <a href="{{ url_for('extra_info_page.contact') }}" class="nav-link">Contact</a>
                     </li>
                 </ul>
                 <!-- Navbar text -->

@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 
 '''
-File name: extra_info.py
+File name: extra_info_page.py
 Author: Rhys Minchin
 Credits: Rhys Minchin
 Date created: 13/01/2021
@@ -12,20 +12,20 @@ Purpose: This provides the back-end for any additional information displayed on 
          available StuBank accounts, and providing extra information about the Team 35.
 '''
 
-extra_info = Blueprint('extra_info', __name__, template_folder='templates')
+extra_info_page = Blueprint('extra_info_page', __name__, template_folder='templates')
 
 
 # reads the url and passes through to the template with the appropriate command, so the correct info is shown
-@extra_info.route('/contact')
+@extra_info_page.route('/contact')
 def contact():
     return render_template('extra_info.html', command="Contact")
 
 
-@extra_info.route('/accounts')
+@extra_info_page.route('/accounts')
 def accounts():
     return render_template('extra_info.html', command="Accounts")
 
 
-@extra_info.route('/aboutus')
+@extra_info_page.route('/aboutus')
 def about_us():
     return render_template('extra_info.html', command="About Us")

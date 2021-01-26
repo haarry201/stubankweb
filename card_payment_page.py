@@ -20,7 +20,7 @@ card_payment_page = Blueprint('card_payment_page', __name__, template_folder='te
 
 
 @card_payment_page.route('/', methods=['GET', 'POST'])
-def card_payment():
+def card_payment_page_func():
     try:
         if 'user_id' in session:
             if session['needs_auth'] == True:
@@ -83,7 +83,7 @@ def card_payment():
                 p_fraud = new_transaction.analyse_transaction(t_list)
                 print("Probabiliy of fraud =", p_fraud)
                 if p_fraud > 1:
-                    return redirect(url_for('error_page.error_page_func', code="e7", src="card_payment.html"))
+                    return redirect(url_for('error_page.error_page_func', code="e7", src="card_payment_page_func.html"))
 
             cursor.execute("SELECT * FROM UserAccounts")
             row = cursor.fetchone()
@@ -139,6 +139,6 @@ def card_payment():
             print(error)
             return redirect(url_for('error_page.error_page_func', code="e2", src="accounts.html"))
 
-        return redirect(url_for('account_page.accounts_page'))
+        return redirect(url_for('account_page.account_page_func'))
 
     return render_template('card_payment.html')

@@ -68,8 +68,6 @@ def manage_offers_page_func():
 
             result = cursor.fetchall()
             for row in result:
-                print(row)
-                print(row[0])
                 new_offer = Offer(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7])
                 all_offers.append(new_offer)
         except Error as error:

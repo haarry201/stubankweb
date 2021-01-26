@@ -86,5 +86,5 @@ def register_page_func():
             except Error as error:
                 print(error)
                 return redirect(url_for('error_page.error_page_func', code="e2"))  # sent to error page with appropriate message
-            return redirect(url_for('account_page.accounts_page'))  # user logged in and sent to homepage
+            return redirect(url_for('account_page.account_page_func'))  # user logged in and sent to homepage
     return render_template('register.html')

@@ -22,7 +22,7 @@ bank_transfer_page = Blueprint('bank_transfer_page', __name__, template_folder='
 
 
 @bank_transfer_page.route('/', methods=['GET', 'POST'])
-def bank_transfer():
+def bank_transfer_page_func():
     try:
         if 'user_id' in session:
             if session['needs_auth'] == True:
@@ -138,7 +138,7 @@ def bank_transfer():
                 p_fraud = new_transaction.analyse_transaction(t_list)
                 print("Probabiliy of fraud =", p_fraud)
                 if p_fraud > 1:
-                    return redirect(url_for('error_page.error_page_func', code="e7", src="card_payment.html"))
+                    return redirect(url_for('error_page.error_page_func', code="e7", src="card_payment_page_func.html"))
 
             cursor.execute("INSERT INTO Transactions VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                            (transaction_id, transferer_account_num, account_num, transferer_sort_code, sort_code,

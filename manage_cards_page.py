@@ -4,7 +4,7 @@ from mysql.connector import Error
 from classes.Card import Card
 
 '''
-File name: manage_cards.py
+File name: manage_cards_page.py
 Author: Harry Kenny
 Credits: Harry Kenny
 Date created: 20/01/2021
@@ -13,11 +13,11 @@ Python version: 3.7
 Purpose: Back-end file for allowing the user to transfer money from one account to another
 '''
 
-manage_cards = Blueprint('manage_cards', __name__, template_folder='templates')
+manage_cards_page = Blueprint('manage_cards_page', __name__, template_folder='templates')
 
 
-@manage_cards.route('/', methods=['GET', 'POST'])
-def manage_cards_func():
+@manage_cards_page.route('/', methods=['GET', 'POST'])
+def manage_cards_page_func():
     user_id = session['userID']
     all_user_cards = []
     try:

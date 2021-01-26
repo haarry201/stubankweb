@@ -4,7 +4,7 @@ from controllers.DbConnector import DbConnector
 from classes import CardInfo
 
 '''
-File name: admin_new_card.py
+File name: admin_new_card_page.py
 Author: Jacob Scase
 Credits: Jacob Scase, Harry Kenny
 Date created: 14/12/2020
@@ -13,11 +13,11 @@ Python version: 3.7
 Purpose: Back-end file for allowing the admin to add new types of cards
 '''
 
-admin_new_card = Blueprint('admin_new_card', __name__, template_folder='templates')
+admin_new_card_page = Blueprint('admin_new_card_page', __name__, template_folder='templates')
 
 
-@admin_new_card.route('/', methods=['GET', 'POST'])
-def admin_new_card_func():
+@admin_new_card_page.route('/', methods=['GET', 'POST'])
+def admin_new_card_page_func():
     allcards = []
     print("here")
     try:

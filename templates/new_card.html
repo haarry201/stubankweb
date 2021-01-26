@@ -29,7 +29,7 @@
                     <a href="#" class="nav-link">Account Settings </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url_for('manage_cards.manage_cards_func') }}" class="nav-link">Manage Cards</a>
+                    <a href="{{ url_for('manage_cards_page.manage_cards_page_func') }}" class="nav-link">Manage Cards</a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">Manage Overdraft</a>
@@ -81,7 +81,7 @@
             </div>
             {% endfor %}
             <div class="card">
-                <form action="{{ url_for(" admin_new_card.admin_new_card_func ") }}" method="post" name="NewCardForm">
+                <form action="{{ url_for("admin_new_card_page.admin_new_card_page_func") }}" method="post" name="NewCardForm">
                     <div class="form-group">
                         <label class="required" for="description">Description of the Card:</label>
                         <input class="form-control" type="text" id="description" name="description"><br>

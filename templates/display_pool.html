@@ -20,7 +20,7 @@
             </a>
             <ul class="navbar-nav d-none d-md-flex">
                 <li class="nav-item active">
-                    <a href="{{url_for('account_page.accounts_page')}}" class="nav-link">Home</a>
+                    <a href="{{url_for('account_page.account_page_func')}}" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">Move Money</a>
@@ -29,7 +29,7 @@
                     <a href="#" class="nav-link">Account Settings </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url_for('manage_cards.manage_cards_func') }}" class="nav-link">Manage Cards</a>
+                    <a href="{{ url_for('manage_cards_page.manage_cards_page_func') }}" class="nav-link">Manage Cards</a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">Manage Overdraft</a>
@@ -49,7 +49,7 @@
                         <i class="fa fa-angle-down" aria-hidden="true"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
-                        <a href="{{url_for('account_page.accounts_page')}}" class="dropdown-item">Home</a>
+                        <a href="{{url_for('account_page.account_page_func')}}" class="dropdown-item">Home</a>
                         <a href="#" class="dropdown-item">Move Money</a>
                         <a href="#" class="dropdown-item">Account Settings</a>
                         <a href="#" class="dropdown-item">Manage Cards</a>

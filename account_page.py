@@ -1,5 +1,5 @@
 from flask import Flask, Blueprint, render_template, session, redirect, url_for
-import expenditure_reports
+import expenditure_reports_page
 from datetime import date, timedelta
 
 '''
@@ -17,7 +17,7 @@ account_page = Blueprint('account_page', __name__, template_folder='templates')
 
 
 @account_page.route('/')
-def accounts_page():
+def account_page_func():
     try:
         # redirects user appropriately based on 2FA status, or whether they are an admin or not
         if 'user_id' in session:
@@ -31,8 +31,8 @@ def accounts_page():
             return redirect(url_for('login_page.login_page_func'))
     except:
         return redirect(url_for('login_page.login_page_func'))
-    conn = expenditure_reports.get_conn()
-    accounts = expenditure_reports.get_info()  # uses previously written functionality to get all accounts owned by user
+    conn = expenditure_reports_page.get_conn()
+    accounts = expenditure_reports_page.get_info()  # uses previously written functionality to get all accounts owned by user
     cursor = conn.cursor(buffered=True)
     cursor.execute("SELECT * FROM UserAccounts")  # gets all data stored in UserAccounts table
     row = cursor.fetchone()
@@ -41,6 +41,7 @@ def accounts_page():
     savings_acc = ''; current_acc = ''
     while row is not None:
         if str(row[0]) in accounts:
+            print(row)
             if str(row[3]) == '100':
                 savings_bal_pence = int(row[5])
                 savings_bal_pounds = savings_bal_pence/100  # if account is a 'savings' account, sets savings balance
@@ -94,6 +95,7 @@ def accounts_page():
         date_to_check = date(int(year), int(month), int(day))  # gets date in right format to check
         if str(row[1]) in accounts and (end_boundary <= date_to_check <= start_boundary):  # primary conditions to meet
             recipient = str(row[10])
+            print("T",row)
             transactions.append(recipient)  # adds recipient of payment to array
             if str(row[1]) == current_acc:
                 source = "Current Account"
@@ -118,9 +120,9 @@ def accounts_page():
             transaction_date = day + "/" + month + "/" + year
             transactions.append(transaction_date)  # adds date in more human-readable format to array
         row = cursor.fetchone()
-
     # if there is an error, user forwarded to error page. If not, forwarded to accounts page and appropriate information passed through
     if 'name' in session:
+        print(transactions)
         return render_template('accounts.html', title='Home', user=session['name'], savings=savings_bal, current=current_bal, transactions=transactions, two_factor_enabled=session['two_factor_enabled'])
     else:
         return redirect(url_for('error_page.error_page_func',code="e1", src="index.html"))

@@ -28,7 +28,7 @@ def login_page_func():
                 session.clear()
                 pass
             else:
-                return redirect(url_for('account_page.accounts_page'))
+                return redirect(url_for('account_page.account_page_func'))
         else:
             pass
 
@@ -81,7 +81,7 @@ def login_page_func():
                             if user_role == 'Admin':
                                 return redirect(url_for('admin_home_page.admin_home_page_func'))
                             else:
-                                return redirect(url_for('account_page.accounts_page'))  # redirects user based on role
+                                return redirect(url_for('account_page.account_page_func'))  # redirects user based on role
         except Error as error:
             return redirect(url_for('error_page.error_page_func', code="e1"))  # if error, user taken to error page
         finally:
