@@ -1,6 +1,16 @@
 import binascii
 import hashlib
 
+'''
+    File name: PasswordManager.py
+    Author: Jacob Scase
+    Credits: Jacob Scase, Rhys Minchin
+    Date created: 11/12/2020
+    Date last modified: 25/01/2021
+    Python Version: 3.7
+    Purpose: Class with method to check the password entered against the stored password, salting and rehashing the
+             password entered to check if it matches the password stored. 
+'''
 
 class PasswordManager:
     def check_password(self, password_to_check, stored_pwd, stored_salt):

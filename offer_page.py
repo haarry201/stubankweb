@@ -1,9 +1,7 @@
-from flask import Flask, Blueprint, render_template, request, session, redirect, url_for
+from flask import Blueprint, render_template, session, redirect, url_for
+from mysql.connector import Error
 from controllers.DbConnector import DbConnector
-from mysql.connector import MySQLConnection, Error
-from controllers.DbConnector import DbConnector
-from controllers.Offer import Offer
-from datetime import datetime
+from classes.Offer import Offer
 
 '''
 File name: offer_page.py

@@ -1,9 +1,9 @@
 import random, string
 import hashlib, binascii, os
 
-from flask import Flask, Blueprint, render_template, request, session, redirect, url_for
+from flask import Blueprint, render_template, request, session, redirect, url_for
 from controllers.DbConnector import DbConnector
-from mysql.connector import MySQLConnection, Error
+from mysql.connector import Error
 
 from controllers.TwoFactorAuthentication import TwoFactorAuthentication
 

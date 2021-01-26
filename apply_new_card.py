@@ -1,9 +1,7 @@
 from flask import Blueprint, render_template, session, redirect, url_for, request
 from controllers.DbConnector import DbConnector
-from mysql.connector import MySQLConnection, Error
-from controllers.Card import Card
+from mysql.connector import Error
 from datetime import datetime
-import random
 from random import choice
 from classes.CardInfo import CardInfo
 import string

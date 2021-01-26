@@ -1,7 +1,16 @@
 import mysql.connector
 from mysql.connector.constants import ClientFlag
 
-
+'''
+    File name: DBConnector.py
+    Author: Jacob Scase
+    Credits: Jacob Scase
+    Date created: 04/12/2020
+    Date last modified: 04/12/2020
+    Python Version: 3.7
+    Purpose: Class to store the connector information to connect to the cloud database, getConn method returns the sql config
+    
+'''
 
 
 class DbConnector:

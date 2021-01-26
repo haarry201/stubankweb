@@ -1,7 +1,4 @@
-from flask import Flask, Blueprint, render_template, request, session, redirect, url_for
-from mysql.connector import MySQLConnection, Error
-from controllers.DbConnector import DbConnector
-from controllers.PasswordManager import PasswordManager
+from flask import Blueprint, render_template, request, session, redirect, url_for
 from controllers.TwoFactorAuthentication import TwoFactorAuthentication
 
 '''
