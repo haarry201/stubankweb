@@ -3,165 +3,153 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="author" content="Jacob Scase">
+    <meta name="description" content="Manage Offers page">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{{ url_for('static', filename='assets/favicon.ico') }}">
     <title>New Offer</title>
-    <link href="{{ url_for('static', filename='css/halfmoon.css') }}" rel="stylesheet"/>
+    <link href="{{ url_for('static', filename='css/halfmoon.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://kit.fontawesome.com/326c61a2a9.js" crossorigin="anonymous"></script>
     <script>
-        $(function () {
-            $("#offer-exp-date").datepicker({dateFormat: "yy-mm-dd"});
+        $(function() {
+            $("#offer-exp-date").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
         });
     </script>
 </head>
 
-<body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true"
-      data-set-preferred-mode-onload="true">
-<div class="page-wrapper with-navbar with navbar-fixed-bottom">
-    <div class="sticky-alerts"></div>
-    <nav class="navbar">
-        <a href="{{ url_for('index_page') }}" class="navbar-brand rounded">
-            <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="StuBankLogo"> StuBank
-        </a>
-        <ul class="navbar-nav d-none d-xl-flex">
-            <li class="nav-item active">
-                <a href="{{ url_for('admin_home_page.admin_home_page_func') }}" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url_for('manage_offers_page.manage_offers_page_func') }}" class="nav-link">Manage Offers</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">Manage Cards </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="nav-link">Account
+<body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true" data-set-preferred-mode-onload="true">
+    <div class="page-wrapper with-navbar with navbar-fixed-bottom">
+        <div class="sticky-alerts"></div>
+        <nav class="navbar">
+            <a href="{{ url_for('index_page') }}" class="navbar-brand rounded">
+                <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="StuBankLogo"> StuBank
+            </a>
+            <ul class="navbar-nav d-none d-xl-flex">
+                <li class="nav-item active">
+                    <a href="{{ url_for('admin_home_page.admin_home_page_func') }}" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('manage_offers_page.manage_offers_page_func') }}" class="nav-link">Manage Offers</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Manage Cards </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="nav-link">Account
                     Settings</a>
-            </li>
-        </ul>
-        <form class="form-inline d-none d-xl-flex ml-auto" action="..." method="...">
-            <input class="btn btn-danger" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
-        </form>
-        <div class="navbar-content d-xl-none ml-auto">
-            <div class="dropdown with-arrow">
-                <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">
+                </li>
+            </ul>
+            <form class="form-inline d-none d-xl-flex ml-auto" action="..." method="...">
+                <input class="btn btn-danger" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
+            </form>
+            <div class="navbar-content d-xl-none ml-auto">
+                <div class="dropdown with-arrow">
+                    <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">
                     Menu
                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </button>
-                <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
-                    <a href="{{ url_for('account_page.accounts_page') }}" class="dropdown-item">Home</a>
-                    <a href="{{ url_for('manage_offers_page.manage_offers_page_func') }}" class="dropdown-item">Manage
+                    <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
+                        <a href="{{ url_for('account_page.accounts_page') }}" class="dropdown-item">Home</a>
+                        <a href="{{ url_for('manage_offers_page.manage_offers_page_func') }}" class="dropdown-item">Manage
                         Offers</a>
-                    <a href="#" class="dropdown-item">Manage Cards</a>
-                    <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="dropdown-item">Home</a>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-content">
-                        <form action="..." method="...">
-                            <input class="btn btn-danger btn-block mb-5" type="submit" value="Logout"
-                                   formaction="{{ url_for('index_page') }}">
-                        </form>
+                        <a href="#" class="dropdown-item">Manage Cards</a>
+                        <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="dropdown-item">Home</a>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-content">
+                            <form action="..." method="...">
+                                <input class="btn btn-danger btn-block mb-5" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </nav>
-    <div class="content-wrapper">
-        <div class="offer-flex">
-            {% if not all_offers %}
+        </nav>
+        <div class="content-wrapper">
+            <div class="offer-flex">
+                {% if not all_offers %}
                 <div class="card shadow">
                     <div class="card-title">
                         <p>There doesnt seem to be any offers, why dont you add one:</p>
                     </div>
                 </div>
-            {% endif %}
-            <div class="w-400 mw-full">
-                <form action="{{ url_for("manage_offers_page.manage_offers_page_func") }}" method="post" class="p-5"
-                      name="new_offer_form">
-                    <div class="card p-0">
-                        <div class="content">
-                            <div class="form-group">
-                                <label for="img-url" class="required">Image Url:</label>
-                                <input type="text" class="form-control" id="img-url" name="img-url"
-                                       placeholder="Image Url"
-                                       required="required">
-                            </div>
-                            <div class="icon">
+                {% endif %}
+                <div class="w-400 mw-full">
+                    <form action="{{ url_for(" manage_offers_page.manage_offers_page_func ") }}" method="post" class="p-5" name="new_offer_form">
+                        <div class="card p-0">
+                            <div class="content">
                                 <div class="form-group">
-                                    <label for="offer-origin-site" class="required">Offer Origin Site:</label>
-                                    <input type="text" class="form-control" id="offer-origin-site"
-                                           name="offer-origin-site"
-                                           placeholder="Unidays/StudentBeans">
+                                    <label for="img-url" class="required">Image Url:</label>
+                                    <input type="text" class="form-control" id="img-url" name="img-url" placeholder="Image Url" required="required">
                                 </div>
-                                <div class="form-group">
-                                    <label for="offer-title" class="required">Offer Title</label>
-                                    <input type="text" class="form-control" id="offer-title" name="offer-title"
-                                           placeholder="Offer Title"
-                                           required="required">
+                                <div class="icon">
+                                    <div class="form-group">
+                                        <label for="offer-origin-site" class="required">Offer Origin Site:</label>
+                                        <input type="text" class="form-control" id="offer-origin-site" name="offer-origin-site" placeholder="Unidays/StudentBeans">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="offer-title" class="required">Offer Title</label>
+                                        <input type="text" class="form-control" id="offer-title" name="offer-title" placeholder="Offer Title" required="required">
+                                    </div>
                                 </div>
-                            </div>
-                            <div>
-                                <p>Posted</p>
-                                <span class="text-muted">
+                                <div>
+                                    <p>Posted</p>
+                                    <span class="text-muted">
                                     <i class="fa fa-clock-o mr-5" aria-hidden="true"></i> Today
                                 </span>
+                                </div>
+                                <div>
+                                    <p>Expires</p>
+                                    <div class="form-group">
+                                        <label for="offer-exp-date" class="required"></label>
+                                        <input type="text" id="offer-exp-date" name="offer-exp-date">
+                                    </div>
+                                </div>
+                                {#
+                                <div>#} {# <span class="badge">#}
+                            {#                      <i class="fa fa-comments text-primary mr-5" aria-hidden="true"></i> 5 comments <!-- text-primary = color: primary-color, mr-5 = margin-right: 0.5rem (5px) -->#}
+                            {#                    </span>#} {# <span class="badge ml-5"> <!-- ml-5 = margin-left: 0.5rem (5px) -->#}
+                            {#                      <i class="fa fa-heart text-danger mr-5" aria-hidden="true"></i> 124 likes <!-- text-danger = color: danger-color, mr-5 = margin-right: 0.5rem (5px) -->#}
+                            {#                    </span>#} {# </div>#}
                             </div>
-                            <div>
-                                <p>Expires</p>
+                            <hr/>
+                            <div class="content">
+                                <h2 class="content-title">
+                                    Description
+                                </h2>
                                 <div class="form-group">
-                                    <label for="offer-exp-date" class="required"></label>
-                                    <input type="text" id="offer-exp-date" name="offer-exp-date">
+                                    <label for="offer-description" class="required">Description</label>
+                                    <input type="text" class="form-control" id="offer-description" name="offer-description" placeholder="Offer Description" required="required">
+                                </div>
+                                <div class="form-group">
+                                    <label for="offer-url" class="required">Offer URL</label>
+                                    <input type="text" class="form-control" id="offer-url" name="offer-url" placeholder="Offer URL" required="required">
                                 </div>
                             </div>
-                            {#                  <div>#}
-                            {#                    <span class="badge">#}
-                            {#                      <i class="fa fa-comments text-primary mr-5" aria-hidden="true"></i> 5 comments <!-- text-primary = color: primary-color, mr-5 = margin-right: 0.5rem (5px) -->#}
-                            {#                    </span>#}
-                            {#                    <span class="badge ml-5"> <!-- ml-5 = margin-left: 0.5rem (5px) -->#}
-                            {#                      <i class="fa fa-heart text-danger mr-5" aria-hidden="true"></i> 124 likes <!-- text-danger = color: danger-color, mr-5 = margin-right: 0.5rem (5px) -->#}
-                            {#                    </span>#}
-                            {#                  </div>#}
-                        </div>
-                        <hr/>
-                        <div class="content">
-                            <h2 class="content-title">
-                                Description
-                            </h2>
-                            <div class="form-group">
-                                <label for="offer-description" class="required">Description</label>
-                                <input type="text" class="form-control" id="offer-description" name="offer-description"
-                                       placeholder="Offer Description" required="required">
-                            </div>
-                            <div class="form-group">
-                                <label for="offer-url" class="required">Offer URL</label>
-                                <input type="text" class="form-control" id="offer-url" name="offer-url"
-                                       placeholder="Offer URL"
-                                       required="required">
-                            </div>
-                        </div>
 
-                        <input class="btn btn-success btn-block " type="submit" name="add" value="Add Offer">
-                    </div>
-                </form>
-            </div>
-            {% for offer in all_offers %}
+                            <input class="btn btn-success btn-block " type="submit" name="add" value="Add Offer">
+                        </div>
+                    </form>
+                </div>
+                {% for offer in all_offers %}
 
-                <div class="w-400 mw-full"> <!-- w-600 = width: 60rem (600px), mw-full = max-width: 100% -->
-                    <div class="card p-0"> <!-- p-0 = padding: 0 -->
+                <div class="w-400 mw-full">
+                    <!-- w-600 = width: 60rem (600px), mw-full = max-width: 100% -->
+                    <div class="card p-0">
+                        <!-- p-0 = padding: 0 -->
                         <div class="card-img-bg">
-                            <img src={{ offer.img_url }}
-                                         class="img-fluid rounded-top" alt="Brand Logo">
+                            <img src={{ offer.img_url }} class="img-fluid rounded-top" alt="Brand Logo">
                             <!-- rounded-top = rounded corners on the top -->
                         </div>
                         <!-- First content container nested inside card -->
                         <div class="content">
                             <div class="icon">
-                                <img src="{{ url_for('static', filename='assets/unidays-logo.png') }}"
-                                     class="img-fluid rounded-top sidebar-icon icon-img" alt="Unidays Logo"
-                                     height="50px"
-                                     width="50px">
+                                <img src="{{ url_for('static', filename='assets/unidays-logo.png') }}" class="img-fluid rounded-top sidebar-icon icon-img" alt="Unidays Logo" height="50px" width="50px">
                                 <h2>{{ offer.offer_title }}</h2>
                             </div>
                             <div>
@@ -178,14 +166,12 @@
                                     <!-- mr-5 = margin-right: 0.5rem (5px) -->
                     </span>
                             </div>
-                            {#                  <div>#}
-                            {#                    <span class="badge">#}
+                            {#
+                            <div>#} {# <span class="badge">#}
                             {#                      <i class="fa fa-comments text-primary mr-5" aria-hidden="true"></i> 5 comments <!-- text-primary = color: primary-color, mr-5 = margin-right: 0.5rem (5px) -->#}
-                            {#                    </span>#}
-                            {#                    <span class="badge ml-5"> <!-- ml-5 = margin-left: 0.5rem (5px) -->#}
+                            {#                    </span>#} {# <span class="badge ml-5"> <!-- ml-5 = margin-left: 0.5rem (5px) -->#}
                             {#                      <i class="fa fa-heart text-danger mr-5" aria-hidden="true"></i> 124 likes <!-- text-danger = color: danger-color, mr-5 = margin-right: 0.5rem (5px) -->#}
-                            {#                    </span>#}
-                            {#                  </div>#}
+                            {#                    </span>#} {# </div>#}
                         </div>
                         <hr/>
                         <div class="content">
@@ -195,54 +181,49 @@
                             <p>
                                 {{ offer.description }}
                             </p>
-                            {#                                <input class="btn btn-success btn-block" type="submit" name="delete"#}
-                            {#                                       value="{{ offer.offer_id}}">#}
-                            <form action="{{ url_for("manage_offers_page.manage_offers_page_func") }}" method="post"
-                                  class="p-5"
-                                  name="delete_offer_form">
-                                <button class="btn btn-square btn-danger" type="submit" name="delete"
-                                        value="{{ offer.offer_id }}"><i class="far fa-trash-alt"></i></button>
+                            {# <input class="btn btn-success btn-block" type="submit" name="delete" #} {# value="{{ offer.offer_id}}">#}
+                            <form action="{{ url_for(" manage_offers_page.manage_offers_page_func ") }}" method="post" class="p-5" name="delete_offer_form">
+                                <button class="btn btn-square btn-danger" type="submit" name="delete" value="{{ offer.offer_id }}"><i class="far fa-trash-alt"></i></button>
                             </form>
 
 
                         </div>
                         <form action="..." method="..." class="p-5">
-                            <input class="btn btn-success btn-block " type="submit" value="Take Me There"
-                                   formaction={{ offer.url }}>
+                            <input class="btn btn-success btn-block " type="submit" value="Take Me There" formaction={{ offer.url }}>
                         </form>
                     </div>
                 </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
-    </div>
-    <nav class="navbar navbar-fixed-bottom">
-        <div class="container-fluid">
-            <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
+        <nav class="navbar navbar-fixed-bottom">
+            <div class="container-fluid">
+                <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
 
-            <!-- JavaScript -->
-            <script type="text/javascript">
-                // Dark mode toggle
-                function toggleDark() {
-                    halfmoon.toggleDarkMode();
-                }
-            </script>
-            <ul class="navbar-nav ml-auto">
-                <!-- ml-auto = margin-left: auto -->
-                <li class="nav-item">
-                    <a href="{{ url_for('extra_info.contact') }}" class="nav-link">Contact</a>
-                </li>
-            </ul>
-            <!-- Navbar text -->
-            <span class="navbar-text">
+                <!-- JavaScript -->
+                <script type="text/javascript">
+                    // Dark mode toggle
+                    function toggleDark() {
+                        halfmoon.toggleDarkMode();
+                    }
+                </script>
+                <ul class="navbar-nav ml-auto">
+                    <!-- ml-auto = margin-left: auto -->
+                    <li class="nav-item">
+                        <a href="{{ url_for('extra_info.contact') }}" class="nav-link">Contact</a>
+                    </li>
+                </ul>
+                <!-- Navbar text -->
+                <span class="navbar-text">
                         <p>
             &copy; <strong>StuBank </strong> 2021
             </p>
                     </span>
-        </div>
-    </nav>
-    <!-- Halfmoon JS -->
-    <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
-</div>
+            </div>
+        </nav>
+        <!-- Halfmoon JS -->
+        <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
+    </div>
 </body>
 
 

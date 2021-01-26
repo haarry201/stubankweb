@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="author" content="Chris Harvey">
+    <meta name="description" content="Pools page">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chris' Pool</title>
     <link href="{{ url_for('static', filename='css/halfmoon.css') }}" rel="stylesheet" />
@@ -97,125 +99,125 @@
             </div>
 
             <div class="modal" id="modalDeposit" tabindex="-1" role="dialog">
-                  <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                          <a href="#" class="btn close" role="button" aria-label="Cancel">
-                              <span aria-hidden="true">&times;</span>
-                          </a>
-                          <h5 class="modal-title">Deposit to the Pool</h5>
-                          <form action="..." method="...">
-                              <div class="form-group">
-                                  <label for="bankAccount" class="required">Bank Account</label>
-                                  <select id="account" class="form-control" required="required">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <a href="#" class="btn close" role="button" aria-label="Cancel">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+                        <h5 class="modal-title">Deposit to the Pool</h5>
+                        <form action="..." method="...">
+                            <div class="form-group">
+                                <label for="bankAccount" class="required">Bank Account</label>
+                                <select id="account" class="form-control" required="required">
                                       <option value="current">Current Account</option>
                                       <option value="savings">Savings Account</option>
                                   </select>
-                              </div>
-                              <div class="form-group">
-                                  <label for="deposit" class="required">Amount to Deposit (£)</label>
-                                  <input type="number" min="0" max="1000" id="deposit" class="form-control" required="required" step=".01">
-                              </div>
-                              <input class="btn btn-primary" type="submit" value="Deposit">
-                              <a href="#" class="btn btn-secondary" role="button">Cancel</a>
-                          </form>
-                      </div>
-                  </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="deposit" class="required">Amount to Deposit (£)</label>
+                                <input type="number" min="0" max="1000" id="deposit" class="form-control" required="required" step=".01">
+                            </div>
+                            <input class="btn btn-primary" type="submit" value="Deposit">
+                            <a href="#" class="btn btn-secondary" role="button">Cancel</a>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <div class="modal" id="modalWithdraw" tabindex="-1" role="dialog">
-                  <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                          <a href="#" class="btn close" role="button" aria-label="Cancel">
-                              <span aria-hidden="true">&times;</span>
-                          </a>
-                          <h5 class="modal-title">Withdraw From the Pool</h5>
-                          <form action="..." method="...">
-                              <div class="form-group">
-                                  <label for="bankAccount" class="required">Bank Account</label>
-                                  <select id="account" class="form-control" required="required">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <a href="#" class="btn close" role="button" aria-label="Cancel">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+                        <h5 class="modal-title">Withdraw From the Pool</h5>
+                        <form action="..." method="...">
+                            <div class="form-group">
+                                <label for="bankAccount" class="required">Bank Account</label>
+                                <select id="account" class="form-control" required="required">
                                       <option value="current">Current Account</option>
                                       <option value="savings">Savings Account</option>
                                   </select>
-                              </div>
-                              <div class="form-group">
-                                  <label for="deposit" class="required">Amount to Withdraw (£)</label>
-                                  <input type="number" min="0" max="1000" id="deposit" class="form-control" required="required" step=".01">
-                              </div>
-                              <input class="btn btn-primary" type="submit" value="Withdraw">
-                              <a href="#" class="btn btn-secondary" role="button">Cancel</a>
-                          </form>
-                      </div>
-                  </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="deposit" class="required">Amount to Withdraw (£)</label>
+                                <input type="number" min="0" max="1000" id="deposit" class="form-control" required="required" step=".01">
+                            </div>
+                            <input class="btn btn-primary" type="submit" value="Withdraw">
+                            <a href="#" class="btn btn-secondary" role="button">Cancel</a>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <div class="modal" id="modalLeave" tabindex="-1" role="dialog">
-                  <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                          <a href="#" class="btn close" role="button" aria-label="Cancel">
-                              <span aria-hidden="true">&times;</span>
-                          </a>
-                          <h5 class="modal-title">Are you sure you want to leave?</h5>
-                          <form>
-                              <input class="btn btn-danger" type="submit" value="Leave" formaction="">
-                              <a href="#" class="btn btn-secondary" role="button">Cancel</a>
-                          </form>
-                      </div>
-                  </div>
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <a href="#" class="btn close" role="button" aria-label="Cancel">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+                        <h5 class="modal-title">Are you sure you want to leave?</h5>
+                        <form>
+                            <input class="btn btn-danger" type="submit" value="Leave" formaction="">
+                            <a href="#" class="btn btn-secondary" role="button">Cancel</a>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <div class="modal" id="modalAddUser" tabindex="-1" role="dialog">
-                  <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                          <a href="#" class="btn close" role="button" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                          </a>
-                          <h5 class="modal-title">Share the information below with the person you would like to add</h5>
-                          <form>
-                              <label>Pool Username: username</label>
-                              <label>Pool Password: password</label>
-                              <a href="#" class="btn btn-secondary" role="button">Close</a>
-                          </form>
-                      </div>
-                  </div>
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <a href="#" class="btn close" role="button" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+                        <h5 class="modal-title">Share the information below with the person you would like to add</h5>
+                        <form>
+                            <label>Pool Username: username</label>
+                            <label>Pool Password: password</label>
+                            <a href="#" class="btn btn-secondary" role="button">Close</a>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <div class="modal" id="modalRemoveUser" tabindex="-1" role="dialog">
-                  <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                          <a href="#" class="btn close" role="button" aria-label="Cancel">
-                              <span aria-hidden="true">&times;</span>
-                          </a>
-                          <h5 class="modal-title">Remove a User From the Pool</h5>
-                          <form action="..." method="...">
-                              <div class="form-group">
-                                  <label for="bankAccount" class="required">User to Remove</label>
-                                  <select id="account" class="form-control" required="required">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <a href="#" class="btn close" role="button" aria-label="Cancel">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+                        <h5 class="modal-title">Remove a User From the Pool</h5>
+                        <form action="..." method="...">
+                            <div class="form-group">
+                                <label for="bankAccount" class="required">User to Remove</label>
+                                <select id="account" class="form-control" required="required">
                                       <option>Carl</option>
                                       <option>Jeff</option>
                                   </select>
-                              </div>
-                              <form>
-                                  <input class="btn btn-danger" type="submit" value="Remove" formaction="">
-                                  <a href="#" class="btn btn-secondary" role="button">Cancel</a>
-                              </form>
-                          </form>
-                      </div>
-                  </div>
+                            </div>
+                            <form>
+                                <input class="btn btn-danger" type="submit" value="Remove" formaction="">
+                                <a href="#" class="btn btn-secondary" role="button">Cancel</a>
+                            </form>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <div class="modal" id="modalDelete" tabindex="-1" role="dialog">
-                  <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                          <a href="#" class="btn close" role="button" aria-label="Cancel">
-                              <span aria-hidden="true">&times;</span>
-                          </a>
-                          <h5 class="modal-title">Are you sure you want to delete the pool?</h5>
-                          <form>
-                              <input class="btn btn-danger" type="submit" value="Delete" formaction="">
-                              <a href="#" class="btn btn-secondary" role="button">Cancel</a>
-                          </form>
-                      </div>
-                  </div>
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <a href="#" class="btn close" role="button" aria-label="Cancel">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+                        <h5 class="modal-title">Are you sure you want to delete the pool?</h5>
+                        <form>
+                            <input class="btn btn-danger" type="submit" value="Delete" formaction="">
+                            <a href="#" class="btn btn-secondary" role="button">Cancel</a>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <nav class="navbar navbar-static-bottom">

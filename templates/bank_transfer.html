@@ -3,149 +3,146 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="author" content="Harry Kenny">
+    <meta name="description" content="Bank transfer page">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{{ url_for('static', filename='assets/favicon.ico') }}">
     <title>Bank Account Application</title>
-    <link href="{{ url_for('static', filename='css/halfmoon.css') }}" rel="stylesheet"/>
+    <link href="{{ url_for('static', filename='css/halfmoon.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
     <script src="{{ url_for('static', filename='js/validation.js') }}"></script>
 </head>
 
-<body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true"
-      data-set-preferred-mode-onload="true">
-<div class="page-wrapper with-navbar with-navbar-fixed-bottom">
-    <div class="sticky-alerts"></div>
-    <nav class="navbar">
-        <a href="{{ url_for('index_page') }}" class="navbar-brand rounded">
-            <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="StuBankLogo"> StuBank
-        </a>
-        <ul class="navbar-nav d-none d-xl-flex">
-            <li class="nav-item active">
-                <a href="{{ url_for('account_page.accounts_page') }}" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url_for('bank_transfer_page.bank_transfer') }}" class="nav-link">Move Money</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">Account Settings </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url_for('manage_cards.manage_cards_func') }}" class="nav-link">Manage Cards</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">Manage Overdraft</a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url_for('manage_pools.manage_pools_func') }}" class="nav-link">Manage Pools</a>
-            </li>
-        </ul>
-        <form class="form-inline d-none d-xl-flex ml-auto" action="..." method="...">
-            <input class="btn btn-danger" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
-            <input class="btn btn-danger" type="submit" value="Apply for an Account"
-                   formaction="{{ url_for('bank_acc_application_page.bank_application') }}">
+<body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true" data-set-preferred-mode-onload="true">
+    <div class="page-wrapper with-navbar with-navbar-fixed-bottom">
+        <div class="sticky-alerts"></div>
+        <nav class="navbar">
+            <a href="{{ url_for('index_page') }}" class="navbar-brand rounded">
+                <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="StuBankLogo"> StuBank
+            </a>
+            <ul class="navbar-nav d-none d-xl-flex">
+                <li class="nav-item active">
+                    <a href="{{ url_for('account_page.accounts_page') }}" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('bank_transfer_page.bank_transfer') }}" class="nav-link">Move Money</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Account Settings </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('manage_cards.manage_cards_func') }}" class="nav-link">Manage Cards</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Manage Overdraft</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('manage_pools.manage_pools_func') }}" class="nav-link">Manage Pools</a>
+                </li>
+            </ul>
+            <form class="form-inline d-none d-xl-flex ml-auto" action="..." method="...">
+                <input class="btn btn-danger" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
+                <input class="btn btn-danger" type="submit" value="Apply for an Account" formaction="{{ url_for('bank_acc_application_page.bank_application') }}">
 
-        </form>
-        <div class="navbar-content d-xl-none ml-auto">
-            <div class="dropdown with-arrow">
-                <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">
+            </form>
+            <div class="navbar-content d-xl-none ml-auto">
+                <div class="dropdown with-arrow">
+                    <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">
                     Menu
                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </button>
-                <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
-                    <a href="{{ url_for('account_page.accounts_page') }}" class="dropdown-item">Home</a>
-                    <a href="{{ url_for('bank_transfer_page.bank_transfer') }}" class="dropdown-item">Move Money</a>
-                    <a href="#" class="dropdown-item">Account Settings</a>
-                    <a href="#" class="dropdown-item">Manage Cards</a>
-                    <a href="#" class="dropdown-item">Manage Overdraft</a>
-                    <a href="{{ url_for('manage_pools.manage_pools_func') }}" class="dropdown-item">Manage Pools</a>
+                    <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
+                        <a href="{{ url_for('account_page.accounts_page') }}" class="dropdown-item">Home</a>
+                        <a href="{{ url_for('bank_transfer_page.bank_transfer') }}" class="dropdown-item">Move Money</a>
+                        <a href="#" class="dropdown-item">Account Settings</a>
+                        <a href="#" class="dropdown-item">Manage Cards</a>
+                        <a href="#" class="dropdown-item">Manage Overdraft</a>
+                        <a href="{{ url_for('manage_pools.manage_pools_func') }}" class="dropdown-item">Manage Pools</a>
 
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-content">
-                        <form action="..." method="...">
-                            <input class="btn btn-danger btn-block mb-5" type="submit" value="Logout"
-                                   formaction="{{ url_for('index_page') }}">
-                            <input class="btn btn-danger btn-block mb-5" type="submit" value="Apply for an Account"
-                                   formaction="{{ url_for('bank_acc_application_page.bank_application') }}">
-                        </form>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-content">
+                            <form action="..." method="...">
+                                <input class="btn btn-danger btn-block mb-5" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
+                                <input class="btn btn-danger btn-block mb-5" type="submit" value="Apply for an Account" formaction="{{ url_for('bank_acc_application_page.bank_application') }}">
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </nav>
-    <div class="content-wrapper">
-        <div class="container-fluid">
-            <div class="row pt-20">
-                <div class="col"></div>
-                <div class="card text-center">
-                    <form action="{{ url_for("bank_transfer_page.bank_transfer") }}" method="post" name="transfer_form">
-                        <div class="form-group">
-                            <label for="account_type">Choose which account to transfer from:</label>
-                            <select class="form-control" name="account_type" id="account_type">
+        </nav>
+        <div class="content-wrapper">
+            <div class="container-fluid">
+                <div class="row pt-20">
+                    <div class="col"></div>
+                    <div class="card text-center">
+                        <form action="{{ url_for(" bank_transfer_page.bank_transfer ") }}" method="post" name="transfer_form">
+                            <div class="form-group">
+                                <label for="account_type">Choose which account to transfer from:</label>
+                                <select class="form-control" name="account_type" id="account_type">
                                 <option value="student current account">Student Current Account</option>
                                 <option value="savings account">Savings Account</option>
                             </select>
-                        </div>
-
-                        <div class="form-group">
-                            <p for="receiver selected">Enter account number and sort code of account to transfer
-                                to:</p>
-                            <label class="required" for="account_number">Account number:</label>
-                            <input class="form-control" type="text" id="account_number" name="account_number">
-                            <br>
-
-                            <label class="required" for="sort_code">Sort code:</label>
-                            <input class="form-control" type="text" id="sort_code" name="sort_code">
-
-                        </div>
-
-                        <div class="form-group">
-                            <label class="required" for="amount">Enter amount to transfer:</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">£</span>
-                                </div>
-                                <input class="form-control" min="0.01" step="0.01" type="number" id="transfer_value"
-                                       name="transfer_value">
                             </div>
-                        </div>
 
-                        <input class="btn btn-primary" type="submit" value="Submit">
-                    </form>
+                            <div class="form-group">
+                                <p for="receiver selected">Enter account number and sort code of account to transfer to:
+                                </p>
+                                <label class="required" for="account_number">Account number:</label>
+                                <input class="form-control" type="text" id="account_number" name="account_number">
+                                <br>
+
+                                <label class="required" for="sort_code">Sort code:</label>
+                                <input class="form-control" type="text" id="sort_code" name="sort_code">
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="required" for="amount">Enter amount to transfer:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">£</span>
+                                    </div>
+                                    <input class="form-control" min="0.01" step="0.01" type="number" id="transfer_value" name="transfer_value">
+                                </div>
+                            </div>
+
+                            <input class="btn btn-primary" type="submit" value="Submit">
+                        </form>
+                    </div>
+                    <div class="col"></div>
                 </div>
-                <div class="col"></div>
             </div>
         </div>
-    </div>
-    <nav class="navbar navbar-fixed-bottom">
-        <div class="container-fluid">
-            <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
+        <nav class="navbar navbar-fixed-bottom">
+            <div class="container-fluid">
+                <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
 
-            <!-- JavaScript -->
-            <script type="text/javascript">
-                // Dark mode toggle
-                function toggleDark() {
-                    halfmoon.toggleDarkMode();
-                }
-            </script>
-            <ul class="navbar-nav ml-auto">
-                <!-- ml-auto = margin-left: auto -->
-                <li class="nav-item">
-                    <a href="{{ url_for('extra_info.contact') }}" class="nav-link">Contact</a>
-                </li>
-            </ul>
-            <!-- Navbar text -->
-            <span class="navbar-text">
+                <!-- JavaScript -->
+                <script type="text/javascript">
+                    // Dark mode toggle
+                    function toggleDark() {
+                        halfmoon.toggleDarkMode();
+                    }
+                </script>
+                <ul class="navbar-nav ml-auto">
+                    <!-- ml-auto = margin-left: auto -->
+                    <li class="nav-item">
+                        <a href="{{ url_for('extra_info.contact') }}" class="nav-link">Contact</a>
+                    </li>
+                </ul>
+                <!-- Navbar text -->
+                <span class="navbar-text">
                         <p>
             &copy; <strong>StuBank </strong> 2021
             </p>
                     </span>
-        </div>
-    </nav>
-    <!-- Halfmoon JS -->
-    <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
-</div>
+            </div>
+        </nav>
+        <!-- Halfmoon JS -->
+        <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
+    </div>
 </body>
 
 

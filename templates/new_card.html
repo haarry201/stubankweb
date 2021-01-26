@@ -3,8 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="author" content="Jacob Scase">
+    <meta name="description" content="New Card page">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Account</title>
+    <title>New Card</title>
     <link href="{{ url_for('static', filename='css/halfmoon.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
 </head>
@@ -71,49 +73,48 @@
                     <p>There doesnt seem to be any cards, why dont you add one:</p>
                 </div>
             </div>
-            {% endif %}
-            {% for card in all_cards %}
-                 <div class="card shadow">
-                 <h2>
-                     {{ card.desc}}
-                 </h2>
-                </div>
+            {% endif %} {% for card in all_cards %}
+            <div class="card shadow">
+                <h2>
+                    {{ card.desc}}
+                </h2>
+            </div>
             {% endfor %}
             <div class="card">
-                <form action="{{ url_for("admin_new_card.admin_new_card_func") }}" method="post" name="NewCardForm">
+                <form action="{{ url_for(" admin_new_card.admin_new_card_func ") }}" method="post" name="NewCardForm">
                     <div class="form-group">
-                            <label class="required" for="description">Description of the Card:</label>
-                            <input class="form-control" type="text" id="description" name="description"><br>
+                        <label class="required" for="description">Description of the Card:</label>
+                        <input class="form-control" type="text" id="description" name="description"><br>
                     </div>
                     <input class="btn btn-primary" type="submit" value="Add Card">
                 </form>
             </div>
         </div>
-            <nav class="navbar navbar-fixed-bottom">
-                <div class="container-fluid">
-                    <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
+        <nav class="navbar navbar-fixed-bottom">
+            <div class="container-fluid">
+                <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
 
-                    <!-- JavaScript -->
-                    <script type="text/javascript">
-                        // Dark mode toggle
-                        function toggleDark() {
-                            halfmoon.toggleDarkMode();
-                        }
-                    </script>
-                    <ul class="navbar-nav ml-auto">
-                        <!-- ml-auto = margin-left: auto -->
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">Contact</a>
-                        </li>
-                    </ul>
-                    <!-- Navbar text -->
-                    <span class="navbar-text">
+                <!-- JavaScript -->
+                <script type="text/javascript">
+                    // Dark mode toggle
+                    function toggleDark() {
+                        halfmoon.toggleDarkMode();
+                    }
+                </script>
+                <ul class="navbar-nav ml-auto">
+                    <!-- ml-auto = margin-left: auto -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Contact</a>
+                    </li>
+                </ul>
+                <!-- Navbar text -->
+                <span class="navbar-text">
                         <p>
                             &copy; <strong>StuBank </strong> a project by Team35
                         </p>
                     </span>
-                </div>
-            </nav>
+            </div>
+        </nav>
         <!-- Halfmoon JS -->
         <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
     </div>
