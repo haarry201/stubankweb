@@ -147,4 +147,6 @@ def bank_transfer_internal_page_func():
         print(row)
         user_bank_account = UserBankAccount(row[0], row[1], row[5], row[4], row[8], row[3])
         users_accounts.append(user_bank_account)
+    cursor.close()
+    conn.close()
     return render_template('bank_transfer_internal.html', users_accounts=users_accounts)

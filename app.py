@@ -20,6 +20,7 @@ from two_factor_auth_verify_page import two_factor_auth_verify_page
 from admin_home_page import admin_home_page
 from account_settings_page import account_settings_page
 from bank_transfer_internal_page import bank_transfer_internal_page
+from stories_page import stories_page
 
 import os
 
@@ -46,6 +47,8 @@ app.register_blueprint(two_factor_auth_set_up_page, url_prefix="/two_factor_set_
 app.register_blueprint(admin_home_page, url_prefix="/admin_home.html")
 app.register_blueprint(account_settings_page, url_prefix="/account_settings.html")
 app.register_blueprint(bank_transfer_internal_page, url_prefix="/bank_transfer_internal.html")
+app.register_blueprint(stories_page, url_prefix="/stories_page.html")
+
 
 
 
