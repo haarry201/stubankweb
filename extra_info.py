@@ -15,25 +15,17 @@ Purpose: This provides the back-end for any additional information displayed on 
 extra_info = Blueprint('extra_info', __name__, template_folder='templates')
 
 
+# reads the url and passes through to the template with the appropriate command, so the correct info is shown
 @extra_info.route('/contact')
 def contact():
-    try:
-        return render_template('extra_info.html', command="Contact", name=session['name'])
-    except KeyError:
-        return render_template('extra_info.html', command="Contact", name='')
+    return render_template('extra_info.html', command="Contact")
 
 
 @extra_info.route('/accounts')
 def accounts():
-    try:
-        return render_template('extra_info.html', command="Accounts", name=session['name'])
-    except KeyError:
-        return render_template('extra_info.html', command="Accounts", name='')
+    return render_template('extra_info.html', command="Accounts")
 
 
 @extra_info.route('/aboutus')
 def about_us():
-    try:
-        return render_template('extra_info.html', command="About Us", name=session['name'])
-    except KeyError:
-        return render_template('extra_info.html', command="About Us", name='')
+    return render_template('extra_info.html', command="About Us")

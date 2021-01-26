@@ -22,7 +22,7 @@ def error_page_func():
     src = "index.html"
     try:
         code = request.args['code']
-        src = request.args['src']
+        src = request.args['src']  # gets information from error request to show user correct error information
     except:
         print()
     error_codes = {"e1": "These login credentials do not match an existing user, please try again",
@@ -35,5 +35,5 @@ def error_page_func():
                    "e8": "Verification Error!",
                    "e9": "Error, Email address already in use",
                    "e10": "Error, this account appears to be in use"
-                   }
+                   }  # error codes and description of what caused the error
     return render_template('error.html', error_codes=error_codes, code=code, src=src)
