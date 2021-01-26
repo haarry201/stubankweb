@@ -15,7 +15,7 @@ from card_payment_page import card_payment_page
 from manage_cards_page import manage_cards_page
 from apply_new_card_page import apply_new_card_page
 from admin_new_card_page import admin_new_card_page
-from two_factor_auth_set_up import two_factor_auth_set_up_page
+from two_factor_auth_set_up_page import two_factor_auth_set_up_page
 from two_factor_auth_verify_page import two_factor_auth_verify_page
 from admin_home_page import admin_home_page
 from account_settings_page import account_settings_page
