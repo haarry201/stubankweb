@@ -82,4 +82,5 @@ def stories_page_func():
         if spending_at_places[recipient] > max_recipient_value:
             max_recipient_value = spending_at_places[recipient]
             max_recipient_name = recipient
+            print("A")
     return render_template('stories_page.html',amount_spent_in_week=amount_spent_in_week, amount_spent_in_week_prior=amount_spent_in_week_prior, amount_spent_in_month=amount_spent_in_month, max_recipient_value=max_recipient_value,max_recipient_name=max_recipient_name)
