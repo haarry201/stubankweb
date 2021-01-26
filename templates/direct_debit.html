@@ -48,7 +48,7 @@
                 <div class="col"></div>
                 <div class="card text-center">
                     <h1>Direct Debit:</h1>
-                    <form class="p-card" method="post"
+                    <form class="p-card" action="{{ url_for("direct_debit_func") }}" method="post"
                           name="DirectDebit">
                         <div class="form-group">
                             <label class="required" for="accountType">Student Current Account</label>
@@ -96,14 +96,14 @@
                             <label class="required" for="frequency">Frequency:</label>
                             <select class="form-control" name="frequency" id="frequency" required="required">
                                 <option selected="selected">Please select...</option>
-                                <option value="weekly">Weekly</option>
-                                <option value="everyFourWeeks">Every 4 Weeks</option>
-                                <option value="monthly">Monthly</option>
-                                <option value="annually">Annually</option>
+                                <option value="weekly" id="weekly">Weekly</option>
+                                <option value="everyFourWeeks" id="everyFourWeeks">Every 4 Weeks</option>
+                                <option value="monthly" id="monthly">Monthly</option>
+                                <option value="annually" id="annually">Annually</option>
                             </select>
                         </div>
-                        <div class="form-group">
-
+                        <div>
+                            <input class="btn btn-primary" type="submit" value="Submit">
                         </div>
                     </form>
                 </div>

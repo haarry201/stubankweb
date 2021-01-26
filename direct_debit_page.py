@@ -1,5 +1,4 @@
-import datetime
-import pytz
+from datetime import datetime, timedelta
 import random
 import mysql.connector
 
@@ -16,18 +15,15 @@ direct_debit = Blueprint('direct_debit', __name__, template_folder='templates')
 def direct_debit_func():
     if request.method == 'POST':
         # requesting form
-        account_name = request.form.get("accountName")
-        account_type = request.form.get("accountType")
-        if account_type == "Student Current Account":
-            account_type_id = '123'
-        if account_type == "Savings Account":
-            account_type_id = '100'
-        email = request.form.get("email")
         account_num_sending = request.form.get("accountNumSending")
         account_num_receiving = request.form.get("accountNumReceiving")
         sort_code_sending = request.form.get("sortCodeSending")
         sort_code_receiving = request.form.get("sortCodeReceiving")
         recurrence_frequency = request.form.get("frequency")
+        weekly_recurrence_frequency = request.form.get("weekly")
+        every_four_weeks_recurrence_frequency = request.form.get("everyFourWeeks")
+        monthly_recurrence_frequency = request.form.get("monthly")
+        annual_recurrence_frequency = request.form.get("annually")
         reference = request.form.get("reference")
         amount = request.form.get("amount")
         transfer_value = int(float(amount) * 100)
@@ -38,18 +34,37 @@ def direct_debit_func():
         hex_num = hex_num[:16]
         recurring_transaction_id = hex_num
 
-        # Defining timezone
-        tz_uk = pytz.timezone('Europe/London')
-
         # Defining date and time of transaction
-        datetime_uk = datetime.datetime.now(tz_uk)
-        datetime_formatted = datetime_uk.strftime("%d-%m-%Y")
+        datetime_now = datetime.now()
+        transaction_date = datetime_now.strftime("%d-%m-%Y")
 
         # Defining the payment frequencies
-        weekly_payment = datetime.timedelta(weeks=1)
-        every_four_weeks_payment = datetime.timedelta(weeks=4)
-        monthly_payment = datetime.timedelta(days=30)
-        annual_payment = datetime.timedelta(days=365)
+        weekly_payment = timedelta(weeks=1)
+        every_four_weeks_payment = timedelta(weeks=4)
+        monthly_payment = timedelta(days=30)
+        annual_payment = timedelta(days=365)
+
+        # Defining next payment dates
+        next_payment_date_weekly = datetime_now + weekly_payment
+        next_payment_date_every_four_weeks = datetime_now + every_four_weeks_payment
+        next_payment_date_monthly = datetime_now + monthly_payment
+        next_payment_date_annual = datetime_now + annual_payment
+
+        # Formatting dates
+        next_payment_date_weekly_formatted = next_payment_date_weekly.strftime("%d-%m-%Y")
+        next_payment_date_every_four_weeks_formatted = next_payment_date_every_four_weeks.strftime("%d-%m-%Y")
+        next_payment_date_monthly_formatted = next_payment_date_monthly.strftime("%d-%m-%Y")
+        next_payment_date_annual_formatted = next_payment_date_annual.strftime("%d-%m-%Y")
+
+        # Defining next payment dates based on the recurring payment option selected by user
+        if recurrence_frequency == weekly_recurrence_frequency:
+            next_payment_date = next_payment_date_weekly_formatted
+        elif recurrence_frequency == every_four_weeks_recurrence_frequency:
+            next_payment_date = next_payment_date_every_four_weeks_formatted
+        elif recurrence_frequency == monthly_recurrence_frequency:
+            next_payment_date = next_payment_date_monthly_formatted
+        elif recurrence_frequency == annual_recurrence_frequency:
+            next_payment_date = next_payment_date_annual_formatted
 
         try:
             db_connector = DbConnector()
@@ -73,13 +88,12 @@ def direct_debit_func():
                                    " TransferValue = (%s)",
                                    (balance_change, amount))
                     break
-
                 else:
                     row = cursor.fetchone()
 
-            cursor.execute("INSERT INTO RecurringTransactions VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
+            cursor.execute("INSERT INTO RecurringTransactions VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
                            (recurring_transaction_id, account_num_sending, account_num_receiving, sort_code_sending,
-                            sort_code_receiving, datetime_formatted, recurrence_frequency, reference))
+                            sort_code_receiving, transaction_date, next_payment_date, recurrence_frequency, reference))
             conn.commit()
             cursor.close()
             conn.close()
