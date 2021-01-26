@@ -9,7 +9,7 @@ manage_cards = Blueprint('manage_cards', __name__, template_folder='templates')
 
 @manage_cards.route('/', methods=['GET', 'POST'])
 def manage_cards_func():
-    user_id = session['userID']
+    user_id = session['user_id']
     all_user_cards = []
 
     try:
