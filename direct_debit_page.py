@@ -45,23 +45,11 @@ def direct_debit_func():
         datetime_uk = datetime.datetime.now(tz_uk)
         datetime_formatted = datetime_uk.strftime("%d-%m-%Y")
 
-        # Defining the weekly payment frequency
-        t1 = datetime.timedelta(weeks=1)
-        t2 = datetime.timedelta(weeks=2)
-        weekly_payment = t2 - t1
-
-        # Defining every four weeks payment frequency
-        t3 = datetime.timedelta(weeks=5)
-        every_four_weeks_payment = t3 - t1
-
-        # Defining monthly payment frequency
-        t4 = datetime.timedelta(days=30)
-        t5 = datetime.timedelta(days=60)
-        monthly_payment = t5 - t4
-
-        # Defining annual payment frequency
-        t6 = datetime.timedelta(days=365)
-        t7 = datetime.timedelta()
+        # Defining the payment frequencies
+        weekly_payment = datetime.timedelta(weeks=1)
+        every_four_weeks_payment = datetime.timedelta(weeks=4)
+        monthly_payment = datetime.timedelta(days=30)
+        annual_payment = datetime.timedelta(days=365)
 
         try:
             db_connector = DbConnector()
