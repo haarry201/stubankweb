@@ -5,6 +5,17 @@ from controllers.DbConnector import DbConnector
 from controllers.Offer import Offer
 from datetime import datetime
 
+'''
+File name: admin_home_page.py
+Author: Jacob Scase
+Credits: Jacob Scase
+Date created: 21/01/2021
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for the admin home page, allows admins to add and remove other admins privelages, will redirect
+         the user if not an admin to the error page. 
+'''
+
 admin_home_page = Blueprint('admin_home_page', __name__, template_folder='templates')
 
 

@@ -4,6 +4,16 @@ from controllers.DbConnector import DbConnector
 from controllers.Offer import Offer
 from datetime import datetime
 
+'''
+File name: manage_offers_page.py
+Author: Jacob Scase
+Credits: Jacob Scase
+Date created: 25/12/2020
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for allowing admins to add, and remove offers 
+'''
+
 manage_offers_page = Blueprint('manage_offers_page', __name__, template_folder='templates')
 
 

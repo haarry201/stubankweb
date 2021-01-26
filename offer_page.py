@@ -5,6 +5,16 @@ from controllers.DbConnector import DbConnector
 from controllers.Offer import Offer
 from datetime import datetime
 
+'''
+File name: offer_page.py
+Author: Jacob Scase
+Credits: Jacob Scase
+Date created: 12/01/2021
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for allowing the user to view all the offers that the admin has added to the system
+'''
+
 offer_page = Blueprint('offer_page', __name__, template_folder='templates')
 
 

@@ -3,6 +3,15 @@ from controllers.DbConnector import DbConnector
 from mysql.connector import MySQLConnection, Error
 from controllers.Card import Card
 
+'''
+File name: manage_cards.py
+Author: Harry Kenny
+Credits: Harry Kenny
+Date created: 20/01/2021
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for allowing the user to transfer money from one account to another
+'''
 
 manage_cards = Blueprint('manage_cards', __name__, template_folder='templates')
 
@@ -11,7 +20,6 @@ manage_cards = Blueprint('manage_cards', __name__, template_folder='templates')
 def manage_cards_func():
     user_id = session['userID']
     all_user_cards = []
-
     try:
         db_connector = DbConnector()
         conn = db_connector.getConn()

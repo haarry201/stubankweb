@@ -8,6 +8,16 @@ import random
 
 from controllers.Transaction import MLTransaction
 
+'''
+File name: bank_transfer_page.py
+Author: Jacob Scase
+Credits: Jacob Scase, Harry Kenny
+Date created: 14/12/2020
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for allowing the user to transfer money from one account to another
+'''
+
 bank_transfer_page = Blueprint('bank_transfer_page', __name__, template_folder='templates')
 
 

@@ -3,9 +3,18 @@ from controllers.DbConnector import DbConnector
 from mysql.connector import MySQLConnection, Error
 from datetime import datetime
 import random
-
 from controllers.Transaction import MLTransaction
 import controllers.Transaction as Transaction
+
+'''
+File name: card_payment_page.py
+Author: Jacob Scase
+Credits: Jacob Scase
+Date created: 19/01/2021
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for allowing the user to simulate a card payment
+'''
 
 card_payment_page = Blueprint('card_payment_page', __name__, template_folder='templates')
 
@@ -14,7 +23,6 @@ card_payment_page = Blueprint('card_payment_page', __name__, template_folder='te
 def card_payment():
     try:
         if 'user_id' in session:
-
             if session['needs_auth'] == True:
                 return redirect(url_for('login_page.login_page_func'))
             else:

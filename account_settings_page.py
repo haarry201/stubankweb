@@ -7,9 +7,19 @@ from mysql.connector import MySQLConnection, Error
 from controllers.DbConnector import DbConnector
 from controllers.Offer import Offer
 from datetime import datetime
-
 from controllers.PasswordManager import PasswordManager
 from controllers.TwoFactorAuthentication import TwoFactorAuthentication
+
+'''
+File name: account_settings_page.py
+Author: Jacob Scase
+Credits: Jacob Scase
+Date created: 25/01/2021
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for the user's account settings page, allows the user to change their password or email,
+         and allows for the removal of two factor authentication.
+'''
 
 account_settings_page = Blueprint('account_settings_page', __name__, template_folder='templates')
 

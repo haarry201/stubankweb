@@ -16,7 +16,7 @@ error_page = Blueprint('error_page', __name__, template_folder='templates')
 
 
 @error_page.route('/')
-def error_page_foo():
+def error_page_func():
     print()
     code = "e5"
     src = "index.html"
@@ -36,4 +36,4 @@ def error_page_foo():
                    "e9": "Error, Email address already in use",
                    "e10": "Error, this account appears to be in use"
                    }
-    return render_template('error.html', error_codes=error_codes,code=code, src=src)
+    return render_template('error.html', error_codes=error_codes, code=code, src=src)

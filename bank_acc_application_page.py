@@ -3,6 +3,16 @@ from controllers.DbConnector import DbConnector
 from random import *
 from mysql.connector import MySQLConnection, Error
 
+'''
+File name: bank_acc_application_page.py
+Author: Harry Kenny
+Credits: Harry Kenny, Jacob Scase
+Date created: 13/12/2020
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for allowing the user to apply for a bank account
+'''
+
 bank_acc_application_page = Blueprint('bank_acc_application_page', __name__, template_folder='templates')
 
 

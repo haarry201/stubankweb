@@ -8,6 +8,16 @@ from random import choice
 from classes.CardInfo import CardInfo
 import string
 
+'''
+File name: apply_new_card.py
+Author: Harry Kenny
+Credits: Harry Kenny
+Date created: 23/01/2021
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for allowing the user to apply for a new card and add it to their account.
+'''
+
 apply_new_card = Blueprint('apply_new_card', __name__, template_folder='templates')
 
 
