@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask, render_template, session, redirect, url_for
 from display_pool import display_pool
 from manage_pools import manage_pools
 from register_page import register_page

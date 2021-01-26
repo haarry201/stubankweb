@@ -1,5 +1,4 @@
 from flask import Flask, Blueprint, render_template, session, redirect, url_for
-from controllers.DbConnector import DbConnector
 import expenditure_reports
 from datetime import date, timedelta
 
@@ -20,6 +19,7 @@ account_page = Blueprint('account_page', __name__, template_folder='templates')
 @account_page.route('/')
 def accounts_page():
     try:
+        # redirects user appropriately based on 2FA status, or whether they are an admin or not
         if 'user_id' in session:
             if session['needs_auth'] == True:
                 return redirect(url_for('login_page.login_page_func'))
@@ -62,7 +62,7 @@ def accounts_page():
     else:
         current_bal = format(current_bal_pounds, '.2f')  # rounds to 2dp to display as amount of money
 
-    cursor.execute("SELECT * FROM Transactions ORDER BY Date DESC")
+    cursor.execute("SELECT * FROM Transactions ORDER BY Date DESC")  # fetches all transactions, orders them by date
     row = cursor.fetchone()
     transactions = []
 
@@ -77,7 +77,7 @@ def accounts_page():
     if two_weeks.day < 10:
         w_day = "0" + w_day
     if two_weeks.month < 10:
-        w_month = "0" + w_month
+        w_month = "0" + w_month  # adds leading 0s if appropriate to fix some formatting issues
     today = str(today.year) + "-" + t_month + "-" + t_day
     two_weeks = str(two_weeks.year) + "-" + w_month + "-" + w_day
     b_year = today[0:4]; e_year = two_weeks[0:4]
@@ -91,16 +91,15 @@ def accounts_page():
         year = date_of_transaction[0:4]
         month = date_of_transaction[5:7]
         day = date_of_transaction[8:10]
-        date_to_check = date(int(year), int(month), int(day))
-        # recipient, account source, transaction type, amount, date
+        date_to_check = date(int(year), int(month), int(day))  # gets date in right format to check
         if str(row[1]) in accounts and (end_boundary <= date_to_check <= start_boundary):  # primary conditions to meet
             recipient = str(row[10])
-            transactions.append(recipient)
+            transactions.append(recipient)  # adds recipient of payment to array
             if str(row[1]) == current_acc:
                 source = "Current Account"
             elif str(row[1]):
                 source = "Savings Account"
-            transactions.append(source)
+            transactions.append(source)  # adds source of transaction to array
 
             if "direct" in str(row[8]).lower():
                 t_type = "Direct Transfer"
@@ -108,18 +107,19 @@ def accounts_page():
                 t_type = "Card Payment"
             elif "recurring" in str(row[8]).lower():
                 t_type = "Recurring Transaction"
-            transactions.append(t_type)
+            transactions.append(t_type)  # adds transaction type to array
 
             amount = (abs(row[5])/100)
             amount = "%.2f" % amount
-            transactions.append(amount)
+            transactions.append(amount)  # adds transaction cost to array
             year = date_of_transaction[0:4]
             month = date_of_transaction[5:7]
             day = date_of_transaction[8:10]
             transaction_date = day + "/" + month + "/" + year
-            transactions.append(transaction_date)
+            transactions.append(transaction_date)  # adds date in more human-readable format to array
         row = cursor.fetchone()
 
+    # if there is an error, user forwarded to error page. If not, forwarded to accounts page and appropriate information passed through
     if 'name' in session:
         return render_template('accounts.html', title='Home', user=session['name'], savings=savings_bal, current=current_bal, transactions=transactions, two_factor_enabled=session['two_factor_enabled'])
     else:

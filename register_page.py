@@ -34,17 +34,18 @@ def register_page_func():
         second_line_of_address = request.form.get("second_line_of_address")
         postcode = request.form.get("postcode")
         security_question = request.form.get("security_question")
-        security_answer = request.form.get("security_answer")
+        security_answer = request.form.get("security_answer")  # gets all input information from registration form
         user_role = "User"
         if first_name == '' or last_name == '' or email == '' or password == '' or first_line_of_address == '' or second_line_of_address == '' or postcode == '' or security_question == '--' or security_answer == '':
             return redirect(url_for('error_page.error_page_func', code="e3", src="register.html"))
         elif len(password) < 6:
             return redirect(url_for('error_page.error_page_func', code="e4", src="register.html"))
+            # redirects to error page with appropriate error message if there is an error
         else:
             db_connector = DbConnector()
             conn = db_connector.getConn()
             cursor = conn.cursor(buffered=True)
-            cursor.execute("SELECT EmailAddress FROM UserInfo WHERE EmailAddress = (%s)", (email,))
+            cursor.execute("SELECT EmailAddress FROM UserInfo WHERE EmailAddress = (%s)", (email,))  # checks if email already exists
             result = cursor.fetchall()
             for row in result:
                 print(row)
@@ -70,8 +71,8 @@ def register_page_func():
                 db_connector = DbConnector()
                 conn = db_connector.getConn()
                 cursor = conn.cursor()
-                cursor.execute(query, args)
-                conn.commit()
+                cursor.execute(query, args)  # inserts data into database
+                conn.commit()  # commits changes
                 cursor.close()
                 conn.close()
                 session['needs_auth'] = False
@@ -81,8 +82,9 @@ def register_page_func():
                 session['name'] = first_name
                 session['user_role'] = user_role
                 session['user_id'] = user_id
+                # initialises session attributes
             except Error as error:
                 print(error)
-                return redirect(url_for('error_page.error_page_func', code="e2"))
-            return redirect(url_for('account_page.accounts_page'))
+                return redirect(url_for('error_page.error_page_func', code="e2"))  # sent to error page with appropriate message
+            return redirect(url_for('account_page.accounts_page'))  # user logged in and sent to homepage
     return render_template('register.html')

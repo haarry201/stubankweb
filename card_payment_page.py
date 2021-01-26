@@ -1,6 +1,6 @@
-from flask import Flask, Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for, session
 from controllers.DbConnector import DbConnector
-from mysql.connector import MySQLConnection, Error
+from mysql.connector import Error
 from datetime import datetime
 import random
 from controllers.Transaction import MLTransaction
