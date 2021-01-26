@@ -18,7 +18,7 @@ manage_cards_page = Blueprint('manage_cards_page', __name__, template_folder='te
 
 @manage_cards_page.route('/', methods=['GET', 'POST'])
 def manage_cards_page_func():
-    user_id = session['userID']
+    user_id = session['user_id']
     all_user_cards = []
     try:
         db_connector = DbConnector()
