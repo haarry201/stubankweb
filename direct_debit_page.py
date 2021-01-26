@@ -30,7 +30,7 @@ def direct_debit_func():
         recurrence_frequency = request.form.get("frequency")
         reference = request.form.get("reference")
         amount = request.form.get("amount")
-        transfer_value = int(float(amount) * 100)
+        recurring_transfer_value = int(float(amount) * 100)
 
         # Generating random recurring transaction ID
         ran = random.randrange(10 ** 80)
@@ -72,7 +72,7 @@ def direct_debit_func():
             while row is not None:
                 if row[2] == user_id and row[3] == account_type_id:
                     current_value = int(row[5])
-                    new_value = current_value - transfer_value
+                    new_value = current_value - recurring_transfer_value
                     cursor.execute("UPDATE UserAccounts SET CurrentBalance = (%s) WHERE UserID = (%s) AND"
                                    " AccountTypeID = (%s)", (new_value, user_id, account_type_id))
                     break
@@ -86,11 +86,11 @@ def direct_debit_func():
             while row is not None:
                 if row[1] == account_num_sending and row[3] == sort_code_sending:
                     account_num_receiving = row[2]
-                    transferee_value_current = int(row[5])
-                    new_transferee_value = transferee_value_current + transfer_value
-                    cursor.execute("UPDATE UserAccounts SET CurrentBalance = (%s) WHERE"
+                    recurring_transfer_value = int(row[5])
+                    new_recurring_transfer_value = recurring_transfer_value + recurring_transfer_value
+                    cursor.execute("UPDATE RecurringTransactions SET CurrentBalance = (%s) WHERE"
                                    " AccountNum = (%s) AND SortCode = (%s)",
-                                   (new_transferee_value, account_num_sending, sort_code_sending))
+                                   (new_recurring_transfer_value, account_num_sending, sort_code_sending))
                     break
 
                 else:
