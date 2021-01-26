@@ -1,26 +1,30 @@
 import copy
-
 from geopy import distance
 from pyclustering.cluster.clique import clique
 import numpy as np
 
+'''
+    File name: LocationAnalysis.py
+    Author: Jacob Scase
+    Credits: Jacob Scase
+    Date created: 15/12/2020
+    Date last modified: 18/12/2020
+    Python Version: 3.7
+    Purpose: File to analyse a group of transactions based on location. Uses the Clique clustering algorithm to create 
+             clusters of locations of transactions and compares it to the the location of the transaction being 
+             processed. Uses the geosidic distance calculation to measure the distance between the minimum possible 
+             value and the max possible value to determine what range the user usually makes transactions in to 
+             determine how varied their shopping habits usually are to help when identifying unusual activity. When
+             clustering, the transaction to be compared is checked to see if it is a cluster on its own and therefore we
+             can determine whether it is in an abnormal location for the user, taking into account their usual spread
+             of transactions.
+'''
 
 # Latidude/Longitude level of precision
 # 0dp = 102.47km
 # 1dp = 10.247km
 # 2dp = 1.0247km
 # 3dp = 0.10247km
-
-
-def calc_distance(tr1, tr2):
-    coords_1 = (tr1.latitude, tr1.longitude)
-    coords_2 = (tr2.latitude, tr2.longitude)
-    print(distance.distance(coords_1, coords_2).km, "km")
-    coords_lim1 = (round(tr1.latitude, 3), round(tr1.longitude), 3)
-    coords_lim2 = (round(tr2.latitude, 3), round(tr2.longitude), 3)
-    print(distance.distance(coords_lim1, coords_lim2).km, "km")
-    return distance.distance(coords_lim1, coords_lim2).km
-
 
 def dist_between_two_coords(coord1, coord2):
     coords_lim1 = (round(coord1[0], 3), round(coord1[1], 3))
@@ -64,6 +68,7 @@ def location_analysis(newTransaction, transaction_list):
     # print("il = ", interval_length)
 
     # Define the number of grid cells in each dimension
+    #Defaults to 1 interval if few transactions provided
     intervals = max(1,interval_length)
 
     # Density threshold
@@ -100,8 +105,4 @@ def location_analysis(newTransaction, transaction_list):
                 # anything in this area before so could possibly be anomaly
                 # print("The new one could be an anomaly")
                 return True
-
-
-
-
     return False

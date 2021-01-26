@@ -1,8 +1,18 @@
-from flask import Flask, Blueprint, render_template, request, session, redirect, url_for
-from mysql.connector import MySQLConnection, Error
+from flask import Blueprint, render_template, request, session, redirect, url_for
+from mysql.connector import Error
 from controllers.DbConnector import DbConnector
-from controllers.Offer import Offer
+from classes.Offer import Offer
 from datetime import datetime
+
+'''
+File name: manage_offers_page.py
+Author: Jacob Scase
+Credits: Jacob Scase
+Date created: 25/12/2020
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for allowing admins to add, and remove offers 
+'''
 
 manage_offers_page = Blueprint('manage_offers_page', __name__, template_folder='templates')
 
@@ -50,7 +60,7 @@ def manage_offers_page_func():
                     cursor.close()
                 except Error as error:
                     print(error)
-                    return redirect(url_for('error_page.error_page_foo', code="e2", src="index.html"))
+                    return redirect(url_for('error_page.error_page_func', code="e2", src="index.html"))
         all_offers = []
         try:
             cursor = conn.cursor(buffered=True)
@@ -58,15 +68,13 @@ def manage_offers_page_func():
 
             result = cursor.fetchall()
             for row in result:
-                print(row)
-                print(row[0])
                 new_offer = Offer(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7])
                 all_offers.append(new_offer)
         except Error as error:
             print(error)
-            return redirect(url_for('error_page.error_page_foo', code="e2", src="index.html"))
+            return redirect(url_for('error_page.error_page_func', code="e2", src="index.html"))
         finally:
             cursor.close()
             conn.close()
         return render_template('admin_pages/manage_offers.html', title='Home', all_offers=all_offers)
-    return redirect(url_for('error_page.error_page_foo', code="e6", src="index.html"))
+    return redirect(url_for('error_page.error_page_func', code="e6", src="index.html"))

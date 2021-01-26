@@ -1,9 +1,17 @@
-from flask import Flask, Blueprint, render_template, request, session, redirect, url_for
+from flask import Blueprint, render_template, request, session, redirect, url_for
+from mysql.connector import Error
 from controllers.DbConnector import DbConnector
-from mysql.connector import MySQLConnection, Error
-from controllers.DbConnector import DbConnector
-from controllers.Offer import Offer
-from datetime import datetime
+
+'''
+File name: admin_home_page.py
+Author: Jacob Scase
+Credits: Jacob Scase
+Date created: 21/01/2021
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for the admin home page, allows admins to add and remove other admins privelages, will redirect
+         the user if not an admin to the error page. 
+'''
 
 admin_home_page = Blueprint('admin_home_page', __name__, template_folder='templates')
 
@@ -31,7 +39,7 @@ def admin_home_page_func():
                 conn.commit()
                 cursor.close()
             except Error as error:
-                return redirect(url_for('error_page.error_page_foo', code="e2", src="index.html"))
+                return redirect(url_for('error_page.error_page_func', code="e2", src="index.html"))
         admin_users = []
         db_connector = DbConnector()
         conn = db_connector.getConn()
@@ -42,4 +50,4 @@ def admin_home_page_func():
             admin_users.append(row[0])
         return render_template('/admin_pages/admin_home.html',admin_users=admin_users)
     else:
-        return redirect(url_for('error_page.error_page_foo', code="e6", src="index.html"))
+        return redirect(url_for('error_page.error_page_func', code="e6", src="index.html"))

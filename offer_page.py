@@ -1,9 +1,17 @@
-from flask import Flask, Blueprint, render_template, request, session, redirect, url_for
+from flask import Blueprint, render_template, session, redirect, url_for
+from mysql.connector import Error
 from controllers.DbConnector import DbConnector
-from mysql.connector import MySQLConnection, Error
-from controllers.DbConnector import DbConnector
-from controllers.Offer import Offer
-from datetime import datetime
+from classes.Offer import Offer
+
+'''
+File name: offer_page.py
+Author: Jacob Scase
+Credits: Jacob Scase
+Date created: 12/01/2021
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for allowing the user to view all the offers that the admin has added to the system
+'''
 
 offer_page = Blueprint('offer_page', __name__, template_folder='templates')
 
@@ -32,7 +40,7 @@ def offer_page_func():
             all_offers.append(new_offer)
     except Error as error:
         print(error)
-        return redirect(url_for('error_page.error_page_foo', code="e2", src="index.html"))
+        return redirect(url_for('error_page.error_page_func', code="e2", src="index.html"))
 
     finally:
         cursor.close()

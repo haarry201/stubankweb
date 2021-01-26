@@ -1,3 +1,15 @@
+/**
+ * Copyright (c) 2021
+ *
+ * Client side form validation for users making sure they can't submit forms with invalid
+ *
+ * @summary Client side form validation page
+ * @author Jacob Scase
+ *
+ * Created at     : 2020-12-10 10:59
+ * Last modified  : 2021-01-25 18:04
+ */
+
 $.validator.addMethod("passwordRules", function(value, element) {
 
     return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,100}$/.test( value );

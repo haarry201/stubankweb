@@ -1,14 +1,23 @@
-from flask import Flask, Blueprint, render_template, request, session
-from mysql.connector import MySQLConnection, Error
+from flask import Blueprint, render_template, request, redirect, url_for
+from mysql.connector import Error
 from controllers.DbConnector import DbConnector
-from controllers.PasswordManager import PasswordManager
 from classes import CardInfo
 
-admin_new_card = Blueprint('admin_new_card', __name__, template_folder='templates')
+'''
+File name: admin_new_card_page.py
+Author: Jacob Scase
+Credits: Jacob Scase, Harry Kenny
+Date created: 14/12/2020
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for allowing the admin to add new types of cards
+'''
+
+admin_new_card_page = Blueprint('admin_new_card_page', __name__, template_folder='templates')
 
 
-@admin_new_card.route('/', methods=['GET', 'POST'])
-def admin_new_card_func():
+@admin_new_card_page.route('/', methods=['GET', 'POST'])
+def admin_new_card_page_func():
     allcards = []
     print("here")
     try:
@@ -48,7 +57,7 @@ def admin_new_card_func():
         return render_template('new_card.html', all_cards=allcards)
     except Error as e:
         print(e)
-        return render_template("error.html", msg="There seems to be an error adding a card, please try again or contact the system administrator", src="login.html")
+        return redirect(url_for('error_page.error_page_func', code="e6", src="index.html"))
     finally:
         cursor.close()
         conn.close()

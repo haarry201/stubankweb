@@ -1,3 +1,13 @@
+'''
+File name: Card.py
+Author: Harry Kenny
+Credits: Harry Kenny
+Date created: 23/01/2021
+Date last modified: 23/01/2021
+Python version: 3.7
+Purpose: Card Class for storing information about users cards.
+'''
+
 class Card:
     def __init__(self, card_number, card_type_id, start_date, expiry_date, pin_number):
         self.card_number = card_number

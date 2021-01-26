@@ -1,13 +1,23 @@
-from flask import Flask, Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for, session
 from controllers.DbConnector import DbConnector
 from random import *
-from mysql.connector import MySQLConnection, Error
+from mysql.connector import Error
+
+'''
+File name: bank_acc_application_page.py
+Author: Harry Kenny
+Credits: Harry Kenny, Jacob Scase
+Date created: 13/12/2020
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for allowing the user to apply for a bank account
+'''
 
 bank_acc_application_page = Blueprint('bank_acc_application_page', __name__, template_folder='templates')
 
 
 @bank_acc_application_page.route('/', methods=['GET', 'POST'])
-def bank_application():
+def bank_acc_application_page_func():
     try:
         if 'user_id' in session:
             if session['needs_auth'] == True:
@@ -27,7 +37,7 @@ def bank_application():
             account_type_id = '100'
             agreed_overdraft = 0
         else:
-            return redirect(url_for('error_page.error_page_foo', code="e2", src="accounts.html"))
+            return redirect(url_for('error_page.error_page_func', code="e2", src="accounts.html"))
         email = request.form.get("email")
         account_num = ''.join(["{}".format(randint(0, 9)) for num in range(0, 8)])
         sort_code = ''.join(["{}".format(randint(0, 9)) for num in range(0, 6)])
@@ -62,7 +72,7 @@ def bank_application():
             conn.close()
         except Error as error:
             print(error)
-            return redirect(url_for('error_page.error_page_foo',code="e2", src="accounts.html"))
+            return redirect(url_for('error_page.error_page_func',code="e2", src="accounts.html"))
 
         return render_template('accounts.html')
 

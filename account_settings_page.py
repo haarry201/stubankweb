@@ -1,15 +1,21 @@
 import binascii
 import hashlib
-import os
-from flask import Flask, Blueprint, render_template, request, session, redirect, url_for
+from flask import Blueprint, render_template, request, session, redirect, url_for
+from mysql.connector import Error
 from controllers.DbConnector import DbConnector
-from mysql.connector import MySQLConnection, Error
-from controllers.DbConnector import DbConnector
-from controllers.Offer import Offer
-from datetime import datetime
-
 from controllers.PasswordManager import PasswordManager
 from controllers.TwoFactorAuthentication import TwoFactorAuthentication
+
+'''
+File name: account_settings_page.py
+Author: Jacob Scase
+Credits: Jacob Scase
+Date created: 25/01/2021
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for the user's account settings page, allows the user to change their password or email,
+         and allows for the removal of two factor authentication.
+'''
 
 account_settings_page = Blueprint('account_settings_page', __name__, template_folder='templates')
 
@@ -58,9 +64,9 @@ def account_settings_page_func():
                         session['email'] = new_email
                         return render_template('account_settings.html', changed_data=changed_data)
                     else:
-                        return redirect(url_for('error_page.error_page_foo', code="e9", src="accounts.html"))
+                        return redirect(url_for('error_page.error_page_func', code="e9", src="accounts.html"))
                 else:
-                    return redirect(url_for('error_page.error_page_foo', code="e8", src="accounts.html"))
+                    return redirect(url_for('error_page.error_page_func', code="e8", src="accounts.html"))
 
         elif 'pwd_change' in request.form:
             current_pwd = request.form.get('current_password')
@@ -86,7 +92,7 @@ def account_settings_page_func():
                     changed_data = "Password"
                     return render_template('account_settings.html', changed_data=changed_data)
                 else:
-                    return redirect(url_for('error_page.error_page_foo', code="e8", src="accounts.html"))
+                    return redirect(url_for('error_page.error_page_func', code="e8", src="accounts.html"))
 
         elif 'auth_remove' in request.form:
             print("removing auth")
@@ -104,7 +110,7 @@ def account_settings_page_func():
                 session['two_factor_enabled'] = False
                 return render_template('account_settings.html', changed_data="")
             else:
-                return redirect(url_for('error_page.error_page_foo', code="e8", src="accounts.html"))
+                return redirect(url_for('error_page.error_page_func', code="e8", src="accounts.html"))
 
     try:
         db_connector = DbConnector()
@@ -113,6 +119,6 @@ def account_settings_page_func():
         cursor.execute("SELECT * FROM UserInfo WHERE UserID = (%s)",(user_id,))
     except Error as error:
         print(error)
-        return redirect(url_for('error_page.error_page_foo', code="e2", src="accounts.html"))
+        return redirect(url_for('error_page.error_page_func', code="e2", src="accounts.html"))
 
     return render_template('account_settings.html',changed_data="")

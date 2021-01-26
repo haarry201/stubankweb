@@ -1,20 +1,28 @@
-from flask import Flask, Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for, session
 from controllers.DbConnector import DbConnector
-from mysql.connector import MySQLConnection, Error
+from mysql.connector import Error
 from datetime import datetime
 import random
-
 from controllers.Transaction import MLTransaction
 import controllers.Transaction as Transaction
+
+'''
+File name: card_payment_page.py
+Author: Jacob Scase
+Credits: Jacob Scase
+Date created: 19/01/2021
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for allowing the user to simulate a card payment
+'''
 
 card_payment_page = Blueprint('card_payment_page', __name__, template_folder='templates')
 
 
 @card_payment_page.route('/', methods=['GET', 'POST'])
-def card_payment():
+def card_payment_page_func():
     try:
         if 'user_id' in session:
-
             if session['needs_auth'] == True:
                 return redirect(url_for('login_page.login_page_func'))
             else:
@@ -75,7 +83,7 @@ def card_payment():
                 p_fraud = new_transaction.analyse_transaction(t_list)
                 print("Probabiliy of fraud =", p_fraud)
                 if p_fraud > 1:
-                    return redirect(url_for('error_page.error_page_foo', code="e7", src="card_payment.html"))
+                    return redirect(url_for('error_page.error_page_func', code="e7", src="card_payment_page_func.html"))
 
             cursor.execute("SELECT * FROM UserAccounts")
             row = cursor.fetchone()
@@ -129,8 +137,8 @@ def card_payment():
             conn.close()
         except Error as error:
             print(error)
-            return redirect(url_for('error_page.error_page_foo', code="e2", src="accounts.html"))
+            return redirect(url_for('error_page.error_page_func', code="e2", src="accounts.html"))
 
-        return redirect(url_for('account_page.accounts_page'))
+        return redirect(url_for('account_page.account_page_func'))
 
     return render_template('card_payment.html')

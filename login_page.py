@@ -1,5 +1,5 @@
-from flask import Flask, Blueprint, render_template, request, session, redirect, url_for
-from mysql.connector import MySQLConnection, Error
+from flask import Blueprint, render_template, request, session, redirect, url_for
+from mysql.connector import Error
 from controllers.DbConnector import DbConnector
 from controllers.PasswordManager import PasswordManager
 
@@ -28,7 +28,7 @@ def login_page_func():
                 session.clear()
                 pass
             else:
-                return redirect(url_for('account_page.accounts_page'))
+                return redirect(url_for('account_page.account_page_func'))
         else:
             pass
 
@@ -46,7 +46,7 @@ def login_page_func():
             db_connector = DbConnector()
             conn = db_connector.getConn()
             cursor = conn.cursor(buffered=True)
-            cursor.execute("SELECT * FROM UserInfo WHERE EmailAddress = (%s)", (email,))
+            cursor.execute("SELECT * FROM UserInfo WHERE EmailAddress = (%s)", (email,))  # SQL query to find input email in database
             result = cursor.fetchall()
             for row in result:
                 # Verify sent password
@@ -67,6 +67,7 @@ def login_page_func():
                             session['secret_auth_key'] = row[4]
                             session['name'] = row[5]
                             session['user_role'] = row[12]
+                            #  2FA checking and validation
                             return redirect(url_for('two_factor_auth_verify_page.two_factor_auth_verify_page_func'))
                         else:
                             session['needs_auth'] = False
@@ -80,12 +81,12 @@ def login_page_func():
                             if user_role == 'Admin':
                                 return redirect(url_for('admin_home_page.admin_home_page_func'))
                             else:
-                                return redirect(url_for('account_page.accounts_page'))
+                                return redirect(url_for('account_page.account_page_func'))  # redirects user based on role
         except Error as error:
-            return redirect(url_for('error_page.error_page_foo', code="e1"))
+            return redirect(url_for('error_page.error_page_func', code="e1"))  # if error, user taken to error page
         finally:
             cursor.close()
             conn.close()
             # closes connection
-        return redirect(url_for('error_page.error_page_foo', code="e1"))
+        return redirect(url_for('error_page.error_page_func', code="e1"))  # if error, user taken to error page
     return render_template('login.html')

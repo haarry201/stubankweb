@@ -1,9 +1,9 @@
-from flask import Flask, Blueprint, render_template, session, redirect, url_for
+from flask import Blueprint, render_template, session, redirect, url_for
 from controllers.DbConnector import DbConnector
 from datetime import date, timedelta
 
 '''
-File name: expenditure_reports.py
+File name: expenditure_reports_page.py
 Author: Rhys Minchin
 Credits: Rhys Minchin
 Date created: 16/12/2020
@@ -17,13 +17,13 @@ Purpose: This file provides the back-end functionality for displaying expenditur
          which displays the information as a bar chart.
 '''
 
-expenditure_reports = Blueprint('expenditure_reports', __name__, template_folder='templates')
+expenditure_reports_page = Blueprint('expenditure_reports_page', __name__, template_folder='templates')
 
 
 def get_conn():
     db_connector = DbConnector()
     conn = db_connector.getConn()
-    return conn
+    return conn  # establishes connection to database
 
 
 def get_info():
@@ -46,15 +46,15 @@ def get_info():
             accounts.append(row[0])  # all account numbers owned by same user stored in accounts
         row = cursor.fetchone()
 
-    return accounts
+    return accounts  # returns all accounts owned by currently logged in user
 
 
-@expenditure_reports.route('/7days')
+@expenditure_reports_page.route('/7days')
 def reports_7days():
     try:
         if 'user_id' in session:
             if session['needs_auth'] == True:
-                return redirect(url_for('login_page.login_page_func'))
+                return redirect(url_for('login_page.login_page_func'))  # user redirected if not 2FA enabled
             else:
                 pass
         else:
@@ -75,15 +75,15 @@ def reports_7days():
         if today.day < 10:
             day = "0" + day
         if today.month < 10:
-            month = "0" + month
+            month = "0" + month  # adds leading 0s to data where appropriate to fix formatting issues
         dates_to_check.append(str(today.year) + "-" + month + "-" + day)
         today = today - timedelta(days=1)  # gets yesterday's date
 
     cursor.execute("SELECT * FROM Transactions")  # selects all transactions from transactions table
     row = cursor.fetchone()  # fetches first row of table
 
-    values = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-    biggest = 0
+    values = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]  # initial values for 7 previous days
+    biggest = 0  # placeholder for biggest transaction in this period
     end = dates_to_check[0]; begin = dates_to_check[6]
     b_year = begin[0:4]; e_year = end[0:4]
     b_month = begin[5:7]; e_month = end[5:7]
@@ -95,7 +95,7 @@ def reports_7days():
         year = date_of_transaction[0:4]
         month = date_of_transaction[5:7]
         day = date_of_transaction[8:10]
-        date_to_check = date(int(year), int(month), int(day))
+        date_to_check = date(int(year), int(month), int(day))  # gets date in correct format for database checking
         if str(row[1]) in accounts and (start_date <= date_to_check <= end_date):  # primary conditions to meet
             if str(row[6]) == dates_to_check[0]:
                 values[0] += abs(row[5])
@@ -110,13 +110,13 @@ def reports_7days():
             elif str(row[6]) == dates_to_check[5]:
                 values[5] += abs(row[5])
             elif str(row[6]) == dates_to_check[6]:
-                values[6] += abs(row[5])  # if statements to decide which 'bar' if graph data fits into
+                values[6] += abs(row[5])  # if statements to decide which 'bar' of graph data fits into
             else:
                 print(str(row[6]))
 
-            if abs(row[5]) > biggest: biggest = abs(row[5])  # if this transaction bigger, resets 'biggest' variable
+            if abs(row[5]) > biggest: biggest = abs(row[5])  # if this transaction biggest yet, resets 'biggest' variable
 
-        row = cursor.fetchone()
+        row = cursor.fetchone()  # fetches next row of table
 
     dates.reverse()
     values.reverse()  # reverses arrays to show in chronological order least->most recent on graph
@@ -124,18 +124,18 @@ def reports_7days():
     if biggest == 0:
         biggest2 = "N/A"
     else:
-        biggest2 = "£" + str(biggest)
+        biggest2 = "£" + str(biggest)  # appropriately formats biggest as a string to show in reports.html
 
     legend = 'Expenditure report for last 7 days'
     return render_template('reports.html', hidden="false", values=values, labels=dates, legend=legend, big=biggest2)
 
 
-@expenditure_reports.route('/weekly')
+@expenditure_reports_page.route('/weekly')
 def reports_weekly():
     try:
         if 'user_id' in session:
             if session['needs_auth'] == True:
-                return redirect(url_for('login_page.login_page_func'))
+                return redirect(url_for('login_page.login_page_func'))  # user redirected if not 2FA enabled
             else:
                 pass
         else:
@@ -155,8 +155,8 @@ def reports_weekly():
         if today.weekday() == 0:  # .weekday returns 0 if Monday, 1 if Tuesday etc.
             mondays.append(str(today.year) + "-" + str(today.month) + "-" + str(today.day))
 
-    totals = [0.0, 0.0, 0.0, 0.0]
-    biggest = 0
+    totals = [0.0, 0.0, 0.0, 0.0]  # initial values for spending in last 4 weeks
+    biggest = 0  # placeholder for biggest transaction in this period
     cursor.execute("SELECT * FROM Transactions")  # selects all transactions from transactions table
     row = cursor.fetchone()  # fetches first row of table
 
@@ -181,8 +181,8 @@ def reports_weekly():
                 elif week3 <= date_to_check < week4:
                     totals[2] += abs(row[5])
                 else:
-                    totals[3] += abs(row[5])
-                if abs(row[5]) > biggest: biggest = abs(row[5])
+                    totals[3] += abs(row[5])  # places transaction into appropriate week based on Monday dates
+                if abs(row[5]) > biggest: biggest = abs(row[5])  # if transaction is biggest yet, resets variable
         row = cursor.fetchone()
 
     dates = []
@@ -195,18 +195,18 @@ def reports_weekly():
     if biggest == 0:
         biggest2 = "N/A"
     else:
-        biggest2 = "£" + str(biggest)
+        biggest2 = "£" + str(biggest)  # formats biggest data ready for output in reports.html
 
     legend = 'Expenditure report for last 4 weeks'
     return render_template('reports.html', hidden="false", values=totals, labels=dates, legend=legend, big=biggest2)
 
 
-@expenditure_reports.route("/yearly")
+@expenditure_reports_page.route("/yearly")
 def reports_yearly():
     try:
         if 'user_id' in session:
             if session['needs_auth'] == True:
-                return redirect(url_for('login_page.login_page_func'))
+                return redirect(url_for('login_page.login_page_func'))  # user redirected if not 2FA enabled
             else:
                 pass
         else:
@@ -222,12 +222,12 @@ def reports_yearly():
         if today.month < 10:
             dates.append(str(today.year) + "-0" + str(today.month) + "-01")
         else:
-            dates.append(str(today.year) + "-" + str(today.month) + "-01")
+            dates.append(str(today.year) + "-" + str(today.month) + "-01")  # adds appropriate formatting if leading 0 needed or not
         today = date(today.year, today.month, 1)
-        today = today - timedelta(days=1)
+        today = today - timedelta(days=1)  # goes back and gets the 1st of last 12 months, for graph headings
 
-    totals = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-    biggest = 0
+    totals = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]  # initial values for spending in last 12 months
+    biggest = 0  # placeholder for biggest transaction in this period
     cursor.execute("SELECT * FROM Transactions")  # selects all transactions from transactions table
     row = cursor.fetchone()  # fetches first row of table
 
@@ -250,7 +250,7 @@ def reports_yearly():
             first10 = dates[9].split("-"); month3 = date(int(first10[0]), int(first10[1]), int(first10[2]))
             first11 = dates[10].split("-"); month2 = date(int(first11[0]), int(first11[1]), int(first11[2]))
             first12 = dates[11].split("-"); month1 = date(int(first12[0]), int(first12[1]), int(first12[2]))
-            # gets boundary dates for checking which week a transaction falls into
+            # gets boundary dates for checking which month a transaction falls into
             today = date.today(); month_today = date(today.year, today.month, today.day)
             if month1 <= date_to_check <= month_today:  # if transaction was within the last 4 days
                 if month1 <= date_to_check < month2:
@@ -276,9 +276,9 @@ def reports_yearly():
                 elif month11 <= date_to_check < month12:
                     totals[10] += abs(row[5])
                 else:
-                    totals[11] += abs(row[5])
-                if abs(row[5]) > biggest: biggest = abs(row[5])
-        row = cursor.fetchone()
+                    totals[11] += abs(row[5])  # uses if statements to determine which month data falls into
+                if abs(row[5]) > biggest: biggest = abs(row[5])  # if bigger than previous biggest, resets variable
+        row = cursor.fetchone()  # fetches next row in table
 
     dates_display = []
     for d in dates:
@@ -290,18 +290,18 @@ def reports_yearly():
     if biggest == 0:
         biggest2 = "N/A"
     else:
-        biggest2 = "£" + str(biggest)
+        biggest2 = "£" + str(biggest)  # formats biggest data ready for output in reports.html
 
     legend = 'Expenditure report for last 12 months'
     return render_template('reports.html', hidden="false", values=totals, labels=dates_display, legend=legend, big=biggest2)
 
 
-@expenditure_reports.route('/home')
+@expenditure_reports_page.route('/home')
 def reports():
     try:
         if 'user_id' in session:
             if session['needs_auth'] == True:
-                return redirect(url_for('login_page.login_page_func'))
+                return redirect(url_for('login_page.login_page_func'))  # user redirected if not 2FA enabled
             else:
                 pass
         else:
@@ -310,4 +310,5 @@ def reports():
         return redirect(url_for('login_page.login_page_func'))
     db_connector = DbConnector()
     conn = db_connector.getConn()
+    #  no report has been requested here, so goes to report default page where buttons allow user to choose which report to view
     return render_template('reports.html', hidden="true", values='', labels='', legend='', big='')

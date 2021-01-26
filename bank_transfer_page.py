@@ -1,18 +1,28 @@
-from flask import Flask, Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for, session
 
 from controllers import Transaction
 from controllers.DbConnector import DbConnector
-from mysql.connector import MySQLConnection, Error
+from mysql.connector import Error
 from datetime import datetime
 import random
 
 from controllers.Transaction import MLTransaction
 
+'''
+File name: bank_transfer_page.py
+Author: Harry Kenny
+Credits: Harry Kenny, Jacob Scase
+Date created: 14/12/2020
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for allowing the user to transfer money from one account to another
+'''
+
 bank_transfer_page = Blueprint('bank_transfer_page', __name__, template_folder='templates')
 
 
 @bank_transfer_page.route('/', methods=['GET', 'POST'])
-def bank_transfer():
+def bank_transfer_page_func():
     try:
         if 'user_id' in session:
             if session['needs_auth'] == True:
@@ -128,7 +138,7 @@ def bank_transfer():
                 p_fraud = new_transaction.analyse_transaction(t_list)
                 print("Probabiliy of fraud =", p_fraud)
                 if p_fraud > 1:
-                    return redirect(url_for('error_page.error_page_foo', code="e7", src="card_payment.html"))
+                    return redirect(url_for('error_page.error_page_func', code="e7", src="card_payment_page_func.html"))
 
             cursor.execute("INSERT INTO Transactions VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                            (transaction_id, transferer_account_num, account_num, transferer_sort_code, sort_code,
@@ -141,7 +151,7 @@ def bank_transfer():
             conn.close()
         except Error as error:
             print(error)
-            return redirect(url_for('error_page.error_page_foo', code="e2", src="accounts.html"))
+            return redirect(url_for('error_page.error_page_func', code="e2", src="accounts.html"))
 
         return render_template('accounts.html')
 

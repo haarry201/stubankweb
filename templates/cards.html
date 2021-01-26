@@ -3,8 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="author" content="Rhys Minchin">
+    <meta name="description" content="Register page">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Account</title>
+    <title>Cards</title>
     <link href="{{ url_for('static', filename='css/halfmoon.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
 </head>
@@ -27,7 +29,7 @@
                     <a href="#" class="nav-link">Account Settings </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url_for('manage_cards.manage_cards_func') }}" class="nav-link">Manage Cards</a>
+                    <a href="{{ url_for('manage_cards_page.manage_cards_page_func') }}" class="nav-link">Manage Cards</a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">Manage Overdraft</a>
@@ -66,40 +68,40 @@
 
         <div class="content-wrapper">
             {% for card in users_cards %}
-                <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
-                 <div class="card shadow">
-                 <h2>
-                     {{ card. }}
-                 </h2>
-                </div>
+            <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
+            <div class="card shadow">
+                <h2>
+                    {{ card. }}
+                </h2>
+            </div>
             {% endfor %}
 
         </div>
-            <nav class="navbar navbar-fixed-bottom">
-                <div class="container-fluid">
-                    <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
+        <nav class="navbar navbar-fixed-bottom">
+            <div class="container-fluid">
+                <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
 
-                    <!-- JavaScript -->
-                    <script type="text/javascript">
-                        // Dark mode toggle
-                        function toggleDark() {
-                            halfmoon.toggleDarkMode();
-                        }
-                    </script>
-                    <ul class="navbar-nav ml-auto">
-                        <!-- ml-auto = margin-left: auto -->
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">Contact</a>
-                        </li>
-                    </ul>
-                    <!-- Navbar text -->
-                    <span class="navbar-text">
+                <!-- JavaScript -->
+                <script type="text/javascript">
+                    // Dark mode toggle
+                    function toggleDark() {
+                        halfmoon.toggleDarkMode();
+                    }
+                </script>
+                <ul class="navbar-nav ml-auto">
+                    <!-- ml-auto = margin-left: auto -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Contact</a>
+                    </li>
+                </ul>
+                <!-- Navbar text -->
+                <span class="navbar-text">
                         <p>
                             &copy; <strong>StuBank </strong> a project by Team35
                         </p>
                     </span>
-                </div>
-            </nav>
+            </div>
+        </nav>
         <!-- Halfmoon JS -->
         <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
     </div>
