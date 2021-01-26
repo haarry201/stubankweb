@@ -1,9 +1,11 @@
 import datetime
+import pytz
 import random
 import mysql.connector
 
 from flask import Flask, Blueprint, render_template, request, redirect, url_for
 from mysql.connector import MySQLConnection, Error
+
 from controllers.DbConnector import DbConnector
 from controllers.PasswordManager import PasswordManager
 
@@ -36,9 +38,30 @@ def direct_debit_func():
         hex_num = hex_num[:16]
         recurring_transaction_id = hex_num
 
+        # Defining timezone
+        tz_uk = pytz.timezone('Europe/London')
+
         # Defining date and time of transaction
-        now = datetime.datetime.now()
-        datetime_formatted = now.strftime("%d-%m-%Y")
+        datetime_uk = datetime.datetime.now(tz_uk)
+        datetime_formatted = datetime_uk.strftime("%d-%m-%Y")
+
+        # Defining the weekly payment frequency
+        t1 = datetime.timedelta(weeks=1)
+        t2 = datetime.timedelta(weeks=2)
+        weekly_payment = t2 - t1
+
+        # Defining every four weeks payment frequency
+        t3 = datetime.timedelta(weeks=5)
+        every_four_weeks_payment = t3 - t1
+
+        # Defining monthly payment frequency
+        t4 = datetime.timedelta(days=30)
+        t5 = datetime.timedelta(days=60)
+        monthly_payment = t5 - t4
+
+        # Defining annual payment frequency
+        t6 = datetime.timedelta(days=365)
+        t7 = datetime.timedelta()
 
         try:
             db_connector = DbConnector()
@@ -49,6 +72,9 @@ def direct_debit_func():
             cursor.execute("INSERT INTO RecurringTransactions VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
                            (recurring_transaction_id, account_num_sending, account_num_receiving, sort_code_sending,
                             sort_code_receiving, datetime_formatted, recurrence_frequency, reference))
+            conn.commit()
+            cursor.close()
+            conn.close()
 
         except Error as error:
             print(error)
