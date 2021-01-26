@@ -100,10 +100,11 @@
                        formaction="/reports/home">
             </form>
         </div>
+        <br>
         <div class="align-content-lg-center">
             <form action="..." method="...">
-                <input class="btn btn-danger btn-block" type="submit" value="Check out your Expenditure Stories"
-                       formaction="{{url_for("stories_page.stories_page_func")}}">
+                <input class="btn btn-block" type="submit" value="Check out your Expenditure Stories"
+                       formaction="{{ url_for("stories_page.stories_page_func") }}">
             </form>
         </div>
         <div class="table-class card shadow">
