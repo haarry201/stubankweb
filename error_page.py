@@ -35,6 +35,7 @@ def error_page_func():
                    "e9": "Error, Email address already in use",
                    "e10": "Error, this account appears to be in use",
                    "e11": "Error, you do not have the balance to process this transaction",
-                   "e12": "Error, this 2FA code is incorrect"
+                   "e12": "Error, this 2FA code is incorrect",
+                   "e13": "Error, cannot process this transaction - check that inputs are correct"
                    }  # error codes and description of what caused the error
     return render_template('error.html', error_codes=error_codes, code=code, src=src)
