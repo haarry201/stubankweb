@@ -1,10 +1,9 @@
 import binascii
 import hashlib
-import os
 
 import mysql
 
-import expenditure_reports
+import expenditure_reports_page
 from flask import Blueprint, render_template, request, session
 from manage_pools import get_member_firstnames
 
@@ -16,7 +15,7 @@ def display_pool_func():
     if not session.get("entered_pool_id"):
         entered_pool_id = request.form.get("pool_to_view")
         session["entered_pool_id"] = entered_pool_id
-    conn = expenditure_reports.get_conn()  # uses existing function for getting a db connection
+    conn = expenditure_reports_page.get_conn()  # uses existing function for getting a db connection
     cursor = conn.cursor(buffered=True)
     cursor.execute("SELECT * FROM PoolAccounts")  # gets all data stored in UserPools table
     row = cursor.fetchone()
@@ -56,7 +55,7 @@ def withdraw_money_pool():
 @display_pool.route('/leave_money_pool', methods=['GET', 'POST'])
 def leave_money_pool():
     if request.method == "POST":
-        conn = expenditure_reports.get_conn()
+        conn = expenditure_reports_page.get_conn()
         cursor = conn.cursor()
         query = "DELETE FROM UserPools WHERE UserID = %s AND PoolID = %s"
         user_id = session.get("user_id")
@@ -83,7 +82,7 @@ def remove_user_from_money_pool():
         entered_pool_password = request.form.get("pool_password")
         userid_to_remove = request.form.get("id_to_remove")
         pool_id = session.get("entered_pool_id")
-        conn = expenditure_reports.get_conn()  # uses existing function for getting a db connection
+        conn = expenditure_reports_page.get_conn()  # uses existing function for getting a db connection
         cursor = conn.cursor(buffered=True)
         cursor.execute("SELECT * FROM PoolAccounts")  # gets all data stored in UserPools table
         row = cursor.fetchone()
@@ -122,7 +121,7 @@ def delete_money_pool():
     if request.method == "POST":
         pool_id = session.get("entered_pool_id")
         try:
-            conn = expenditure_reports.get_conn()
+            conn = expenditure_reports_page.get_conn()
             conn.autocommit = False
             cursor = conn.cursor()
 
@@ -146,7 +145,7 @@ def delete_money_pool():
 
 
 def get_member_ids(pool_id):
-    conn = expenditure_reports.get_conn()
+    conn = expenditure_reports_page.get_conn()
     cursor = conn.cursor(buffered=True)
     cursor.execute("SELECT * FROM UserPools")  # gets all data stored in UserPools table
     row = cursor.fetchone()

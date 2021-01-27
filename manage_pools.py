@@ -5,7 +5,7 @@ import random
 import string
 from datetime import datetime
 
-import expenditure_reports
+import expenditure_reports_page
 from flask import Blueprint, render_template, session, request
 
 manage_pools = Blueprint('manage_pools', __name__, template_folder='templates')
@@ -17,7 +17,7 @@ def manage_pools_func():
     pool_ids = get_pool_ids(get_user_id())
 
     for pool_id in pool_ids:
-        conn = expenditure_reports.get_conn()
+        conn = expenditure_reports_page.get_conn()
         cursor = conn.cursor(buffered=True)
         cursor.execute("SELECT * FROM PoolAccounts")  # gets all data stored in PoolAccounts table
         row = cursor.fetchone()
@@ -77,7 +77,7 @@ def join_money_pool():
     if request.method == "POST":
         entered_join_id = request.form.get("join_code")  # get values from the web page
         user_id = get_user_id()
-        conn = expenditure_reports.get_conn()  # uses existing function for getting a db connection
+        conn = expenditure_reports_page.get_conn()  # uses existing function for getting a db connection
         cursor = conn.cursor(buffered=True)
         cursor.execute("SELECT * FROM PoolAccounts")  # gets all data stored in UserPools table
         row = cursor.fetchone()
@@ -96,7 +96,7 @@ def join_money_pool():
 
 
 def get_user_id():
-    conn = expenditure_reports.get_conn()
+    conn = expenditure_reports_page.get_conn()
     cursor = conn.cursor(buffered=True)
     cursor.execute("SELECT * FROM UserInfo")  # gets all data stored in UserInfo table
     row = cursor.fetchone()
@@ -108,7 +108,7 @@ def get_user_id():
 
 def get_pool_ids(user_id):
     pool_ids = []
-    conn = expenditure_reports.get_conn()
+    conn = expenditure_reports_page.get_conn()
     cursor = conn.cursor(buffered=True)
     cursor.execute("SELECT * FROM UserPools")  # gets all data stored in UserInfo table
     row = cursor.fetchone()
@@ -120,7 +120,7 @@ def get_pool_ids(user_id):
 
 
 def get_member_firstnames(pool_id):
-    conn = expenditure_reports.get_conn()
+    conn = expenditure_reports_page.get_conn()
     cursor = conn.cursor(buffered=True)
     cursor.execute("SELECT * FROM UserPools")  # gets all data stored in UserPools table
     row = cursor.fetchone()
@@ -150,7 +150,7 @@ def get_member_firstnames(pool_id):
 
 
 def execute_query(query, args):
-    conn = expenditure_reports.get_conn()  # use existing function to get database connection
+    conn = expenditure_reports_page.get_conn()  # use existing function to get database connection
     cursor = conn.cursor()
     cursor.execute(query, args)
     conn.commit()
