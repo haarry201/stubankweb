@@ -36,7 +36,6 @@ def all_transactions_page_func():
         #Trying to get the previous page, and increment it by 1 if
         page_num = 1
         try:
-            print(request.args.get('page_num'))
             page_num = int(request.args.get('page_num'))
             if page_num < 1:
                 page_num = 1
