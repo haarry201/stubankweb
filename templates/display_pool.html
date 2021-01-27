@@ -121,15 +121,12 @@
                           <h5 class="modal-title">Deposit to the Pool</h5>
                           <form action="{{url_for('display_pool.deposit_money_pool')}}" method="post">
                               <div class="form-group">
-                                  <label for="bankAccount" class="required">Bank Account</label>
-                                  <select id="account" class="form-control" required="required">
-                                      <option value="current">Current Account</option>
-                                      <option value="savings">Savings Account</option>
-                                  </select>
-                              </div>
-                              <div class="form-group">
-                                  <label for="deposit" class="required">Amount to Deposit (£)</label>
-                                  <input type="number" min="0" max="1000" id="deposit" class="form-control" required="required" step=".01">
+                                  <label for="account_number" class="required">Account Number</label>
+                                  <input type="number" min="0" max="99999999" id="account_number" name="account_number" class="form-control" required="required">
+                                  <label for="sort_code" class="required">Sort Code</label>
+                                  <input type="number" min="0" max="999999" id="sort_code" name="sort_code" class="form-control" required="required">
+                                  <label for="amount" class="required">Amount to Withdraw (£)</label>
+                                  <input type="number" min="0" max="1000" id="amount" name="amount" class="form-control" required="required" step=".01">
                               </div>
                               <input class="btn btn-primary" type="submit" value="Deposit">
                               <a href="#" class="btn btn-secondary" role="button">Cancel</a>
@@ -147,15 +144,12 @@
                           <h5 class="modal-title">Withdraw From the Pool</h5>
                           <form action="{{url_for('display_pool.withdraw_money_pool')}}" method="post">
                               <div class="form-group">
-                                  <label for="bankAccount" class="required">Bank Account</label>
-                                  <select id="account" class="form-control" required="required">
-                                      <option value="current">Current Account</option>
-                                      <option value="savings">Savings Account</option>
-                                  </select>
-                              </div>
-                              <div class="form-group">
-                                  <label for="deposit" class="required">Amount to Withdraw (£)</label>
-                                  <input type="number" min="0" max="1000" id="deposit" class="form-control" required="required" step=".01">
+                                  <label for="account_number" class="required">Account Number</label>
+                                  <input type="number" min="0" max="99999999" id="account_number" name="account_number" class="form-control" required="required">
+                                  <label for="sort_code" class="required">Sort Code</label>
+                                  <input type="number" min="0" max="999999" id="sort_code" name="sort_code" class="form-control" required="required">
+                                  <label for="amount" class="required">Amount to Withdraw (£)</label>
+                                  <input type="number" min="0" max="1000" id="amount" name="amount" class="form-control" required="required" step=".01">
                               </div>
                               <input class="btn btn-primary" type="submit" value="Withdraw">
                               <a href="#" class="btn btn-secondary" role="button">Cancel</a>
@@ -236,6 +230,10 @@
                           </a>
                           <h5 class="modal-title">Are you sure you want to delete the pool?</h5>
                           <form action="{{url_for('display_pool.delete_money_pool')}}" method="post">
+                              <div class="form-group">
+                                  <label for="pool_password" class="required">Pool Password</label>
+                                  <input type="password" id="pool_password" name="pool_password" class="form-control" required="required">
+                              </div>
                               <input class="btn btn-danger" type="submit" value="Delete">
                               <a href="#" class="btn btn-secondary" role="button">Cancel</a>
                           </form>

@@ -1,6 +1,5 @@
 import binascii
 import hashlib
-
 import mysql
 
 import expenditure_reports_page
@@ -12,6 +11,10 @@ display_pool = Blueprint('display_pool', __name__, template_folder='templates')
 
 @display_pool.route('/', methods=['GET', 'POST'])
 def display_pool_func():
+    """
+
+    :return:
+    """
     if not session.get("entered_pool_id"):
         entered_pool_id = request.form.get("pool_to_view")
         session["entered_pool_id"] = entered_pool_id
@@ -40,20 +43,44 @@ def display_pool_func():
 
 @display_pool.route('/deposit_money_pool', methods=['GET', 'POST'])
 def deposit_money_pool():
+    """
+
+    :return:
+    """
     if request.method == "POST":
-        return render_template('display_pool.html')
+        account_number = int(request.form.get("account_number"))
+        sort_code = int(request.form.get("sort_code"))
+        amount = request.form.get("amount")
+
+        withdraw_and_deposit(account_number, sort_code, amount, True)
+        return render_template('accounts.html')
+
     return render_template('register.html')
 
 
 @display_pool.route('/withdraw_money_pool', methods=['GET', 'POST'])
 def withdraw_money_pool():
+    """
+
+    :return:
+    """
     if request.method == "POST":
-        return render_template('display_pool.html')
+        account_number = int(request.form.get("account_number"))
+        sort_code = int(request.form.get("sort_code"))
+        amount = request.form.get("amount")
+
+        withdraw_and_deposit(account_number, sort_code, amount, False)
+        return render_template('accounts.html')
+
     return render_template('register.html')
 
 
 @display_pool.route('/leave_money_pool', methods=['GET', 'POST'])
 def leave_money_pool():
+    """
+
+    :return:
+    """
     if request.method == "POST":
         conn = expenditure_reports_page.get_conn()
         cursor = conn.cursor()
@@ -71,6 +98,10 @@ def leave_money_pool():
 
 @display_pool.route('/add_user_to_money_pool', methods=['GET', 'POST'])
 def add_user_to_money_pool():
+    """
+
+    :return:
+    """
     if request.method == "POST":
         return render_template('display_pool.html')
     return render_template('register.html')
@@ -78,39 +109,31 @@ def add_user_to_money_pool():
 
 @display_pool.route('/remove_user_from_money_pool', methods=['GET', 'POST'])
 def remove_user_from_money_pool():
+    """
+
+    :return:
+    """
     if request.method == "POST":
         entered_pool_password = request.form.get("pool_password")
         userid_to_remove = request.form.get("id_to_remove")
         pool_id = session.get("entered_pool_id")
-        conn = expenditure_reports_page.get_conn()  # uses existing function for getting a db connection
-        cursor = conn.cursor(buffered=True)
-        cursor.execute("SELECT * FROM PoolAccounts")  # gets all data stored in UserPools table
-        row = cursor.fetchone()
-        while row is not None:
-            stored_password = row[3]
-            salt = row[4]
 
-            pool_pwdhash = hashlib.pbkdf2_hmac('sha512', entered_pool_password.encode('utf-8'), salt.encode('ascii'),
-                                               100000)
-            pool_pwdhash = binascii.hexlify(pool_pwdhash).decode('ascii')
-
-            if row[0] == pool_id and pool_pwdhash == stored_password:
-                cursor.close()
-                cursor = conn.cursor(buffered=True)
-                cursor.execute("SELECT * FROM UserPools")  # gets all data stored in UserPools table
-                row = cursor.fetchone()
-                while row is not None:
-                    if row[0] == pool_id and row[1] == userid_to_remove:
-                        cursor.close()
-                        cursor = conn.cursor()
-                        query = "DELETE FROM UserPools WHERE UserID = %s AND PoolID = %s"
-                        cursor.execute(query, (userid_to_remove, pool_id))
-                        conn.commit()
-                        cursor.close()
-                        conn.close()
-                    row = cursor.fetchone()
-                conn.close()
+        if check_entered_password(entered_pool_password, pool_id):
+            conn = expenditure_reports_page.get_conn()
+            cursor = conn.cursor(buffered=True)
+            cursor.execute("SELECT * FROM UserPools")  # gets all data stored in UserPools table
             row = cursor.fetchone()
+            while row is not None:
+                if row[0] == pool_id and row[1] == userid_to_remove:
+                    cursor.close()
+                    cursor = conn.cursor()
+                    query = "DELETE FROM UserPools WHERE UserID = %s AND PoolID = %s"
+                    cursor.execute(query, (userid_to_remove, pool_id))
+                    conn.commit()
+                    cursor.close()
+                    conn.close()
+                row = cursor.fetchone()
+            conn.close()
 
         return render_template('accounts.html')
     return render_template('register.html')
@@ -118,33 +141,45 @@ def remove_user_from_money_pool():
 
 @display_pool.route('/delete_money_pool', methods=['GET', 'POST'])
 def delete_money_pool():
+    """
+
+    :return:
+    """
     if request.method == "POST":
         pool_id = session.get("entered_pool_id")
-        try:
-            conn = expenditure_reports_page.get_conn()
-            conn.autocommit = False
-            cursor = conn.cursor()
+        pool_password = request.form.get("pool_password")
+        if check_entered_password(pool_password, pool_id):
+            try:
+                conn = expenditure_reports_page.get_conn()
+                conn.autocommit = False
+                cursor = conn.cursor()
 
-            query = "DELETE FROM UserPools WHERE PoolID = %s"
-            cursor.execute(query, (pool_id,))
+                query = "DELETE FROM UserPools WHERE PoolID = %s"
+                cursor.execute(query, (pool_id,))
 
-            query = "DELETE FROM PoolAccounts WHERE PoolID = %s"
-            cursor.execute(query, (pool_id,))
+                query = "DELETE FROM PoolAccounts WHERE PoolID = %s"
+                cursor.execute(query, (pool_id,))
 
-            conn.commit()
-        except mysql.connector.Error as error:
-            print("Failed to delete pool: {}".format(error))
-            conn.rollback()
-        finally:
-            if conn.is_connected():
-                cursor.close()
-                conn.close()
+                conn.commit()
+            except mysql.connector.Error as error:
+                print("Failed to delete pool: {}".format(error))
+                conn.rollback()
+            finally:
+                if conn.is_connected():
+                    cursor.close()
+                    conn.close()
 
-        return render_template('accounts.html')
+            return render_template('accounts.html')
+        return render_template('register.html')
     return render_template('register.html')
 
 
 def get_member_ids(pool_id):
+    """
+
+    :param pool_id:
+    :return:
+    """
     conn = expenditure_reports_page.get_conn()
     cursor = conn.cursor(buffered=True)
     cursor.execute("SELECT * FROM UserPools")  # gets all data stored in UserPools table
@@ -160,3 +195,95 @@ def get_member_ids(pool_id):
         row = cursor.fetchone()
     cursor.close()
     return members_ids
+
+
+def check_entered_password(entered_password, pool_id):
+    """
+
+    :param entered_password:
+    :param pool_id:
+    :return:
+    """
+    conn = expenditure_reports_page.get_conn()  # uses existing function for getting a db connection
+    cursor = conn.cursor(buffered=True)
+    cursor.execute("SELECT * FROM PoolAccounts")  # gets all data stored in UserPools table
+    row = cursor.fetchone()
+    while row is not None:
+        stored_password = row[3]
+        salt = row[4]
+        pool_pwdhash = hashlib.pbkdf2_hmac('sha512', entered_password.encode('utf-8'), salt.encode('ascii'),
+                                           100000)
+        pool_pwdhash = binascii.hexlify(pool_pwdhash).decode('ascii')
+        if row[0] == pool_id and pool_pwdhash == stored_password:
+            conn.close()
+            return True
+        row = cursor.fetchone()
+    conn.close()
+    return False
+
+
+def withdraw_and_deposit(account_number, sort_code, amount, withdraw_or_deposit):
+    """
+
+    :param account_number:
+    :param sort_code:
+    :param amount:
+    :param withdraw_or_deposit:
+    :return:
+    """
+    int_amount = int(float(amount) * 100)
+    pool_id = session.get("entered_pool_id")
+    pool_balance = ""
+    conn = expenditure_reports_page.get_conn()  # uses existing function for getting a db connection
+
+    cursor = conn.cursor(buffered=True)
+    cursor.execute("SELECT * FROM PoolAccounts")  # gets all data stored in UserPools table
+    row = cursor.fetchone()
+    while row is not None:
+        if row[0] == pool_id:
+            pool_balance = row[1]
+        row = cursor.fetchone()
+    cursor.close()
+
+    cursor = conn.cursor(buffered=True)
+    cursor.execute("SELECT * FROM UserAccounts")  # gets all data stored in UserPools table
+    row = cursor.fetchone()
+    while row is not None:
+        if row[0] == str(account_number) and row[1] == str(sort_code):
+            if withdraw_or_deposit:
+                account_overdraft = row[4]
+                account_balance = row[5]
+                new_pool_balance = pool_balance + int_amount
+                if account_balance + account_overdraft - int_amount > 0:
+                    new_account_balance = account_balance - int_amount
+            else:
+                account_balance = row[5]
+                new_account_balance = account_balance + int_amount
+                if pool_balance > int_amount:
+                    new_pool_balance = pool_balance - int_amount
+            account_number = str(account_number)
+            sort_code = str(sort_code)
+            try:
+                conn = expenditure_reports_page.get_conn()
+                conn.autocommit = False
+                cursor = conn.cursor()
+
+                query = "UPDATE UserAccounts SET CurrentBalance = %s WHERE AccountNum = %s AND SortCode = %s"
+                args = (new_account_balance, account_number, sort_code)
+                cursor.execute(query, args)
+
+                query = "UPDATE PoolAccounts SET PoolBalance = %s WHERE PoolID = %s"
+                args = (new_pool_balance, pool_id)
+                cursor.execute(query, args)
+
+                conn.commit()
+            except mysql.connector.Error as error:
+                print("Failed to delete pool: {}".format(error))
+                conn.rollback()
+            finally:
+                if conn.is_connected():
+                    cursor.close()
+                    conn.close()
+
+        row = cursor.fetchone()
+    return render_template('manage_pools.html')

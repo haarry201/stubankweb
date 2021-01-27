@@ -13,6 +13,10 @@ manage_pools = Blueprint('manage_pools', __name__, template_folder='templates')
 
 @manage_pools.route('/', methods=['GET', 'POST'])
 def manage_pools_func():
+    """
+
+    :return:
+    """
     pools = []
     pool_ids = get_pool_ids(get_user_id())
 
@@ -41,6 +45,10 @@ def manage_pools_func():
 
 @manage_pools.route('/create_money_pool', methods=['GET', 'POST'])
 def create_money_pool():
+    """
+
+    :return:
+    """
     if request.method == "POST":
         pool_id = ''.join(  # generate a random id for the pool to be used as the pk
             random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(16))
@@ -74,6 +82,10 @@ def create_money_pool():
 
 @manage_pools.route('/join_money_pool', methods=['GET', 'POST'])
 def join_money_pool():
+    """
+
+    :return:
+    """
     if request.method == "POST":
         entered_join_id = request.form.get("join_code")  # get values from the web page
         user_id = get_user_id()
@@ -96,6 +108,10 @@ def join_money_pool():
 
 
 def get_user_id():
+    """
+
+    :return:
+    """
     conn = expenditure_reports_page.get_conn()
     cursor = conn.cursor(buffered=True)
     cursor.execute("SELECT * FROM UserInfo")  # gets all data stored in UserInfo table
@@ -107,6 +123,11 @@ def get_user_id():
 
 
 def get_pool_ids(user_id):
+    """
+
+    :param user_id:
+    :return:
+    """
     pool_ids = []
     conn = expenditure_reports_page.get_conn()
     cursor = conn.cursor(buffered=True)
@@ -120,6 +141,11 @@ def get_pool_ids(user_id):
 
 
 def get_member_firstnames(pool_id):
+    """
+
+    :param pool_id:
+    :return:
+    """
     conn = expenditure_reports_page.get_conn()
     cursor = conn.cursor(buffered=True)
     cursor.execute("SELECT * FROM UserPools")  # gets all data stored in UserPools table
@@ -150,6 +176,12 @@ def get_member_firstnames(pool_id):
 
 
 def execute_query(query, args):
+    """
+
+    :param query:
+    :param args:
+    :return:
+    """
     conn = expenditure_reports_page.get_conn()  # use existing function to get database connection
     cursor = conn.cursor()
     cursor.execute(query, args)
