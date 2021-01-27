@@ -7,7 +7,7 @@ File name: expenditure_reports_page.py
 Author: Rhys Minchin
 Credits: Rhys Minchin
 Date created: 16/12/2020
-Date last modified: 25/01/2021
+Date last modified: 27/01/2021
 Python version: 3.7
 Purpose: This file provides the back-end functionality for displaying expenditure reports to the user. The method
          get_conn connects to the database, the method get_info returns all accounts owned by the currently logged in
