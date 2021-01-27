@@ -41,6 +41,9 @@
             <li class="nav-item">
                 <a href="{{ url_for('manage_pools_page.manage_pools_page_func') }}" class="nav-link">Manage Pools</a>
             </li>
+            <li class="nav-item">
+                <a href="{{ url_for('offer_page.offer_page_func') }}" class="nav-link">Offers</a>
+            </li>
         </ul>
         <form class="form-inline d-none d-xl-flex ml-auto" action="..." method="...">
             <input class="btn btn-danger" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
@@ -61,7 +64,7 @@
                         Settings</a>
                     <a href="{{ url_for('manage_cards_page.manage_cards_page_func') }}" class="dropdown-item">Manage Cards</a>
                     <a href="{{ url_for('manage_pools_page.manage_pools_page_func') }}" class="dropdown-item">Manage Pools</a>
-
+                    <a href="{{ url_for('offer_page.offer_page_func') }}" class="dropdown-item">Offers</a>
                     <div class="dropdown-divider"></div>
                     <div class="dropdown-content">
                         <form action="..." method="...">
