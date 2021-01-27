@@ -1,5 +1,13 @@
 from datetime import datetime, timedelta
 import random
+import cryptography
+import os
+import base64
+
+from cryptography.fernet import Fernet
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 import mysql.connector
 
 from flask import Flask, Blueprint, render_template, request, redirect, url_for
@@ -24,6 +32,7 @@ def direct_debit_func():
         every_four_weeks_recurrence_frequency = request.form.get("everyFourWeeks")
         monthly_recurrence_frequency = request.form.get("monthly")
         annual_recurrence_frequency = request.form.get("annually")
+        date_of_first_payment = request.form.get("paymentDate")
         reference = request.form.get("reference")
         amount = request.form.get("amount")
         transfer_value = int(float(amount) * 100)
@@ -33,6 +42,23 @@ def direct_debit_func():
         hex_num = "%016x" % ran
         hex_num = hex_num[:16]
         recurring_transaction_id = hex_num
+
+        # Encrypting the primary key recurring transaction ID
+        file = open('key.key', 'rb')  # Open file
+        key = file.read()  # The key will be in bytes
+        file.close()  # Close file
+
+        # Encode
+        id = recurring_transaction_id.encode()  # Convert to bytes
+        f = Fernet(key)
+        encrypted_id = f.encrypt(id)
+
+        # Decrypt
+        f2 = Fernet(key)
+        decrypted_id = f2.decrypt(encrypted_id)
+
+        # Decode id
+        recurring_transaction_id_secure = decrypted_id.decode()
 
         # Defining date and time of transaction
         datetime_now = datetime.now()
@@ -45,10 +71,10 @@ def direct_debit_func():
         annual_payment = timedelta(days=365)
 
         # Defining next payment dates
-        next_payment_date_weekly = datetime_now + weekly_payment
-        next_payment_date_every_four_weeks = datetime_now + every_four_weeks_payment
-        next_payment_date_monthly = datetime_now + monthly_payment
-        next_payment_date_annual = datetime_now + annual_payment
+        next_payment_date_weekly = date_of_first_payment + weekly_payment
+        next_payment_date_every_four_weeks = date_of_first_payment + every_four_weeks_payment
+        next_payment_date_monthly = date_of_first_payment + monthly_payment
+        next_payment_date_annual = date_of_first_payment + annual_payment
 
         # Formatting dates
         next_payment_date_weekly_formatted = next_payment_date_weekly.strftime("%d-%m-%Y")
@@ -66,6 +92,9 @@ def direct_debit_func():
         elif recurrence_frequency == annual_recurrence_frequency:
             next_payment_date = next_payment_date_annual_formatted
 
+        # Automatic next payment functionality
+
+        # Connecting to database
         try:
             db_connector = DbConnector()
             conn = db_connector.getConn()
@@ -92,7 +121,7 @@ def direct_debit_func():
                     row = cursor.fetchone()
 
             cursor.execute("INSERT INTO RecurringTransactions VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
-                           (recurring_transaction_id, account_num_sending, account_num_receiving, sort_code_sending,
+                           (recurring_transaction_id_secure, account_num_sending, account_num_receiving, sort_code_sending,
                             sort_code_receiving, transaction_date, next_payment_date, amount, balance_change,
                             recurrence_frequency, reference, recurring_current_balance))
             conn.commit()
