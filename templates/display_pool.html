@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chris' Pool</title>
+    <title>{{ pool_name }}</title>
     <link href="{{ url_for('static', filename='css/halfmoon.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
 </head>
@@ -67,25 +67,8 @@
 
         <div class="content-wrapper">
             <div class="table-class card shadow">
-                <h1 class="text-center">Chris' Pool</h1>
-                <table class="table small">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Balance</th>
-                            <th>Members</th>
-                            <th>Date Created</th>
-                            <th>Owner</th>
-                        </tr>
-                    </thead>
-                    <tr>
-                        <td><strong><a href>Chris' Pool</a></strong></td>
-                        <td>£1000.00</td>
-                        <td>Chris, Carl, Jeff</td>
-                        <td>07/01/2021</td>
-                        <td>Chris</td>
-                    </tr>
-                </table>
+                <h1 class="text-center">{{ pool_name }}</h1>
+                <div id="pool_table"></div>
                 <form>
                     <input class="btn btn-primary" type="submit" value="Deposit" formaction="#modalDeposit">
                     <input class="btn btn-primary" type="submit" value="Withdraw" formaction="#modalWithdraw">
@@ -96,6 +79,37 @@
                 </form>
             </div>
 
+            <script>
+                const data = [{% for item in pool %}
+                    "{{item}}",
+                {% endfor %}];
+
+                if (data.length > 0) {
+                    // Draw HTML table
+                    let html = "<table class='table small'><thead><tr><th>Name</th><th>ID</th><th>Balance</th><th>Members</th><th>Member ID's</th><th>Date Created</th><th>Owner</th></tr></thead>";
+
+                    // Loop through array and add table cells
+                    window.value = []
+                    for (let i = 0; i < data.length; i++) {
+
+                        const split_pools = data[i].split(",");
+                        window.value += split_pools[0] + ","
+                        html += "<tr><td><strong>" + split_pools[0] + "</strong></td>"
+                        html += "<td>" + split_pools[1] + "</td>"
+                        html += "<td>£" + parseInt(split_pools[2])/100 + "</td>"
+                        html += "<td>" + split_pools[3] + "</td>"
+                        html += "<td>" + split_pools[4] + "</td>"
+                        html += "<td>" + split_pools[5] + "</td>"
+                        html += "<td>" + split_pools[6] + "</td></tr>"
+                    }
+                    html += "</tr></table>";
+
+                    document.getElementById("pool_table").innerHTML = html;
+                } else {
+                    document.getElementById("pool_table").innerHTML = "<p>You do not currently have any pools</p>"
+                }
+            </script>
+
             <div class="modal" id="modalDeposit" tabindex="-1" role="dialog">
                   <div class="modal-dialog" role="document">
                       <div class="modal-content">
@@ -103,7 +117,7 @@
                               <span aria-hidden="true">&times;</span>
                           </a>
                           <h5 class="modal-title">Deposit to the Pool</h5>
-                          <form action="..." method="...">
+                          <form action="{{url_for('display_pool.deposit_money_pool')}}" method="post">
                               <div class="form-group">
                                   <label for="bankAccount" class="required">Bank Account</label>
                                   <select id="account" class="form-control" required="required">
@@ -129,7 +143,7 @@
                               <span aria-hidden="true">&times;</span>
                           </a>
                           <h5 class="modal-title">Withdraw From the Pool</h5>
-                          <form action="..." method="...">
+                          <form action="{{url_for('display_pool.withdraw_money_pool')}}" method="post">
                               <div class="form-group">
                                   <label for="bankAccount" class="required">Bank Account</label>
                                   <select id="account" class="form-control" required="required">
@@ -155,8 +169,8 @@
                               <span aria-hidden="true">&times;</span>
                           </a>
                           <h5 class="modal-title">Are you sure you want to leave?</h5>
-                          <form>
-                              <input class="btn btn-danger" type="submit" value="Leave" formaction="">
+                          <form action="{{url_for('display_pool.leave_money_pool')}}" method="post">
+                              <input class="btn btn-danger" type="submit" value="Leave">
                               <a href="#" class="btn btn-secondary" role="button">Cancel</a>
                           </form>
                       </div>
@@ -169,12 +183,24 @@
                           <a href="#" class="btn close" role="button" aria-label="Close">
                               <span aria-hidden="true">&times;</span>
                           </a>
-                          <h5 class="modal-title">Share the information below with the person you would like to add</h5>
-                          <form>
-                              <label>Pool Username: username</label>
-                              <label>Pool Password: password</label>
+                          <a href="#" class="btn close" role="button" aria-label="Copy Join Code">
+                              <span aria-hidden="true">&times;</span>
+                          </a>
+                          <div class="form-group">
+                              <h5 class="modal-title">Share this join code with another user:</h5>
+                              <input type="text" id="pool_join_code" class="form-control" readonly="readonly" value="{{ pool_join_code }}">
+                              <a href="#" class="btn btn-primary" role="button" onclick="copyText()">Copy Join Code</a>
                               <a href="#" class="btn btn-secondary" role="button">Close</a>
-                          </form>
+                              <script>
+                                    function copyText() {
+                                        var copyText = document.getElementById("pool_join_code");
+                                        copyText.select();
+                                        copyText.setSelectionRange(0, 99999)
+                                        document.execCommand("copy");
+                                        alert("Copied the text: " + copyText.value);
+                                    }
+                              </script>
+                          </div>
                       </div>
                   </div>
             </div>
@@ -186,18 +212,15 @@
                               <span aria-hidden="true">&times;</span>
                           </a>
                           <h5 class="modal-title">Remove a User From the Pool</h5>
-                          <form action="..." method="...">
+                          <form action="{{url_for('display_pool.remove_user_from_money_pool')}}" method="post">
                               <div class="form-group">
-                                  <label for="bankAccount" class="required">User to Remove</label>
-                                  <select id="account" class="form-control" required="required">
-                                      <option>Carl</option>
-                                      <option>Jeff</option>
-                                  </select>
+                                  <label for="pool_password" class="required">Pool Password</label>
+                                  <input type="password" id="pool_password" name="pool_password" class="form-control" required="required">
+                                  <label for="id_to_remove" class="required">ID of User to Remove</label>
+                                  <input type="text" id="id_to_remove" name="id_to_remove" class="form-control" required="required">
                               </div>
-                              <form>
-                                  <input class="btn btn-danger" type="submit" value="Remove" formaction="">
-                                  <a href="#" class="btn btn-secondary" role="button">Cancel</a>
-                              </form>
+                              <input class="btn btn-danger" type="submit" value="Remove User">
+                              <a href="#" class="btn btn-secondary" role="button">Cancel</a>
                           </form>
                       </div>
                   </div>
@@ -210,8 +233,8 @@
                               <span aria-hidden="true">&times;</span>
                           </a>
                           <h5 class="modal-title">Are you sure you want to delete the pool?</h5>
-                          <form>
-                              <input class="btn btn-danger" type="submit" value="Delete" formaction="">
+                          <form action="{{url_for('display_pool.delete_money_pool')}}" method="post">
+                              <input class="btn btn-danger" type="submit" value="Delete">
                               <a href="#" class="btn btn-secondary" role="button">Cancel</a>
                           </form>
                       </div>
@@ -244,10 +267,9 @@
                 </div>
             </nav>
         </div>
-        <!-- Halfmoon JS -->
-        <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
+    <!-- Halfmoon JS -->
+    <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
     </div>
 </body>
-
 
 </html>

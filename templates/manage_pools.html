@@ -33,7 +33,7 @@
                     <a href="#" class="nav-link">Manage Overdraft</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{url_for('manage_pools.manage_pools_func', filename='manage_pools.html')}}" class="nav-link">Manage Pools</a>
+                    <a href="{{url_for('manage_pools.manage_pools_func')}}" class="nav-link">Manage Pools</a>
                 </li>
             </ul>
             <form class="form-inline d-none d-md-flex ml-auto" action="..." method="...">
@@ -52,7 +52,7 @@
                         <a href="#" class="dropdown-item">Account Settings</a>
                         <a href="#" class="dropdown-item">Manage Cards</a>
                         <a href="#" class="dropdown-item">Manage Overdraft</a>
-                        <a href="{{url_for('manage_pools.manage_pools_func', filename='manage_pools.html')}}" class="dropdown-item">Manage Pools</a>
+                        <a href="{{url_for('manage_pools.manage_pools_func')}}" class="dropdown-item">Manage Pools</a>
 
                         <div class="dropdown-divider"></div>
                         <div class="dropdown-content">
@@ -68,36 +68,61 @@
         <div class="content-wrapper">
             <div class="table-class card shadow">
                 <h1 class="text-center">Your Pools</h1>
-                <table class="table small">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Balance</th>
-                            <th>Members</th>
-                            <th>Date Created</th>
-                            <th>Owner</th>
-                        </tr>
-                    </thead>
-                    <tr>
-                        <td><strong><a href="{{url_for('display_pool.display_pool_func', filename='display_pool.html')}}">Dave's Pool</a></strong></td>
-                        <td>£1000.00</td>
-                        <td>Dave, Chris, Peter, Carl, Stanley, Jeff</td>
-                        <td>06/12/2020</td>
-                        <td>Dave</td>
-                    </tr>
-                    <tr>
-                        <td><strong><a href="{{url_for('display_pool.display_pool_func', filename='display_pool.html')}}">Chris' Pool</a></strong></td>
-                        <td>£1000.00</td>
-                        <td>Chris, Carl, Jeff</td>
-                        <td>07/01/2021</td>
-                        <td>Chris</td>
-                    </tr>
-                </table>
-
+                <div id="pools_table"></div>
                 <form>
+                    <input class="btn btn-primary" type="submit" value="View Pool" formaction="#modalView">
                     <input class="btn btn-primary" type="submit" value="Join Pool" formaction="#modalJoin">
                     <input class="btn btn-primary" type="submit" value="Create New Pool" formaction="#modalCreate">
                 </form>
+            </div>
+
+            <script>
+                const data = [{% for item in pools %}
+                    "{{item}}",
+                {% endfor %}];
+
+                if (data.length > 0) {
+                    // Draw HTML table
+                    let html = "<table class='table small'><thead><tr><th>Name</th><th>ID</th><th>Balance</th><th>Members</th><th>Date Created</th><th>Owner</th></tr></thead>";
+
+                    // Loop through array and add table cells
+                    window.value = []
+                    for (let i = 0; i < data.length; i++) {
+
+                        const split_pools = data[i].split(",");
+                        window.value += split_pools[0] + ","
+                        html += "<tr><td><strong>" + split_pools[0] + "</strong></td>"
+                        html += "<td>" + split_pools[1] + "</td>"
+                        html += "<td>£" + parseInt(split_pools[2])/100 + "</td>"
+                        html += "<td>" + split_pools[3] + "</td>"
+                        html += "<td>" + split_pools[4] + "</td>"
+                        html += "<td>" + split_pools[5] + "</td></tr>"
+                    }
+                    html += "</tr></table>";
+
+                    document.getElementById("pools_table").innerHTML = html;
+                } else {
+                    document.getElementById("pools_table").innerHTML = "<p>You do not currently have any pools</p>"
+                }
+            </script>
+
+            <div class="modal" id="modalView" tabindex="-1" role="dialog">
+                  <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                          <a href="#" class="close" role="button" aria-label="Cancel">
+                              <span aria-hidden="true">&times;</span>
+                          </a>
+                          <h5 class="modal-title">Pick Which Pool to View</h5>
+                          <form action="{{url_for('display_pool.display_pool_func')}}" method="post">
+                              <div class="form-group">
+                                  <label for="pool_code" class="required">ID of Pool to View</label>
+                                  <input type="text" id="pool_to_view" name="pool_to_view" class="form-control" required="required">
+                              </div>
+                              <input class="btn btn-primary" type="submit" value="View Pool">
+                              <a href="#" class="btn btn-secondary" role="button">Cancel</a>
+                          </form>
+                      </div>
+                  </div>
             </div>
 
             <div class="modal" id="modalJoin" tabindex="-1" role="dialog">
@@ -107,10 +132,10 @@
                               <span aria-hidden="true">&times;</span>
                           </a>
                           <h5 class="modal-title">Join a Pool</h5>
-                          <form action="..." method="...">
+                          <form action="{{url_for('manage_pools.join_money_pool')}}" method="post">
                               <div class="form-group">
-                                  <label for="pool_code" class="required">Pool Join Code</label>
-                                  <input type="text" id="pool_code" class="form-control" required="required">
+                                  <label for="join_code" class="required">Enter Pool Join Code</label>
+                                  <input type="text" id="join_code" name="join_code" class="form-control" required="required">
                               </div>
                               <input class="btn btn-primary" type="submit" value="Join Pool">
                               <a href="#" class="btn btn-secondary" role="button">Cancel</a>
@@ -126,7 +151,7 @@
                               <span aria-hidden="true">&times;</span>
                           </a>
                           <h5 class="modal-title">Create a New Pool</h5>
-                          <form action="{{url_for('manage_pools.create_money_pool', filename='manage_pools.html')}}" method="post">
+                          <form action="{{url_for('manage_pools.create_money_pool')}}" method="post">
                               <div class="form-group">
                                   <label for="username" class="required">Pool Name</label>
                                   <input type="text" id="pool_name" name="pool_name" class="form-control" required="required">
@@ -142,7 +167,7 @@
                   </div>
             </div>
 
-            <nav class="navbar navbar-static-bottom">
+            <nav class="navbar navbar-fixed-bottom">
                 <div class="container-fluid">
                     <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
 
@@ -156,22 +181,21 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- ml-auto = margin-left: auto -->
                         <li class="nav-item">
-                            <a href="#" class="nav-link">Contact</a>
+                            <a href="{{ url_for('extra_info.contact') }}" class="nav-link">Contact</a>
                         </li>
                     </ul>
                     <!-- Navbar text -->
                     <span class="navbar-text">
-                        <p>
-            &copy; <strong>StuBank </strong> 2021
-            </p>
-                    </span>
+                            <p>
+                &copy; <strong>StuBank </strong> 2021
+                </p>
+                        </span>
                 </div>
             </nav>
         </div>
-        <!-- Halfmoon JS -->
-        <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
+    <!-- Halfmoon JS -->
+    <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
     </div>
 </body>
-
 
 </html>
