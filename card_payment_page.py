@@ -24,12 +24,14 @@ card_payment_page = Blueprint('card_payment_page', __name__, template_folder='te
 @card_payment_page.route('/', methods=['GET', 'POST'])
 def card_payment_page_func():
     try:
+        # redirects user appropriately based on 2FA status, or whether they are an admin or not
         if 'user_id' in session:
             if session['needs_auth'] == True:
                 return redirect(url_for('login_page.login_page_func'))
-            else:
+            elif session['user_role'] == 'User':
                 user_id = session['user_id']
-                pass
+            else:
+                return redirect(url_for('admin_home_page.admin_home_page_func'))
         else:
             return redirect(url_for('login_page.login_page_func'))
     except:

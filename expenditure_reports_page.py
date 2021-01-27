@@ -52,11 +52,14 @@ def get_info():
 @expenditure_reports_page.route('/7days')
 def reports_7days():
     try:
+        # redirects user appropriately based on 2FA status, or whether they are an admin or not
         if 'user_id' in session:
             if session['needs_auth'] == True:
-                return redirect(url_for('login_page.login_page_func'))  # user redirected if not 2FA enabled
-            else:
+                return redirect(url_for('login_page.login_page_func'))
+            elif session['user_role'] == 'User':
                 pass
+            else:
+                return redirect(url_for('admin_home_page.admin_home_page_func'))
         else:
             return redirect(url_for('login_page.login_page_func'))
     except:
@@ -134,11 +137,14 @@ def reports_7days():
 @expenditure_reports_page.route('/weekly')
 def reports_weekly():
     try:
+        # redirects user appropriately based on 2FA status, or whether they are an admin or not
         if 'user_id' in session:
             if session['needs_auth'] == True:
-                return redirect(url_for('login_page.login_page_func'))  # user redirected if not 2FA enabled
-            else:
+                return redirect(url_for('login_page.login_page_func'))
+            elif session['user_role'] == 'User':
                 pass
+            else:
+                return redirect(url_for('admin_home_page.admin_home_page_func'))
         else:
             return redirect(url_for('login_page.login_page_func'))
     except:
@@ -206,11 +212,14 @@ def reports_weekly():
 @expenditure_reports_page.route("/yearly")
 def reports_yearly():
     try:
+        # redirects user appropriately based on 2FA status, or whether they are an admin or not
         if 'user_id' in session:
             if session['needs_auth'] == True:
-                return redirect(url_for('login_page.login_page_func'))  # user redirected if not 2FA enabled
-            else:
+                return redirect(url_for('login_page.login_page_func'))
+            elif session['user_role'] == 'User':
                 pass
+            else:
+                return redirect(url_for('admin_home_page.admin_home_page_func'))
         else:
             return redirect(url_for('login_page.login_page_func'))
     except:

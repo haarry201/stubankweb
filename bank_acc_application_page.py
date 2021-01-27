@@ -19,11 +19,14 @@ bank_acc_application_page = Blueprint('bank_acc_application_page', __name__, tem
 @bank_acc_application_page.route('/', methods=['GET', 'POST'])
 def bank_acc_application_page_func():
     try:
+        # redirects user appropriately based on 2FA status, or whether they are an admin or not
         if 'user_id' in session:
             if session['needs_auth'] == True:
                 return redirect(url_for('login_page.login_page_func'))
-            else:
+            elif session['user_role'] == 'User':
                 pass
+            else:
+                return redirect(url_for('admin_home_page.admin_home_page_func'))
         else:
             return redirect(url_for('login_page.login_page_func'))
     except:
