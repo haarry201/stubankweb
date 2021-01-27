@@ -84,7 +84,11 @@ def bank_transfer_page_func():
                                " AccountNum = (%s) AND SortCode = (%s)",
                                (new_transferee_value, receiver_account_num, receiver_sort_code))
 
-            cursor.execute("SELECT * FROM UserInfo WHERE UserID = (%s)", (receiver_user_id, ))
+            try:
+                cursor.execute("SELECT * FROM UserInfo WHERE UserID = (%s)", (receiver_user_id, ))
+            except UnboundLocalError:
+                return redirect(url_for('error_page.error_page_func', code="e13", src="card_payment_page_func.html"))
+
             result = cursor.fetchall()
             for row in result:
                 receiver_name = row[5] +" "+ row[6]
