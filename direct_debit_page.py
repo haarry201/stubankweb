@@ -43,10 +43,8 @@ def direct_debit_func():
         hex_num = hex_num[:16]
         recurring_transaction_id = hex_num
 
-        # Encrypting the primary key recurring transaction ID
-        file = open('key.key', 'rb')  # Open file
-        key = file.read()  # The key will be in bytes
-        file.close()  # Close file
+        # Generating key
+        key = Fernet.generate_key()
 
         # Encode
         id = recurring_transaction_id.encode()  # Convert to bytes
