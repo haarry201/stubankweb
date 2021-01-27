@@ -96,7 +96,7 @@ def direct_debit_func():
                 if row[1] == account_num_sending and row[3] == sort_code_sending:
                     account_num_receiving = row[2]
                     recurring_transfer_value = int(row[7])
-                    recurring_current_balance = recurring_transfer_value + transfer_value
+                    recurring_current_balance = recurring_transfer_value + amount
                     cursor.execute("UPDATE RecurringTransactions SET CurrentBalance = (%s) WHERE"
                                    " AccountNum = (%s) AND SortCode = (%s)",
                                    (recurring_current_balance, account_num_sending, sort_code_sending))
