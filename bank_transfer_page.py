@@ -1,18 +1,29 @@
-from flask import Flask, Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for, session
 
 from controllers import Transaction
 from controllers.DbConnector import DbConnector
-from mysql.connector import MySQLConnection, Error
+from classes.UserBankAccount import UserBankAccount
+from mysql.connector import Error
 from datetime import datetime
 import random
 
 from controllers.Transaction import MLTransaction
 
+'''
+File name: bank_transfer_page.py
+Author: Harry Kenny
+Credits: Harry Kenny, Jacob Scase
+Date created: 14/12/2020
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for allowing the user to transfer money from one account to another
+'''
+
 bank_transfer_page = Blueprint('bank_transfer_page', __name__, template_folder='templates')
 
 
 @bank_transfer_page.route('/', methods=['GET', 'POST'])
-def bank_transfer():
+def bank_transfer_page_func():
     try:
         if 'user_id' in session:
             if session['needs_auth'] == True:
@@ -25,13 +36,12 @@ def bank_transfer():
     except:
         return redirect(url_for('login_page.login_page_func'))
     if request.method == 'POST':
-        account_type = request.form.get("account_type")
-        if account_type == "student current account":
-            account_type_id = '123'
-        if account_type == "savings account":
-            account_type_id = '100'
-        account_num = request.form.get("account_number")
-        sort_code = request.form.get("sort_code")
+        account_info = request.form.get("account_sender_info")
+        account_info_split = account_info.split(",")
+        transferer_account_num = account_info_split[0]
+        transferer_sort_code = account_info_split[1]
+        receiver_account_num = request.form.get("account_number")
+        receiver_sort_code = request.form.get("sort_code")
         transfer_value = request.form.get("transfer_value")
         transfer_value = int(float(transfer_value) * 100)
 
@@ -50,62 +60,34 @@ def bank_transfer():
             db_connector = DbConnector()
             conn = db_connector.getConn()
             cursor = conn.cursor(buffered=True)
+            cursor.execute("SELECT * FROM UserAccounts WHERE AccountNum = (%s) AND SortCode = (%s)",(transferer_account_num,transferer_sort_code))
+            result = cursor.fetchall()
+            for row in result:
+                current_user_balance = int(row[5])
+                current_user_overdraft = int(row[4])
+                potential_balance = current_user_balance-transfer_value
+                print(current_user_overdraft)
+                if potential_balance < min(0,current_user_overdraft*-1):
+                    return redirect(url_for('error_page.error_page_func', code="e11", src="card_payment_page_func.html"))
 
-            cursor.execute("SELECT * FROM UserAccounts")
-            row = cursor.fetchone()
+            cursor.execute("UPDATE UserAccounts SET CurrentBalance = CurrentBalance - (%s) WHERE AccountNum = (%s) AND"
+                           " SortCode = (%s)", (transfer_value, transferer_account_num, transferer_sort_code))
 
-            while row is not None:
-                if row[2] == user_id and row[3] == account_type_id:
-                    current_value = int(row[5])
-                    new_value = current_value - transfer_value
-                    cursor.execute("UPDATE UserAccounts SET CurrentBalance = (%s) WHERE UserID = (%s) AND"
-                                   " AccountTypeID = (%s)", (new_value, user_id, account_type_id))
-                    break
+            cursor.execute("SELECT * FROM UserAccounts WHERE AccountNum = (%s) AND SortCode = (%s)",(receiver_account_num,receiver_sort_code))
+            result = cursor.fetchall()
 
-                else:
-                    row = cursor.fetchone()
+            for row in result:
+                receiver_user_id = row[2]
+                transferee_value_current = int(row[5])
+                new_transferee_value = transferee_value_current + transfer_value
+                cursor.execute("UPDATE UserAccounts SET CurrentBalance = (%s) WHERE"
+                               " AccountNum = (%s) AND SortCode = (%s)",
+                               (new_transferee_value, receiver_account_num, receiver_sort_code))
 
-            cursor.execute("SELECT * FROM UserAccounts")
-            row = cursor.fetchone()
-
-            while row is not None:
-                if row[0] == account_num and row[1] == sort_code:
-                    receiver_user_id = row[2]
-                    transferee_value_current = int(row[5])
-                    new_transferee_value = transferee_value_current + transfer_value
-                    cursor.execute("UPDATE UserAccounts SET CurrentBalance = (%s) WHERE"
-                                   " AccountNum = (%s) AND SortCode = (%s)",
-                                   (new_transferee_value, account_num, sort_code))
-                    break
-
-                else:
-                    row = cursor.fetchone()
-
-
-
-
-            cursor.execute("SELECT * FROM UserAccounts")
-            row = cursor.fetchone()
-
-            while row is not None:
-                if row[2] == user_id:
-                    transferer_account_num = row[0]
-                    transferer_sort_code = row[1]
-                    break
-
-                else:
-                    row = cursor.fetchone()
-
-            cursor.execute("SELECT * FROM UserInfo")
-            row = cursor.fetchone()
-
-            while row is not None:
-                if row[0] == receiver_user_id:
-                    receiver_name = row[5] + row[6]
-                    break
-
-                else:
-                    row = cursor.fetchone()
+            cursor.execute("SELECT * FROM UserInfo WHERE UserID = (%s)", (receiver_user_id, ))
+            result = cursor.fetchall()
+            for row in result:
+                receiver_name = row[5] +" "+ row[6]
 
             ran = random.randrange(10 ** 80)
             myhex = "%016x" % ran
@@ -128,10 +110,10 @@ def bank_transfer():
                 p_fraud = new_transaction.analyse_transaction(t_list)
                 print("Probabiliy of fraud =", p_fraud)
                 if p_fraud > 1:
-                    return redirect(url_for('error_page.error_page_foo', code="e7", src="card_payment.html"))
+                    return redirect(url_for('error_page.error_page_func', code="e7", src="card_payment_page_func.html"))
 
             cursor.execute("INSERT INTO Transactions VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                           (transaction_id, transferer_account_num, account_num, transferer_sort_code, sort_code,
+                           (transaction_id, transferer_account_num, receiver_account_num, transferer_sort_code, receiver_sort_code,
                             balance_change, date, time, transaction_type, card_num_sending, receiver_name,
                             longitude, latitude))
 
@@ -141,8 +123,20 @@ def bank_transfer():
             conn.close()
         except Error as error:
             print(error)
-            return redirect(url_for('error_page.error_page_foo', code="e2", src="accounts.html"))
+            return redirect(url_for('error_page.error_page_func', code="e2", src="accounts.html"))
 
-        return render_template('index.html')
+        return redirect(url_for('account_page.account_page_func'))
 
-    return render_template('bank_transfer.html')
+    users_accounts = []
+    db_connector = DbConnector()
+    conn = db_connector.getConn()
+    cursor = conn.cursor(buffered=True)
+
+    cursor.execute("SELECT * FROM UserAccounts,UserAccountInfo WHERE UserID = (%s) AND UserAccounts.AccountTypeID = UserAccountInfo.AccountTypeID",(user_id,))
+    result = cursor.fetchall()
+    for row in result:
+        user_bank_account = UserBankAccount(row[0], row[1], row[5], row[4], row[8], row[3])
+        users_accounts.append(user_bank_account)
+    cursor.close()
+    conn.close()
+    return render_template('bank_transfer.html', users_accounts=users_accounts)

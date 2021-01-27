@@ -11,3 +11,4 @@ The command `docker run --rm name:tag arg1 arg2` will run the image
 `docker run -d -p 5000:5000 stubank`
 
 This command will build and then run the image after downloading and installing all the required packages
+The project will be available at 127.0.0.1:5000

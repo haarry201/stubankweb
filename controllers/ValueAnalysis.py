@@ -1,6 +1,25 @@
 from sklearn.cluster import MeanShift, estimate_bandwidth
 import numpy as np
 
+'''
+    File name: ValueAnalysis.py
+    Author: Jacob Scase
+    Credits: Jacob Scase
+    Date created: 16/12/2020
+    Date last modified: 18/12/2020
+    Python Version: 3.7
+    Purpose: File to analyse a group of transactions based on value. Uses the mean shift clustering procedure to
+             determine clusters of usual values. In this instance, it clusters times to get clusters when a person
+             usually purchases at a certain shop at certain times and then provides a prediction cluster of where
+             it will be likely to be placed in. It then uses an interquartile bound check to check whether the value 
+             would likely reside within the cluster and then potentially increases the probability of fraud if it
+             does not lie in the predicted cluster. It does the same clustering prediction method for monetary values. 
+             If the user has not shopped at that particular place before, then it adds to the suspicion value if the
+             transaction amount is above a certain threshold as there is limited data available, and then takes all
+             purchase time data and compares it against that.
+             
+'''
+
 
 def get_clusters(arr):
     X = np.array(list(zip(arr, np.zeros(len(arr)))), dtype=np.int)
@@ -46,8 +65,6 @@ def analyse_values(new_transaction, t_list):
         times = []
         amounts = []
         if item["name"] == new_transaction.recipient_name:
-            print(item["name"], new_transaction.recipient_name)
-            print("shopped here before")
             shopped_at_place_before = True
             # If there has already been a transaction at this place before
             for value in item["properties"]:
@@ -56,14 +73,15 @@ def analyse_values(new_transaction, t_list):
             X, n_clusters, labels, ms = get_clusters(times)
             new_time_as_np = np.array(list(zip([new_transaction.time], np.zeros(1))), dtype=np.int)
             prediction_value = ms.predict(new_time_as_np)
-            # print("Cluster prediction:", prediction_value)
             for k in range(n_clusters):
                 my_members = labels == k
                 if prediction_value == k:
                     time_values = X[my_members, 0].tolist()
                     time_values_with_new_t = np.array(time_values)
+                    # Takes the cluster that the new transaction is most likely predicted to be in, and compares it to
+                    # the values inside using an interquartile bound check to see whether it is likely to fit inside
+                    # the cluster.
 
-                    # IQR Method
                     suspicious_time_place = iqr_bound_check(new_transaction.time, time_values_with_new_t)
                     print("sus time place",suspicious_time_place)
                     if suspicious_time_place:
@@ -74,11 +92,11 @@ def analyse_values(new_transaction, t_list):
                     if suspicious_amount_for_place:
                         suspicion_value += 0.25
     if not shopped_at_place_before:
-        print("NOT SHOPPED HERE BEFORE")
-        # print(val)
-        if new_transaction.balance_change > 500:
+        if new_transaction.balance_change > 50000:
+            ##Over 50000 pence i.e. £500
             suspicion_value += 0.3
-        elif new_transaction.balance_change > 100:
+        elif new_transaction.balance_change > 10000:
+            ##Over 10000 pence i.e. £100
             suspicion_value += 0.2
         all_usual_times = np.array(time)
         suspicious_time_for_transaction = iqr_bound_check(abs(new_transaction.time), all_usual_times)
@@ -92,14 +110,14 @@ def analyse_values(new_transaction, t_list):
 
 
 def iqr_bound_check(new_transaction_value, poss_values_with_new_t):
+    # Takes in a value from a transaction and compares it to a cluster of values, calculates the interquartile range
+    # of these
     lower_quantile = np.quantile(poss_values_with_new_t, 0.25, axis=0)
     upper_quantile = np.quantile(poss_values_with_new_t, 0.75, axis=0)
     iqr = upper_quantile - lower_quantile
     lower_bound = lower_quantile - (1.5 * iqr)
     upper_bound = upper_quantile + (1.5 * iqr)
-    print("bounds =")
-    print(lower_bound, upper_bound)
     if new_transaction_value > upper_bound or new_transaction_value < lower_bound:
-        # print("outside both bounds")
+        #Outside either bound so assumed not to be part of the cluster
         return True
     return False

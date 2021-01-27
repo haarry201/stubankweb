@@ -1,11 +1,24 @@
 import random, string
 import hashlib, binascii, os
 
-from flask import Flask, Blueprint, render_template, request, session, redirect, url_for
+from flask import Blueprint, render_template, request, session, redirect, url_for
 from controllers.DbConnector import DbConnector
-from mysql.connector import MySQLConnection, Error
+from mysql.connector import Error
 
 from controllers.TwoFactorAuthentication import TwoFactorAuthentication
+
+'''
+File name: register_page.py
+Author: Rhys Minchin
+Credits: Rhys Minchin
+Date created: 08/12/2020
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: This provides the back-end for the register page. It gets the information from the registration form and 
+         processes it in order to determine what happens next. If there is a registration error, the user is forwarded 
+         to the error page and an appropriate error message is given. If not, the user is forwarded to the accounts
+         homepage.
+'''
 
 register_page = Blueprint('register_page', __name__, template_folder='templates')
 
@@ -21,13 +34,24 @@ def register_page_func():
         second_line_of_address = request.form.get("second_line_of_address")
         postcode = request.form.get("postcode")
         security_question = request.form.get("security_question")
-        security_answer = request.form.get("security_answer")
+        security_answer = request.form.get("security_answer")  # gets all input information from registration form
         user_role = "User"
         if first_name == '' or last_name == '' or email == '' or password == '' or first_line_of_address == '' or second_line_of_address == '' or postcode == '' or security_question == '--' or security_answer == '':
-            return redirect(url_for('error_page.error_page_foo', code="e3", src="register.html"))
+            return redirect(url_for('error_page.error_page_func', code="e3", src="register.html"))
         elif len(password) < 6:
-            return redirect(url_for('error_page.error_page_foo', code="e4", src="register.html"))
+            return redirect(url_for('error_page.error_page_func', code="e4", src="register.html"))
+            # redirects to error page with appropriate error message if there is an error
         else:
+            db_connector = DbConnector()
+            conn = db_connector.getConn()
+            cursor = conn.cursor(buffered=True)
+            cursor.execute("SELECT EmailAddress FROM UserInfo WHERE EmailAddress = (%s)", (email,))  # checks if email already exists
+            result = cursor.fetchall()
+            for row in result:
+                print(row)
+                if row[0].lower() == email.lower():
+                    #User with email already exists
+                    return redirect(url_for('error_page.error_page_func', code="e10"))
             user_id = ''.join(
                 random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(16))
             # generate random 16 digit hex to use as primary key for UserInfo table
@@ -47,8 +71,8 @@ def register_page_func():
                 db_connector = DbConnector()
                 conn = db_connector.getConn()
                 cursor = conn.cursor()
-                cursor.execute(query, args)
-                conn.commit()
+                cursor.execute(query, args)  # inserts data into database
+                conn.commit()  # commits changes
                 cursor.close()
                 conn.close()
                 session['needs_auth'] = False
@@ -58,8 +82,9 @@ def register_page_func():
                 session['name'] = first_name
                 session['user_role'] = user_role
                 session['user_id'] = user_id
+                # initialises session attributes
             except Error as error:
                 print(error)
-                return redirect(url_for('error_page.error_page_foo', code="e2"))
-            return redirect(url_for('account_page.accounts_page'))
+                return redirect(url_for('error_page.error_page_func', code="e2"))  # sent to error page with appropriate message
+            return redirect(url_for('account_page.account_page_func'))  # user logged in and sent to homepage
     return render_template('register.html')

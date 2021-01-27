@@ -1,28 +1,29 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 
-from classes.UserBankAccount import UserBankAccount
+from controllers import Transaction
 from controllers.DbConnector import DbConnector
+from classes.UserBankAccount import UserBankAccount
 from mysql.connector import Error
 from datetime import datetime
 import random
+
 from controllers.Transaction import MLTransaction
-import controllers.Transaction as Transaction
 
 '''
-File name: card_payment_page.py
+File name: bank_transfer_internal_page.py
 Author: Jacob Scase
-Credits: Jacob Scase
-Date created: 19/01/2021
+Credits: Jacob Scase, Harry Kenny
+Date created: 14/12/2020
 Date last modified: 25/01/2021
 Python version: 3.7
-Purpose: Back-end file for allowing the user to simulate a card payment
+Purpose: Back-end file for allowing the user to transfer money from one account to another
 '''
 
-card_payment_page = Blueprint('card_payment_page', __name__, template_folder='templates')
+bank_transfer_internal_page = Blueprint('bank_transfer_internal_page', __name__, template_folder='templates')
 
 
-@card_payment_page.route('/', methods=['GET', 'POST'])
-def card_payment_page_func():
+@bank_transfer_internal_page.route('/', methods=['GET', 'POST'])
+def bank_transfer_internal_page_func():
     try:
         if 'user_id' in session:
             if session['needs_auth'] == True:
@@ -37,11 +38,12 @@ def card_payment_page_func():
     if request.method == 'POST':
         account_info = request.form.get("account_sender_info")
         account_info_split = account_info.split(",")
+        account_receiver_info = request.form.get("account_receiver_info")
+        account_receiver_info_split = account_receiver_info.split(",")
         transferer_account_num = account_info_split[0]
         transferer_sort_code = account_info_split[1]
-        receiver_name = request.form.get("receiver_name")
-        latitude = request.form.get("latitude")
-        longitude = request.form.get("longitude")
+        receiver_account_num = account_receiver_info_split[0]
+        receiver_sort_code = account_receiver_info_split[1]
         transfer_value = request.form.get("transfer_value")
         transfer_value = int(float(transfer_value) * 100)
 
@@ -53,10 +55,8 @@ def card_payment_page_func():
 
         time = (int(hours) * 60) + int(minutes)
 
-        # Account number and sort code for the card payment account
-        # demonstrating how it would work if set up on recievers card processor when paying
-        receiver_account_num = "00213181"
-        receiver_sort_code = "286376"
+        longitude = 0.000
+        latitude = 0.000
 
         try:
             db_connector = DbConnector()
@@ -74,8 +74,9 @@ def card_payment_page_func():
                     return redirect(
                         url_for('error_page.error_page_func', code="e11", src="card_payment_page_func.html"))
 
-            cursor.execute("UPDATE UserAccounts SET CurrentBalance = CurrentBalance - (%s) WHERE AccountNum = (%s) AND"
-                           " SortCode = (%s)", (transfer_value, transferer_account_num, transferer_sort_code))
+            cursor.execute(
+                "UPDATE UserAccounts SET CurrentBalance = CurrentBalance - (%s) WHERE AccountNum = (%s) AND"
+                " SortCode = (%s)", (transfer_value, transferer_account_num, transferer_sort_code))
 
             cursor.execute("SELECT * FROM UserAccounts WHERE AccountNum = (%s) AND SortCode = (%s)",
                            (receiver_account_num, receiver_sort_code))
@@ -115,7 +116,8 @@ def card_payment_page_func():
                 p_fraud = new_transaction.analyse_transaction(t_list)
                 print("Probabiliy of fraud =", p_fraud)
                 if p_fraud > 1:
-                    return redirect(url_for('error_page.error_page_func', code="e7", src="card_payment_page_func.html"))
+                    return redirect(
+                        url_for('error_page.error_page_func', code="e7", src="card_payment_page_func.html"))
 
             cursor.execute("INSERT INTO Transactions VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                            (transaction_id, transferer_account_num, receiver_account_num, transferer_sort_code,
@@ -147,4 +149,4 @@ def card_payment_page_func():
         users_accounts.append(user_bank_account)
     cursor.close()
     conn.close()
-    return render_template('card_payment.html',users_accounts=users_accounts)
+    return render_template('bank_transfer_internal.html', users_accounts=users_accounts)

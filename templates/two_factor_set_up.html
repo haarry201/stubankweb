@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="author" content="Jacob Scase">
+    <meta name="description" content="Two Factor Set Up page">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{{ url_for('static', filename='assets/favicon.ico') }}">
     <title>Two Factor Auth Set Up</title>
@@ -52,30 +54,33 @@
                     <p>
                         Our system uses the TOTP Protocol
                     </p>
-                    <p>Download a suitable application, we recommend <a href="https://apps.apple.com/gb/app/google-authenticator/id388497605" target="_blank" rel="noreferrer noopener"> Google Authenticator</a></p>
-                    <div class="card">
+                    <p>Download a suitable application, we recommend <a
+                            href="https://apps.apple.com/gb/app/google-authenticator/id388497605" target="_blank"
+                            rel="noreferrer noopener"> Google Authenticator</a></p>
+                    <div class="card qr-card">
                         <div id="qrcode">
 
                         </div>
                     </div>
                     <script type="text/javascript">
-                        new QRCode(document.getElementById("qrcode"), "{{qr_code}}");
+                        {#new QRCode(document.getElementById("qrcode"), "{{qr_code}}");#}
+                        var qrcode = new QRCode(document.getElementById("qrcode"), {
+                            text: "http://jindo.dev.naver.com/collie",
+                            width: 180,
+                            height: 180,
+                            colorDark: "#000000",
+                            colorLight: "#ffffff",
+                            correctLevel: QRCode.CorrectLevel.H
+                        });
+                        document.getElementById("qr-card").style.backgroundColor = "white";
                     </script>
                     <form class="p-card"
                           action="{{ url_for("two_factor_auth_set_up_page.two_factor_auth_set_up_page_func") }}"
-                          method="post"
-                          name="AuthForm">
+                          method="post" name="AuthForm">
                         <div class="form-group">
                             <label class="required" for="auth-code">Enter the authentication code:</label>
-                            <input
-                                    class="form-control"
-                                    type="text"
-                                    name="auth-code"
-                                    id="auth-code"
-                                    inputmode="numeric"
-                                    pattern="[0-9]*"
-                                    autocomplete="one-time-code"
-                            />
+                            <input class="form-control" type="text" name="auth-code" id="auth-code" inputmode="numeric"
+                                   pattern="[0-9]*" autocomplete="one-time-code"/>
                         </div>
                         <input class="btn btn-primary" type="submit" value="Submit">
                     </form>
@@ -98,7 +103,7 @@
             <ul class="navbar-nav ml-auto">
                 <!-- ml-auto = margin-left: auto -->
                 <li class="nav-item">
-                    <a href="{{ url_for('extra_info.contact') }}" class="nav-link">Contact</a>
+                    <a href="{{ url_for('extra_info_page.contact') }}" class="nav-link">Contact</a>
                 </li>
             </ul>
             <!-- Navbar text -->

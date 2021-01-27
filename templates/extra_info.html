@@ -3,164 +3,152 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="author" content="Rhys Minchin">
+    <meta name="description" content="Extra Info page">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{{ url_for('static', filename='assets/favicon.ico') }}">
     <title>Extra Info</title>
-    <link href="{{ url_for('static', filename='css/halfmoon.css') }}" rel="stylesheet"/>
+    <link href="{{ url_for('static', filename='css/halfmoon.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
 </head>
 
-<body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true"
-      data-set-preferred-mode-onload="true">
-<div class="page-wrapper with-navbar with-navbar-fixed-bottom">
-    <div class="sticky-alerts"></div>
-    <nav class="navbar">
-        <a href="{{ url_for('index_page') }}" class="navbar-brand rounded">
-            <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="StuBankLogo"> StuBank
-        </a>
-        <ul class="navbar-nav d-none d-md-flex p-5">
-            <li class="nav-item active">
-                <a id="home_option" href="{{ url_for('account_page.accounts_page') }}" class="nav-link">Home</a>
-            </li>
-        </ul>
-        <form class="form-inline d-none d-md-flex ml-auto" action="..." method="...">
-            <input id="form_option" class="btn btn-danger" type="submit" value="Login" formaction="/login.html">
-        </form>
-        <div class="navbar-content d-md-none ml-auto">
-            <div class="dropdown with-arrow">
-                <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">
+<body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true" data-set-preferred-mode-onload="true">
+    <div class="page-wrapper with-navbar with-navbar-fixed-bottom">
+        <div class="sticky-alerts"></div>
+        <nav class="navbar">
+            <a href="{{ url_for('index_page') }}" class="navbar-brand rounded">
+                <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="StuBankLogo"> StuBank
+            </a>
+            <ul class="navbar-nav d-none d-md-flex p-5">
+                <li class="nav-item active">
+                    <a id="home_option" href="{{ url_for('account_page.account_page_func') }}" class="nav-link">Home</a>
+                </li>
+            </ul>
+            <form class="form-inline d-none d-md-flex ml-auto" action="..." method="...">
+                <input id="form_option" class="btn btn-danger" type="submit" value="Login" formaction="/login.html">
+            </form>
+            <div class="navbar-content d-md-none ml-auto">
+                <div class="dropdown with-arrow">
+                    <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">
                     Menu
                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </button>
-                <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
-                    <div id="home_option" class="dropdown-menu dropdown-menu-right w-200">
-                        <a id="dropdown_home_option" href="{{ url_for('account_page.accounts_page') }}"
-                           class="dropdown-item">Home</a>
+                    <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
+                        <div id="home_option" class="dropdown-menu dropdown-menu-right w-200">
+                            <a id="dropdown_home_option" href="{{ url_for('account_page.account_page_func') }}" class="dropdown-item">Home</a>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-content">
+                            <form action="..." method="...">
+                                <input class="btn btn-danger btn-block mb-5" type="submit" value="Logout" id="form_option" formaction="{{ url_for('index_page') }}">
+                            </form>
+                        </div>
                     </div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-content">
-                        <form action="..." method="...">
-                            <input class="btn btn-danger btn-block mb-5" type="submit" value="Logout"
-                                   id="form_option" formaction="{{ url_for('index_page') }}">
-                        </form>
+                </div>
+            </div>
+        </nav>
+        <div class="content-wrapper">
+            <div class="card" id="contact">
+                <div class="alert" role="alert">
+                    <h4 class="alert-heading">Contact Us</h4>
+                    <p>For all complaints, feedback, requests, bug reports etc., please send an email using your registered StuBank email address to customerservice@Team35.co.uk</p>
+                </div>
+            </div>
+
+            <div class="card" id="aboutus">
+                <div class="content">
+                    <p>Team35 is a company founded by 5 university students who have the aim to make banking and finances easier for those who struggle with finances the most.</p>
+                    <p>The team currently consists of Jacob, Harry, Chris, Jay and Rhys.</p>
+                    <p>StuBank&copy; is our first project, a banking application focused on students which aims to make budgeting, sharing money and financing more straightforward for all university students.</p>
+                    <a href="#">
+                        <img class="img-fluid rounded-top" src="{{ url_for('static', filename='assets/logo.png') }}" alt="StuBankLogo">
+                    </a>
+                </div>
+            </div>
+
+            <div id="accounts">
+                <div class="card shadow">
+                    <img height="100" width="250" src="{{ url_for('static', filename='assets/StuBankCardDesign.png') }}" class="img-fluid rounded-top" alt="...">
+                    <div class="content">
+                        <h2 class="content-title">
+                            Student Account Card
+                        </h2>
+                        <p class="text-muted">
+                            This is our classic card that you can get. This card usually comes hand-in-hand with our student-focused bank account, which comes with a £1500 overdraft, valid until graduation.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card shadow">
+                    <img height="100" width="250" src="{{ url_for('static', filename='assets/StuBankCardDesignBlue.png') }}" class="img-fluid rounded-top" alt="...">
+                    <div class="content">
+                        <h2 class="content-title">
+                            Limited Edition Card
+                        </h2>
+                        <p class="text-muted">
+                            This is our limited edition debit card that is only available for a short time! To celebrate the public release of StuBank&copy;, it is only available until 31/01/2021 - get it now while you can!
+                        </p>
                     </div>
                 </div>
             </div>
-        </div>
-    </nav>
-    <div class="content-wrapper">
-        <div class="card" id="contact">
-            <div class="alert" role="alert">
-                <h4 class="alert-heading">Contact Us</h4>
-                <p>For all complaints, feedback, requests, bug reports etc., please send an email using your registered
-                    StuBank email address to customerservice@Team35.co.uk</p>
-            </div>
-        </div>
 
-        <div class="card" id="aboutus">
-            <div class="content">
-                <p>Team35 is a company founded by 5 university students who have the aim to make banking and finances
-                    easier
-                    for those who struggle with finances the most.</p>
-                <p>The team currently consists of Jacob, Harry, Chris, Jay and Rhys.</p>
-                <p>StuBank&copy; is our first project, a banking application focused on students which aims to make
-                    budgeting, sharing money and financing more straightforward for all university students.</p>
-                <a href="#">
-                    <img class="img-fluid rounded-top" src="{{ url_for('static', filename='assets/logo.png') }}"
-                         alt="StuBankLogo">
-                </a>
-            </div>
-        </div>
+            <script>
+                //hides different forms depending on if 'logout' or 'login' options are needed
+                if ('{{ name }}' === '') {
+                    document.getElementById("form_option").value = "Login";
+                    document.getElementById("form_option").action = formaction = "/login.html";
+                    document.getElementById("home_option").href = "{{ url_for('index_page') }}";
+                    document.getElementById("dropdown_home_option").href = "{{ url_for('index_page') }}";
+                    //Logged in so show logout, home=accounts
+                    //
+                } else {
+                    document.getElementById("form_option").value = "Logout";
+                    document.getElementById("form_option").action = formaction = "{{ url_for('index_page') }}";
+                    document.getElementById("home_option").href = "{{url_for('account_page.account_page_func')}}";
+                    document.getElementById("dropdown_home_option").href = "{{url_for('account_page.account_page_func')}}";
+                }
 
-        <div id="accounts">
-            <div class="card shadow">
-                <img height="100" width="250" src="{{ url_for('static', filename='assets/StuBankCardDesign.png') }}"
-                     class="img-fluid rounded-top" alt="...">
-                <div class="content">
-                    <h2 class="content-title">
-                        Student Account Card
-                    </h2>
-                    <p class="text-muted">
-                        This is our classic card that you can get.
-                        This card usually comes hand-in-hand with our student-focused bank account, which comes with a
-                        £1500 overdraft, valid until graduation.
-                    </p>
-                </div>
-            </div>
-
-            <div class="card shadow">
-                <img height="100" width="250" src="{{ url_for('static', filename='assets/StuBankCardDesignBlue.png') }}"
-                     class="img-fluid rounded-top" alt="...">
-                <div class="content">
-                    <h2 class="content-title">
-                        Limited Edition Card
-                    </h2>
-                    <p class="text-muted">
-                        This is our limited edition debit card that is only available for a short time!
-                        To celebrate the public release of StuBank&copy;, it is only available until 31/01/2021 - get it
-                        now while you can!
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <script>
-            //hides different forms depending on if 'logout' or 'login' options are needed
-            if ('{{ name }}' === '') {
-                document.getElementById("form_option").value = "Login";
-                document.getElementById("form_option").action = formaction = "/login.html";
-                document.getElementById("home_option").href = "{{ url_for('index_page') }}";
-                document.getElementById("dropdown_home_option").href = "{{ url_for('index_page') }}";
-                //Logged in so show logout, home=accounts
-                //
-            } else {
-                document.getElementById("form_option").value = "Logout";
-                document.getElementById("form_option").action = formaction = "{{ url_for('index_page') }}";
-                document.getElementById("home_option").href = "{{url_for('account_page.accounts_page')}}";
-                document.getElementById("dropdown_home_option").href = "{{url_for('account_page.accounts_page')}}";
-            }
-
-            //only shows relevant information based on the link that was clicked
-            if ('{{ command }}' === 'Contact') {
-                document.getElementById("aboutus").hidden = true;
-                document.getElementById("accounts").hidden = true;
-            } else if ('{{ command }}' === 'Accounts') {
-                document.getElementById("aboutus").hidden = true;
-                document.getElementById("contact").hidden = true;
-            } else {
-                document.getElementById("contact").hidden = true;
-                document.getElementById("accounts").hidden = true;
-            }
-        </script>
-    </div>
-    <nav class="navbar navbar-fixed-bottom">
-        <div class="container-fluid">
-            <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
-
-            <!-- JavaScript -->
-            <script type="text/javascript">
-                // Dark mode toggle
-                function toggleDark() {
-                    halfmoon.toggleDarkMode();
+                //only shows relevant information based on the link that was clicked
+                if ('{{ command }}' === 'Contact') {
+                    document.getElementById("aboutus").hidden = true;
+                    document.getElementById("accounts").hidden = true;
+                } else if ('{{ command }}' === 'Accounts') {
+                    document.getElementById("aboutus").hidden = true;
+                    document.getElementById("contact").hidden = true;
+                } else {
+                    document.getElementById("contact").hidden = true;
+                    document.getElementById("accounts").hidden = true;
                 }
             </script>
-            <ul class="navbar-nav ml-auto">
-                <!-- ml-auto = margin-left: auto -->
-                <li class="nav-item">
-                    <a href="{{ url_for('extra_info.contact') }}" class="nav-link">Contact</a>
-                </li>
-            </ul>
-            <!-- Navbar text -->
-            <span class="navbar-text">
+        </div>
+        <nav class="navbar navbar-fixed-bottom">
+            <div class="container-fluid">
+                <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
+
+                <!-- JavaScript -->
+                <script type="text/javascript">
+                    // Dark mode toggle
+                    function toggleDark() {
+                        halfmoon.toggleDarkMode();
+                    }
+                </script>
+                <ul class="navbar-nav ml-auto">
+                    <!-- ml-auto = margin-left: auto -->
+                    <li class="nav-item">
+                        <a href="{{ url_for('extra_info_page.contact') }}" class="nav-link">Contact</a>
+                    </li>
+                </ul>
+                <!-- Navbar text -->
+                <span class="navbar-text">
                         <p>
             &copy; <strong>StuBank </strong> 2021
             </p>
                     </span>
-        </div>
-    </nav>
-    <!-- Halfmoon JS -->
-    <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
-</div>
+            </div>
+        </nav>
+        <!-- Halfmoon JS -->
+        <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
+    </div>
 </body>
 
 </html>

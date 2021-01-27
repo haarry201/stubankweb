@@ -6,9 +6,12 @@ from controllers.DbConnector import DbConnector
 '''
     File name: Transaction.py
     Author: Jacob Scase
+    Credits: Jacob Scase
     Date created: 15/12/2020
     Date last modified: 21/01/2021
     Python Version: 3.7
+    Purpose: Class to store transactions, with a method to analyse that transaction in comparison to the rest
+    of a users transactions. Methods also to fetch transactions from a certain account number.
 '''
 
 def gen_values():
