@@ -20,22 +20,19 @@
             </a>
             <ul class="navbar-nav d-none d-md-flex">
                 <li class="nav-item active">
-                    <a href="#" class="nav-link">Home</a>
+                    <a href="{{ url_for('account_page.account_page_func') }}" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Move Money</a>
+                    <a href="{{ url_for('bank_transfer_page.bank_transfer_page_func') }}" class="nav-link">Move Money</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Account Settings </a>
+                    <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="nav-link">Account Settings </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ url_for('manage_cards_page.manage_cards_page_func') }}" class="nav-link">Manage Cards</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Manage Overdraft</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Manage Pools</a>
+                    <a href="{{ url_for('manage_pools_page.manage_pools_page_func') }}" class="nav-link">Manage Pools</a>
                 </li>
             </ul>
             <form class="form-inline d-none d-md-flex ml-auto" action="..." method="...">
@@ -48,12 +45,11 @@
                         <i class="fa fa-angle-down" aria-hidden="true"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
-                        <a href="#" class="dropdown-item">Home</a>
-                        <a href="#" class="dropdown-item">Move Money</a>
-                        <a href="#" class="dropdown-item">Account Settings</a>
-                        <a href="#" class="dropdown-item">Manage Cards</a>
-                        <a href="#" class="dropdown-item">Manage Overdraft</a>
-                        <a href="#" class="dropdown-item">Manage Pools</a>
+                        <a href="{{ url_for('account_page.account_page_func') }}" class="dropdown-item">Home</a>
+                        <a href="{{ url_for('bank_transfer_page.bank_transfer_page_func') }}" class="dropdown-item">Move Money</a>
+                        <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="dropdown-item">Account Settings</a>
+                        <a href="{{ url_for('manage_cards_page.manage_cards_page_func') }}" class="dropdown-item">Manage Cards</a>
+                        <a href="{{ url_for('manage_pools_page.manage_pools_page_func') }}" class="dropdown-item">Manage Pools</a>
 
                         <div class="dropdown-divider"></div>
                         <div class="dropdown-content">
@@ -71,7 +67,7 @@
             <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
             <div class="card shadow">
                 <h2>
-                    {{ card. }}
+                    {{ card }}
                 </h2>
             </div>
             {% endfor %}

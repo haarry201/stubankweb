@@ -16,58 +16,63 @@
     <div class="page-wrapper with-navbar with-navbar-fixed-bottom">
         <div class="sticky-alerts"></div>
         <nav class="navbar">
-            <a href="{{ url_for('index_page') }}" class="navbar-brand rounded">
-                <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="StuBankLogo"> StuBank
-            </a>
-            <ul class="navbar-nav d-none d-xl-flex">
-                <li class="nav-item active">
-                    <a href="{{ url_for('account_page.account_page_func') }}" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url_for('bank_transfer_page.bank_transfer_page_func') }}" class="nav-link">Move Money</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Account Settings </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Manage Cards</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Manage Overdraft</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url_for('manage_pools.manage_pools_func') }}" class="nav-link">Manage Pools</a>
-                </li>
-            </ul>
-            <form class="form-inline d-none d-xl-flex ml-auto" action="..." method="...">
-                <input class="btn btn-danger" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
-                <input class="btn btn-danger" type="submit" value="Apply for an Account" formaction="{{ url_for('bank_acc_application_page.bank_acc_application_page_func') }}">
-            </form>
-            <div class="navbar-content d-xl-none ml-auto">
-                <div class="dropdown with-arrow">
-                    <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">
+        <a href="{{ url_for('index_page') }}" class="navbar-brand rounded">
+            <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="StuBankLogo"> StuBank
+        </a>
+        <ul class="navbar-nav d-none d-xl-flex">
+            <li class="nav-item active">
+                <a href="{{ url_for('account_page.account_page_func') }}" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('bank_transfer_page.bank_transfer_page_func') }}" class="nav-link">Move Money</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="nav-link">Account
+                    Settings </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('manage_cards_page.manage_cards_page_func') }}" class="nav-link">Manage Cards</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('manage_pools_page.manage_pools_page_func') }}" class="nav-link">Manage Pools</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('offer_page.offer_page_func') }}" class="nav-link">Offers</a>
+            </li>
+        </ul>
+        <form class="form-inline d-none d-xl-flex ml-auto" action="..." method="...">
+            <input class="btn btn-danger" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
+            <input class="btn btn-danger" type="submit" value="Apply for an Account"
+                   formaction="{{ url_for('bank_acc_application_page.bank_acc_application_page_func') }}">
+        </form>
+        <div class="navbar-content d-xl-none ml-auto">
+            <div class="dropdown with-arrow">
+                <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">
                     Menu
                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </button>
-                    <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
-                        <a href="{{ url_for('account_page.account_page_func') }}" class="dropdown-item">Home</a>
-                        <a href="{{ url_for('bank_transfer_page.bank_transfer_page_func') }}" class="dropdown-item">Move Money</a>
-                        <a href="#" class="dropdown-item">Account Settings</a>
-                        <a href="#" class="dropdown-item">Manage Cards</a>
-                        <a href="#" class="dropdown-item">Manage Overdraft</a>
-                        <a href="{{ url_for('manage_pools.manage_pools_func') }}" class="dropdown-item">Manage Pools</a>
-
-                        <div class="dropdown-divider"></div>
-                        <div class="dropdown-content">
-                            <form action="..." method="...">
-                                <input class="btn btn-danger btn-block mb-5" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
-                                <input class="btn btn-danger btn-block mb-5" type="submit" value="Apply for an Account" formaction="{{ url_for('bank_acc_application_page.bank_acc_application_page_func') }}">
-                            </form>
-                        </div>
+                <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
+                    <a href="{{ url_for('account_page.account_page_func') }}" class="dropdown-item">Home</a>
+                    <a href="{{ url_for('bank_transfer_page.bank_transfer_page_func') }}" class="dropdown-item">Move
+                        Money</a>
+                    <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="dropdown-item">Account
+                        Settings</a>
+                    <a href="{{ url_for('manage_cards_page.manage_cards_page_func') }}" class="dropdown-item">Manage Cards</a>
+                    <a href="{{ url_for('manage_pools_page.manage_pools_page_func') }}" class="dropdown-item">Manage Pools</a>
+                    <a href="{{ url_for('offer_page.offer_page_func') }}" class="dropdown-item">Offers</a>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-content">
+                        <form action="..." method="...">
+                            <input class="btn btn-danger btn-block mb-5" type="submit" value="Logout"
+                                   formaction="{{ url_for('index_page') }}">
+                            <input class="btn btn-danger btn-block mb-5" type="submit" value="Apply for an Account"
+                                   formaction="{{ url_for('bank_acc_application_page.bank_acc_application_page_func') }}">
+                        </form>
                     </div>
                 </div>
             </div>
-        </nav>
+        </div>
+    </nav>
         <div class="content-wrapper">
             <div class="card text-center">
                 <form action="{{ url_for("bank_acc_application_page.bank_acc_application_page_func") }}" method="post" name="application_form">

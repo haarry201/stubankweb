@@ -29,16 +29,17 @@
                 <a href="{{ url_for('bank_transfer_page.bank_transfer_page_func') }}" class="nav-link">Move Money</a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">Account Settings </a>
+                <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="nav-link">Account
+                    Settings </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">Manage Cards</a>
+                <a href="{{ url_for('manage_cards_page.manage_cards_page_func') }}" class="nav-link">Manage Cards</a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">Manage Overdraft</a>
+                <a href="{{ url_for('manage_pools_page.manage_pools_page_func') }}" class="nav-link">Manage Pools</a>
             </li>
             <li class="nav-item">
-                <a href="{{ url_for('manage_pools.manage_pools_func') }}" class="nav-link">Manage Pools</a>
+                <a href="{{ url_for('offer_page.offer_page_func') }}" class="nav-link">Offers</a>
             </li>
         </ul>
         <form class="form-inline d-none d-xl-flex ml-auto" action="..." method="...">
@@ -56,11 +57,11 @@
                     <a href="{{ url_for('account_page.account_page_func') }}" class="dropdown-item">Home</a>
                     <a href="{{ url_for('bank_transfer_page.bank_transfer_page_func') }}" class="dropdown-item">Move
                         Money</a>
-                    <a href="#" class="dropdown-item">Account Settings</a>
-                    <a href="#" class="dropdown-item">Manage Cards</a>
-                    <a href="#" class="dropdown-item">Manage Overdraft</a>
-                    <a href="{{ url_for('manage_pools.manage_pools_func') }}" class="dropdown-item">Manage Pools</a>
-
+                    <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="dropdown-item">Account
+                        Settings</a>
+                    <a href="{{ url_for('manage_cards_page.manage_cards_page_func') }}" class="dropdown-item">Manage Cards</a>
+                    <a href="{{ url_for('manage_pools_page.manage_pools_page_func') }}" class="dropdown-item">Manage Pools</a>
+                    <a href="{{ url_for('offer_page.offer_page_func') }}" class="dropdown-item">Offers</a>
                     <div class="dropdown-divider"></div>
                     <div class="dropdown-content">
                         <form action="..." method="...">
@@ -94,8 +95,16 @@
             var heightRatio = 0.66;
             var w = window.innerWidth;
             canvas.width = w * 0.66;
-            if(canvas.width>800){
-                canvas.width = 800;
+
+            if (canvas.width>800){
+                canvas.width = 800
+            }else {
+                canvas.width = 400;
+            }
+
+            if(canvas.width > window.innerWidth){
+                //For smaller devices than 400px i.e. iphone se
+                canvas.width = window.innerWidth*0.8
             }
 
             //Doesn't change on window resize, rather on reload

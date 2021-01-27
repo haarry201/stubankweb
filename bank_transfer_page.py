@@ -25,12 +25,14 @@ bank_transfer_page = Blueprint('bank_transfer_page', __name__, template_folder='
 @bank_transfer_page.route('/', methods=['GET', 'POST'])
 def bank_transfer_page_func():
     try:
+        # redirects user appropriately based on 2FA status, or whether they are an admin or not
         if 'user_id' in session:
             if session['needs_auth'] == True:
                 return redirect(url_for('login_page.login_page_func'))
-            else:
+            elif session['user_role'] == 'User':
                 user_id = session['user_id']
-                pass
+            else:
+                return redirect(url_for('admin_home_page.admin_home_page_func'))
         else:
             return redirect(url_for('login_page.login_page_func'))
     except:
@@ -84,7 +86,11 @@ def bank_transfer_page_func():
                                " AccountNum = (%s) AND SortCode = (%s)",
                                (new_transferee_value, receiver_account_num, receiver_sort_code))
 
-            cursor.execute("SELECT * FROM UserInfo WHERE UserID = (%s)", (receiver_user_id, ))
+            try:
+                cursor.execute("SELECT * FROM UserInfo WHERE UserID = (%s)", (receiver_user_id, ))
+            except UnboundLocalError:
+                return redirect(url_for('error_page.error_page_func', code="e13", src="card_payment_page_func.html"))
+
             result = cursor.fetchall()
             for row in result:
                 receiver_name = row[5] +" "+ row[6]

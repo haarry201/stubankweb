@@ -66,9 +66,15 @@ email: J.Scase@ncl.ac.uk
     margin-bottom :15px;
 }
 
-#report{
-    width: 100%;
-}
+/*#report{*/
+/*    width: 100%;*/
+/*}*/
+/* @media only screen and (max-width: 1200px) {*/
+/*     #report{*/
+/*         width: 50%;*/
+/*     }*/
+/*  }*/
+
 .bottom-text{
     font-size: small;
 }

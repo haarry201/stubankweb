@@ -7,7 +7,7 @@ File name: expenditure_reports_page.py
 Author: Rhys Minchin
 Credits: Rhys Minchin
 Date created: 16/12/2020
-Date last modified: 25/01/2021
+Date last modified: 27/01/2021
 Python version: 3.7
 Purpose: This file provides the back-end functionality for displaying expenditure reports to the user. The method
          get_conn connects to the database, the method get_info returns all accounts owned by the currently logged in
@@ -52,11 +52,14 @@ def get_info():
 @expenditure_reports_page.route('/7days')
 def reports_7days():
     try:
+        # redirects user appropriately based on 2FA status, or whether they are an admin or not
         if 'user_id' in session:
             if session['needs_auth'] == True:
-                return redirect(url_for('login_page.login_page_func'))  # user redirected if not 2FA enabled
-            else:
+                return redirect(url_for('login_page.login_page_func'))
+            elif session['user_role'] == 'User':
                 pass
+            else:
+                return redirect(url_for('admin_home_page.admin_home_page_func'))
         else:
             return redirect(url_for('login_page.login_page_func'))
     except:
@@ -98,30 +101,31 @@ def reports_7days():
         date_to_check = date(int(year), int(month), int(day))  # gets date in correct format for database checking
         if str(row[1]) in accounts and (start_date <= date_to_check <= end_date):  # primary conditions to meet
             if str(row[6]) == dates_to_check[0]:
-                values[0] += abs(row[5])
+                values[0] += abs((row[5]/100))
             elif str(row[6]) == dates_to_check[1]:
-                values[1] += abs(row[5])
+                values[1] += abs((row[5]/100))
             elif str(row[6]) == dates_to_check[2]:
-                values[2] += abs(row[5])
+                values[2] += abs((row[5]/100))
             elif str(row[6]) == dates_to_check[3]:
-                values[3] += abs(row[5])
+                values[3] += abs((row[5]/100))
             elif str(row[6]) == dates_to_check[4]:
-                values[4] += abs(row[5])
+                values[4] += abs((row[5]/100))
             elif str(row[6]) == dates_to_check[5]:
-                values[5] += abs(row[5])
+                values[5] += abs((row[5]/100))
             elif str(row[6]) == dates_to_check[6]:
-                values[6] += abs(row[5])  # if statements to decide which 'bar' of graph data fits into
+                values[6] += abs((row[5]/100))  # if statements to decide which 'bar' of graph data fits into
             else:
                 print(str(row[6]))
 
-            if abs(row[5]) > biggest: biggest = abs(row[5])  # if this transaction biggest yet, resets 'biggest' variable
+            if abs((row[5]/100)) > biggest: biggest = abs((row[5]/100))  # if this transaction biggest yet, resets 'biggest' variable
 
         row = cursor.fetchone()  # fetches next row of table
 
     dates.reverse()
     values.reverse()  # reverses arrays to show in chronological order least->most recent on graph
 
-    if biggest == 0:
+    biggest = format(biggest, '.2f')
+    if biggest == '0.00':
         biggest2 = "N/A"
     else:
         biggest2 = "£" + str(biggest)  # appropriately formats biggest as a string to show in reports.html
@@ -133,11 +137,14 @@ def reports_7days():
 @expenditure_reports_page.route('/weekly')
 def reports_weekly():
     try:
+        # redirects user appropriately based on 2FA status, or whether they are an admin or not
         if 'user_id' in session:
             if session['needs_auth'] == True:
-                return redirect(url_for('login_page.login_page_func'))  # user redirected if not 2FA enabled
-            else:
+                return redirect(url_for('login_page.login_page_func'))
+            elif session['user_role'] == 'User':
                 pass
+            else:
+                return redirect(url_for('admin_home_page.admin_home_page_func'))
         else:
             return redirect(url_for('login_page.login_page_func'))
     except:
@@ -175,14 +182,14 @@ def reports_weekly():
             today = date.today(); week_today = date(today.year, today.month, today.day)
             if week1 <= date_to_check <= week_today:  # if transaction was within the last 4 days
                 if week1 <= date_to_check < week2:
-                    totals[0] += abs(row[5])
+                    totals[0] += abs((row[5]/100))
                 elif week2 <= date_to_check < week3:
-                    totals[1] += abs(row[5])
+                    totals[1] += abs((row[5]/100))
                 elif week3 <= date_to_check < week4:
-                    totals[2] += abs(row[5])
+                    totals[2] += abs((row[5]/100))
                 else:
-                    totals[3] += abs(row[5])  # places transaction into appropriate week based on Monday dates
-                if abs(row[5]) > biggest: biggest = abs(row[5])  # if transaction is biggest yet, resets variable
+                    totals[3] += abs((row[5]/100))  # places transaction into appropriate week based on Monday dates
+                if abs((row[5]/100)) > biggest: biggest = abs((row[5]/100))  # if transaction is biggest yet, resets variable
         row = cursor.fetchone()
 
     dates = []
@@ -192,7 +199,8 @@ def reports_weekly():
 
     dates.reverse()  # reverses array to show in chronological order least->most recent on graph
 
-    if biggest == 0:
+    biggest = format(biggest, '.2f')
+    if biggest == '0.00':
         biggest2 = "N/A"
     else:
         biggest2 = "£" + str(biggest)  # formats biggest data ready for output in reports.html
@@ -204,11 +212,14 @@ def reports_weekly():
 @expenditure_reports_page.route("/yearly")
 def reports_yearly():
     try:
+        # redirects user appropriately based on 2FA status, or whether they are an admin or not
         if 'user_id' in session:
             if session['needs_auth'] == True:
-                return redirect(url_for('login_page.login_page_func'))  # user redirected if not 2FA enabled
-            else:
+                return redirect(url_for('login_page.login_page_func'))
+            elif session['user_role'] == 'User':
                 pass
+            else:
+                return redirect(url_for('admin_home_page.admin_home_page_func'))
         else:
             return redirect(url_for('login_page.login_page_func'))
     except:
@@ -254,30 +265,30 @@ def reports_yearly():
             today = date.today(); month_today = date(today.year, today.month, today.day)
             if month1 <= date_to_check <= month_today:  # if transaction was within the last 4 days
                 if month1 <= date_to_check < month2:
-                    totals[0] += abs(row[5])
+                    totals[0] += abs((row[5]/100))
                 elif month2 <= date_to_check < month3:
-                    totals[1] += abs(row[5])
+                    totals[1] += abs((row[5]/100))
                 elif month3 <= date_to_check < month4:
-                    totals[2] += abs(row[5])
+                    totals[2] += abs((row[5]/100))
                 elif month4 <= date_to_check < month5:
-                    totals[3] += abs(row[5])
+                    totals[3] += abs((row[5]/100))
                 elif month5 <= date_to_check < month6:
-                    totals[4] += abs(row[5])
+                    totals[4] += abs((row[5]/100))
                 elif month6 <= date_to_check < month7:
-                    totals[5] += abs(row[5])
+                    totals[5] += abs((row[5]/100))
                 elif month7 <= date_to_check < month8:
-                    totals[6] += abs(row[5])
+                    totals[6] += abs((row[5]/100))
                 elif month8 <= date_to_check < month9:
-                    totals[7] += abs(row[5])
+                    totals[7] += abs((row[5]/100))
                 elif month9 <= date_to_check < month10:
-                    totals[8] += abs(row[5])
+                    totals[8] += abs((row[5]/100))
                 elif month10 <= date_to_check < month11:
-                    totals[9] += abs(row[5])
+                    totals[9] += abs((row[5]/100))
                 elif month11 <= date_to_check < month12:
-                    totals[10] += abs(row[5])
+                    totals[10] += abs((row[5]/100))
                 else:
-                    totals[11] += abs(row[5])  # uses if statements to determine which month data falls into
-                if abs(row[5]) > biggest: biggest = abs(row[5])  # if bigger than previous biggest, resets variable
+                    totals[11] += abs((row[5]/100))  # uses if statements to determine which month data falls into
+                if abs((row[5]/100)) > biggest: biggest = abs((row[5]/100))  # if bigger than previous biggest, resets variable
         row = cursor.fetchone()  # fetches next row in table
 
     dates_display = []
@@ -287,7 +298,8 @@ def reports_yearly():
 
     dates_display.reverse() # reverses array to show in chronological order least->most recent on graph
 
-    if biggest == 0:
+    biggest = format(biggest, '.2f')
+    if biggest == '0.00':
         biggest2 = "N/A"
     else:
         biggest2 = "£" + str(biggest)  # formats biggest data ready for output in reports.html
