@@ -12,7 +12,7 @@ manage_pools = Blueprint('manage_pools', __name__, template_folder='templates')
 
 
 @manage_pools.route('/', methods=['GET', 'POST'])
-def manage_pools_func():
+def manage_pools_page_func():
     pools = []
     pool_ids = get_pool_ids(get_user_id())
 

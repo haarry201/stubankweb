@@ -5,13 +5,13 @@ import mysql
 
 import expenditure_reports_page
 from flask import Blueprint, render_template, request, session
-from manage_pools import get_member_firstnames
+from manage_pools_page import get_member_firstnames
 
 display_pool = Blueprint('display_pool', __name__, template_folder='templates')
 
 
 @display_pool.route('/', methods=['GET', 'POST'])
-def display_pool_func():
+def display_pool_page_func():
     if not session.get("entered_pool_id"):
         entered_pool_id = request.form.get("pool_to_view")
         session["entered_pool_id"] = entered_pool_id

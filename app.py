@@ -1,6 +1,6 @@
 from flask import Flask, render_template, session, redirect, url_for
-from display_pool import display_pool
-from manage_pools import manage_pools
+from display_pool_page import display_pool
+from manage_pools_page import manage_pools
 from register_page import register_page
 from account_page import account_page
 from login_page import login_page

@@ -36,7 +36,7 @@
                     <a href="#" class="nav-link">Manage Overdraft</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url_for('manage_pools.manage_pools_func') }}" class="nav-link">Manage Pools</a>
+                    <a href="{{ url_for('manage_pools_page.manage_pools_page_func') }}" class="nav-link">Manage Pools</a>
                 </li>
             </ul>
             <form class="form-inline d-none d-md-flex ml-auto" action="..." method="...">
@@ -57,7 +57,7 @@
                     <a href="#" class="dropdown-item">Account Settings</a>
                     <a href="#" class="dropdown-item">Manage Cards</a>
                     <a href="#" class="dropdown-item">Manage Overdraft</a>
-                    <a href="{{ url_for('manage_pools.manage_pools_func') }}" class="dropdown-item">Manage Pools</a>
+                    <a href="{{ url_for('manage_pools_page.manage_pools_page_func') }}" class="dropdown-item">Manage Pools</a>
 
                         <div class="dropdown-divider"></div>
                         <div class="dropdown-content">
@@ -118,7 +118,7 @@
                               <span aria-hidden="true">&times;</span>
                           </a>
                           <h5 class="modal-title">Pick Which Pool to View</h5>
-                          <form action="{{url_for('display_pool.display_pool_func')}}" method="post">
+                          <form action="{{url_for('display_pool_page.display_pool_page_func')}}" method="post">
                               <div class="form-group">
                                   <label for="pool_code" class="required">ID of Pool to View</label>
                                   <input type="text" id="pool_to_view" name="pool_to_view" class="form-control" required="required">
@@ -137,7 +137,7 @@
                               <span aria-hidden="true">&times;</span>
                           </a>
                           <h5 class="modal-title">Join a Pool</h5>
-                          <form action="{{url_for('manage_pools.join_money_pool')}}" method="post">
+                          <form action="{{url_for('manage_pools_page.join_money_pool')}}" method="post">
                               <div class="form-group">
                                   <label for="join_code" class="required">Enter Pool Join Code</label>
                                   <input type="text" id="join_code" name="join_code" class="form-control" required="required">
@@ -156,7 +156,7 @@
                               <span aria-hidden="true">&times;</span>
                           </a>
                           <h5 class="modal-title">Create a New Pool</h5>
-                          <form action="{{url_for('manage_pools.create_money_pool')}}" method="post">
+                          <form action="{{url_for('manage_pools_page.create_money_pool')}}" method="post">
                               <div class="form-group">
                                   <label for="username" class="required">Pool Name</label>
                                   <input type="text" id="pool_name" name="pool_name" class="form-control" required="required">
