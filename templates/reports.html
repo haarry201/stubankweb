@@ -95,8 +95,11 @@
             var heightRatio = 0.66;
             var w = window.innerWidth;
             canvas.width = w * 0.66;
-            if(canvas.width>800){
-                canvas.width = 800;
+
+            if (canvas.width>800){
+                canvas.width = 800
+            }else {
+                canvas.width = 400;
             }
 
             //Doesn't change on window resize, rather on reload
