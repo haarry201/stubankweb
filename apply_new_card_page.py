@@ -42,7 +42,6 @@ def apply_new_card_page_func():
         try:
             db_connector = DbConnector()
             conn = db_connector.getConn()
-            db_connector.closeConn(conn)
             cursor = conn.cursor(buffered=True)
 
             cursor.execute("INSERT INTO UserCards VALUES (%s, %s, %s, %s, %s, %s)", (card_number, user_id, card_type,
@@ -57,7 +56,7 @@ def apply_new_card_page_func():
             print(error)
             return redirect(url_for('error_page.error_page_func', code="e2", src="accounts.html"))
 
-        return render_template('manage_cards_page.html')
+        return render_template('manage_cards.html')
 
     try:
         db_connector = DbConnector()

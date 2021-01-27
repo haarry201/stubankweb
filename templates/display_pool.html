@@ -125,7 +125,7 @@
                               <span aria-hidden="true">&times;</span>
                           </a>
                           <h5 class="modal-title">Deposit to the Pool</h5>
-                          <form action="{{url_for('display_pool.deposit_money_pool')}}" method="post">
+                          <form action="{{url_for('display_pool_page.deposit_money_pool')}}" method="post">
                               <div class="form-group">
                                   <label for="bankAccount" class="required">Bank Account</label>
                                   <select id="account" class="form-control" required="required">
@@ -151,7 +151,7 @@
                               <span aria-hidden="true">&times;</span>
                           </a>
                           <h5 class="modal-title">Withdraw From the Pool</h5>
-                          <form action="{{url_for('display_pool.withdraw_money_pool')}}" method="post">
+                          <form action="{{url_for('display_pool_page.withdraw_money_pool')}}" method="post">
                               <div class="form-group">
                                   <label for="bankAccount" class="required">Bank Account</label>
                                   <select id="account" class="form-control" required="required">
@@ -177,7 +177,7 @@
                               <span aria-hidden="true">&times;</span>
                           </a>
                           <h5 class="modal-title">Are you sure you want to leave?</h5>
-                          <form action="{{url_for('display_pool.leave_money_pool')}}" method="post">
+                          <form action="{{url_for('display_pool_page.leave_money_pool')}}" method="post">
                               <input class="btn btn-danger" type="submit" value="Leave">
                               <a href="#" class="btn btn-secondary" role="button">Cancel</a>
                           </form>
@@ -220,7 +220,7 @@
                               <span aria-hidden="true">&times;</span>
                           </a>
                           <h5 class="modal-title">Remove a User From the Pool</h5>
-                          <form action="{{url_for('display_pool.remove_user_from_money_pool')}}" method="post">
+                          <form action="{{url_for('display_pool_page.remove_user_from_money_pool')}}" method="post">
                               <div class="form-group">
                                   <label for="pool_password" class="required">Pool Password</label>
                                   <input type="password" id="pool_password" name="pool_password" class="form-control" required="required">
@@ -241,7 +241,7 @@
                               <span aria-hidden="true">&times;</span>
                           </a>
                           <h5 class="modal-title">Are you sure you want to delete the pool?</h5>
-                          <form action="{{url_for('display_pool.delete_money_pool')}}" method="post">
+                          <form action="{{url_for('display_pool_page.delete_money_pool')}}" method="post">
                               <input class="btn btn-danger" type="submit" value="Delete">
                               <a href="#" class="btn btn-secondary" role="button">Cancel</a>
                           </form>

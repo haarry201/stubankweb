@@ -6,7 +6,7 @@ import string
 from datetime import datetime
 
 import expenditure_reports_page
-from flask import Blueprint, render_template, session, request
+from flask import Blueprint, render_template, session, request, redirect, url_for
 
 manage_pools_page = Blueprint('manage_pools_page', __name__, template_folder='templates')
 
@@ -68,7 +68,7 @@ def create_money_pool():
         args = (pool_id, user_id)
         execute_query(query, args)
 
-        return render_template('accounts.html')
+        return redirect(url_for('account_page.account_page_func'))
     return render_template('register.html')
 
 
@@ -91,7 +91,7 @@ def join_money_pool():
                 execute_query(query, args)
             row = cursor.fetchone()
         cursor.close()
-        return render_template('accounts.html')
+        return redirect(url_for('account_page.account_page_func'))
     return render_template('register.html')
 
 
