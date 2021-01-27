@@ -100,7 +100,7 @@ def direct_debit_func():
                     cursor.execute("UPDATE RecurringTransactions SET CurrentBalance = (%s) WHERE"
                                    " AccountNum = (%s) AND SortCode = (%s)",
                                    (recurring_current_balance, account_num_sending, sort_code_sending))
-                    balance_change = recurring_current_balance - amount
+                    balance_change = amount - amount - amount
                     cursor.execute("UPDATE RecurringTransactions SET BalanceChange = (%s) WHERE"
                                    " TransferValue = (%s)",
                                    (balance_change, amount))
