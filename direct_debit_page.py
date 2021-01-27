@@ -7,7 +7,6 @@ from flask import Flask, Blueprint, render_template, request, redirect, url_for
 from mysql.connector import MySQLConnection, Error
 
 from controllers.DbConnector import DbConnector
-from controllers.PasswordManager import PasswordManager
 
 direct_debit = Blueprint('direct_debit', __name__, template_folder='templates')
 
