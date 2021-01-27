@@ -8,10 +8,10 @@ from datetime import datetime
 import expenditure_reports_page
 from flask import Blueprint, render_template, session, request
 
-manage_pools = Blueprint('manage_pools', __name__, template_folder='templates')
+manage_pools_page = Blueprint('manage_pools', __name__, template_folder='templates')
 
 
-@manage_pools.route('/', methods=['GET', 'POST'])
+@manage_pools_page.route('/', methods=['GET', 'POST'])
 def manage_pools_func():
     """
 
@@ -43,7 +43,7 @@ def manage_pools_func():
     return render_template('manage_pools.html', pools=pools)  # returns the html page
 
 
-@manage_pools.route('/create_money_pool', methods=['GET', 'POST'])
+@manage_pools_page.route('/create_money_pool', methods=['GET', 'POST'])
 def create_money_pool():
     """
 
@@ -80,7 +80,7 @@ def create_money_pool():
     return render_template('register.html')
 
 
-@manage_pools.route('/join_money_pool', methods=['GET', 'POST'])
+@manage_pools_page.route('/join_money_pool', methods=['GET', 'POST'])
 def join_money_pool():
     """
 

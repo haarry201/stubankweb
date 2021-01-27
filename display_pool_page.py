@@ -4,12 +4,12 @@ import mysql
 
 import expenditure_reports_page
 from flask import Blueprint, render_template, request, session
-from manage_pools import get_member_firstnames
+from manage_pools_page import get_member_firstnames
 
-display_pool = Blueprint('display_pool', __name__, template_folder='templates')
+display_pool_page = Blueprint('display_pool', __name__, template_folder='templates')
 
 
-@display_pool.route('/', methods=['GET', 'POST'])
+@display_pool_page.route('/', methods=['GET', 'POST'])
 def display_pool_func():
     """
 
@@ -41,7 +41,7 @@ def display_pool_func():
     return render_template('display_pool.html', pool=pool, pool_name=pool_name, pool_join_code=pool_join_code)
 
 
-@display_pool.route('/deposit_money_pool', methods=['GET', 'POST'])
+@display_pool_page.route('/deposit_money_pool', methods=['GET', 'POST'])
 def deposit_money_pool():
     """
 
@@ -58,7 +58,7 @@ def deposit_money_pool():
     return render_template('register.html')
 
 
-@display_pool.route('/withdraw_money_pool', methods=['GET', 'POST'])
+@display_pool_page.route('/withdraw_money_pool', methods=['GET', 'POST'])
 def withdraw_money_pool():
     """
 
@@ -75,7 +75,7 @@ def withdraw_money_pool():
     return render_template('register.html')
 
 
-@display_pool.route('/leave_money_pool', methods=['GET', 'POST'])
+@display_pool_page.route('/leave_money_pool', methods=['GET', 'POST'])
 def leave_money_pool():
     """
 
@@ -96,7 +96,7 @@ def leave_money_pool():
     return render_template('register.html')
 
 
-@display_pool.route('/add_user_to_money_pool', methods=['GET', 'POST'])
+@display_pool_page.route('/add_user_to_money_pool', methods=['GET', 'POST'])
 def add_user_to_money_pool():
     """
 
@@ -107,7 +107,7 @@ def add_user_to_money_pool():
     return render_template('register.html')
 
 
-@display_pool.route('/remove_user_from_money_pool', methods=['GET', 'POST'])
+@display_pool_page.route('/remove_user_from_money_pool', methods=['GET', 'POST'])
 def remove_user_from_money_pool():
     """
 
@@ -139,7 +139,7 @@ def remove_user_from_money_pool():
     return render_template('register.html')
 
 
-@display_pool.route('/delete_money_pool', methods=['GET', 'POST'])
+@display_pool_page.route('/delete_money_pool', methods=['GET', 'POST'])
 def delete_money_pool():
     """
 
