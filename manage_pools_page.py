@@ -8,10 +8,10 @@ from datetime import datetime
 import expenditure_reports_page
 from flask import Blueprint, render_template, session, request
 
-manage_pools = Blueprint('manage_pools', __name__, template_folder='templates')
+manage_pools_page = Blueprint('manage_pools_page', __name__, template_folder='templates')
 
 
-@manage_pools.route('/', methods=['GET', 'POST'])
+@manage_pools_page.route('/', methods=['GET', 'POST'])
 def manage_pools_page_func():
     pools = []
     pool_ids = get_pool_ids(get_user_id())
@@ -39,7 +39,7 @@ def manage_pools_page_func():
     return render_template('manage_pools.html', pools=pools)  # returns the html page
 
 
-@manage_pools.route('/create_money_pool', methods=['GET', 'POST'])
+@manage_pools_page.route('/create_money_pool', methods=['GET', 'POST'])
 def create_money_pool():
     if request.method == "POST":
         pool_id = ''.join(  # generate a random id for the pool to be used as the pk
@@ -72,7 +72,7 @@ def create_money_pool():
     return render_template('register.html')
 
 
-@manage_pools.route('/join_money_pool', methods=['GET', 'POST'])
+@manage_pools_page.route('/join_money_pool', methods=['GET', 'POST'])
 def join_money_pool():
     if request.method == "POST":
         entered_join_id = request.form.get("join_code")  # get values from the web page
@@ -104,6 +104,7 @@ def get_user_id():
         if row[5] == session['name']:
             user_id = row[0]
             return user_id  # returns the user id of the current user
+        row = cursor.fetchone()
 
 
 def get_pool_ids(user_id):
