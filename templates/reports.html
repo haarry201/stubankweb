@@ -102,6 +102,11 @@
                 canvas.width = 400;
             }
 
+            if(canvas.width > window.innerWidth){
+                //For smaller devices than 400px i.e. iphone se
+                canvas.width = window.innerWidth*0.8
+            }
+
             //Doesn't change on window resize, rather on reload
             //Not ideal but better performance wise and not many users will be resizing alot
             canvas.height = canvas.width * heightRatio;
