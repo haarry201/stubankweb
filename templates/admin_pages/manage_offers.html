@@ -38,7 +38,7 @@
                     <a href="{{ url_for('manage_offers_page.manage_offers_page_func') }}" class="nav-link">Manage Offers</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Manage Cards </a>
+                    <a href="{{ url_for('manage_cards_page.manage_cards_page_func') }}" class="nav-link">Manage Cards </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="nav-link">Account
@@ -58,7 +58,7 @@
                         <a href="{{ url_for('account_page.account_page_func') }}" class="dropdown-item">Home</a>
                         <a href="{{ url_for('manage_offers_page.manage_offers_page_func') }}" class="dropdown-item">Manage
                         Offers</a>
-                        <a href="#" class="dropdown-item">Manage Cards</a>
+                        <a href="{{ url_for('manage_cards_page.manage_cards_page_func') }}" class="dropdown-item">Manage Cards</a>
                         <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="dropdown-item">Home</a>
                         <div class="dropdown-divider"></div>
                         <div class="dropdown-content">
@@ -143,7 +143,7 @@
                     <div class="card p-0">
                         <!-- p-0 = padding: 0 -->
                         <div class="card-img-bg">
-                            <img src={{ offer.img_url }} class="img-fluid rounded-top" alt="Brand Logo">
+                            <img src="{{ offer.img_url }}" class="img-fluid rounded-top" alt="Brand Logo">
                             <!-- rounded-top = rounded corners on the top -->
                         </div>
                         <!-- First content container nested inside card -->
