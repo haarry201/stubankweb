@@ -1,14 +1,7 @@
 from datetime import datetime, timedelta
 import random
-import cryptography
-import os
-import base64
 
 from cryptography.fernet import Fernet
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-import mysql.connector
 
 from flask import Flask, Blueprint, render_template, request, redirect, url_for
 from mysql.connector import MySQLConnection, Error
@@ -90,8 +83,6 @@ def direct_debit_func():
         elif recurrence_frequency == annual_recurrence_frequency:
             next_payment_date = next_payment_date_annual_formatted
 
-        # Automatic next payment functionality
-
         # Connecting to database
         try:
             db_connector = DbConnector()
@@ -114,14 +105,21 @@ def direct_debit_func():
                     cursor.execute("UPDATE RecurringTransactions SET BalanceChange = (%s) WHERE"
                                    " TransferValue = (%s)",
                                    (balance_change, amount))
+                    if next_payment_date == datetime_now:
+                        cursor.execute("UPDATE RecurringTransactions SET CurrentBalance = (%s) WHERE"
+                                       " AccountNum = (%s) AND SortCode = (%s)",
+                                       (recurring_current_balance, account_num_sending, sort_code_sending))
+                        cursor.execute("UPDATE RecurringTransactions SET BalanceChange = (%s) WHERE"
+                                       " TransferValue = (%s)",
+                                       (balance_change, amount))
                     break
                 else:
                     row = cursor.fetchone()
 
             cursor.execute("INSERT INTO RecurringTransactions VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
-                           (recurring_transaction_id_secure, account_num_sending, account_num_receiving, sort_code_sending,
-                            sort_code_receiving, transaction_date, next_payment_date, amount, balance_change,
-                            recurrence_frequency, reference, recurring_current_balance))
+                           (recurring_transaction_id_secure, account_num_sending, account_num_receiving,
+                            sort_code_sending, sort_code_receiving, transaction_date, next_payment_date, amount,
+                            balance_change, recurrence_frequency, reference, recurring_current_balance))
             conn.commit()
             cursor.close()
             conn.close()
