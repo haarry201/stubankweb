@@ -25,7 +25,8 @@
             <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="StuBankLogo"> StuBank
         </a>
         <form class="form-inline d-none d-md-flex ml-auto" action="..." method="...">
-            <input class="btn btn-danger" type="submit" value="Back" formaction="{{ url_for('account_page.account_page_func') }}">
+            <input class="btn btn-danger" type="submit" value="Back"
+                   formaction="{{ url_for('account_page.account_page_func') }}">
         </form>
         <div class="navbar-content d-md-none ml-auto">
             <div class="dropdown with-arrow">
@@ -57,6 +58,8 @@
                     <p>Download a suitable application, we recommend <a
                             href="https://apps.apple.com/gb/app/google-authenticator/id388497605" target="_blank"
                             rel="noreferrer noopener"> Google Authenticator</a></p>
+                    <p>Mobile users can click <a href="{{ qr_code }}">this link</a> or alternatively enter this as the
+                        secret code {{ secret_auth_key }}</p>
                     <div class="card qr-card">
                         <div id="qrcode">
 
