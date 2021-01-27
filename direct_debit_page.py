@@ -27,7 +27,7 @@ def direct_debit_func():
         date_of_first_payment = request.form.get("paymentDate")
         reference = request.form.get("reference")
         amount = request.form.get("amount")
-        transfer_value = int(float(amount) * 100)
+        amount = int(float(amount) * 100)
 
         # Generating random recurring transaction ID
         ran = random.randrange(10 ** 80)
