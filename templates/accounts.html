@@ -58,8 +58,10 @@
                         Money</a>
                     <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="dropdown-item">Account
                         Settings</a>
-                    <a href="{{ url_for('manage_cards_page.manage_cards_page_func') }}" class="dropdown-item">Manage Cards</a>
-                    <a href="{{ url_for('manage_pools_page.manage_pools_page_func') }}" class="dropdown-item">Manage Pools</a>
+                    <a href="{{ url_for('manage_cards_page.manage_cards_page_func') }}" class="dropdown-item">Manage
+                        Cards</a>
+                    <a href="{{ url_for('manage_pools_page.manage_pools_page_func') }}" class="dropdown-item">Manage
+                        Pools</a>
                     <a href="{{ url_for('offer_page.offer_page_func') }}" class="dropdown-item">Offers</a>
                     <div class="dropdown-divider"></div>
                     <div class="dropdown-content">
@@ -113,6 +115,12 @@
         <div class="table-class card shadow">
             <h1 class="text-center">Recent Transactions</h1>
             <div id="transactions_table"></div>
+        </div>
+        <div class="align-content-lg-center">
+            <form action="..." method="...">
+                <input class="btn btn-block" type="submit" value="View All Transactions"
+                       formaction="{{ url_for("all_transactions_page.all_transactions_page_func") }}">
+            </form>
         </div>
         <script>
             var data = [{% for item in transactions %}
