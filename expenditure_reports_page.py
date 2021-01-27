@@ -122,7 +122,7 @@ def reports_7days():
     values.reverse()  # reverses arrays to show in chronological order least->most recent on graph
 
     biggest = format(biggest, '.2f')
-    if biggest == 0:
+    if biggest == '0.00':
         biggest2 = "N/A"
     else:
         biggest2 = "£" + str(biggest)  # appropriately formats biggest as a string to show in reports.html
@@ -194,7 +194,7 @@ def reports_weekly():
     dates.reverse()  # reverses array to show in chronological order least->most recent on graph
 
     biggest = format(biggest, '.2f')
-    if biggest == 0:
+    if biggest == '0.00':
         biggest2 = "N/A"
     else:
         biggest2 = "£" + str(biggest)  # formats biggest data ready for output in reports.html
@@ -290,7 +290,7 @@ def reports_yearly():
     dates_display.reverse() # reverses array to show in chronological order least->most recent on graph
 
     biggest = format(biggest, '.2f')
-    if biggest == 0:
+    if biggest == '0.00':
         biggest2 = "N/A"
     else:
         biggest2 = "£" + str(biggest)  # formats biggest data ready for output in reports.html
