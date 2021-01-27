@@ -48,5 +48,5 @@ def two_factor_auth_set_up_page_func():
             session['two_factor_enabled'] = True
             return redirect(url_for('account_page.account_page_func'))
         else:
-            return redirect(url_for('error_page.error_page_func', code="e2"))
+            return redirect(url_for('error_page.error_page_func', code="e12"))
     return render_template('two_factor_set_up.html',qr_code=qr_code)
