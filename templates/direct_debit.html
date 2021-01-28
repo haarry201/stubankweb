@@ -12,7 +12,17 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="{{ url_for('static', filename='js/validation.js') }}"></script>
+    <script>
+        $(function () {
+            $("#paymentDate").datepicker({
+                dateFormat: "dd-mm-yy"
+            });
+        });
+    </script>
 </head>
 
 <body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true"
@@ -69,7 +79,8 @@
                     <a href="{{ url_for('manage_pools_page.manage_pools_page_func') }}" class="dropdown-item">Manage
                         Pools</a>
                     <a href="{{ url_for('offer_page.offer_page_func') }}" class="dropdown-item">Offers</a>
-                    <a href="{{ url_for('direct_debit_page.direct_debit_page_func') }}" class="dropdown-item">Direct Debit</a>
+                    <a href="{{ url_for('direct_debit_page.direct_debit_page_func') }}" class="dropdown-item">Direct
+                        Debit</a>
                     <div class="dropdown-divider"></div>
                     <div class="dropdown-content">
                         <form action="..." method="...">
@@ -89,11 +100,12 @@
                 <div class="col"></div>
                 <div class="card text-center">
                     <h1>Direct Debit:</h1>
-                    <form class="p-card" action="{{ url_for("direct_debit_page.direct_debit_page_func") }}" method="post"
+                    <form class="p-card" action="{{ url_for("direct_debit_page.direct_debit_page_func") }}"
+                          method="post"
                           name="DirectDebit">
                         <div class="form-group">
                             <p>Choose account to send from</p>
-                                <select class="form-control" name="account_sender_info" id="account_sender_info">
+                            <select class="form-control" name="account_sender_info" id="account_sender_info">
                                 {% for account in users_accounts %}
                                     <p>{{ account.account_num }}</p>
                                     <p>{{ account.account_type }}</p>
@@ -101,30 +113,36 @@
                                         - Account Num: {{ account.account_num }}</option>
                                 {% endfor %}
                             </select>
-                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="required" for="accountName">Name of recipient:</label>
-                            <input class="form-control" type="text" id="accountName" name="accountName"  maxlength="140" required="required">
+                            <input class="form-control" type="text" id="accountName" name="accountName" maxlength="140"
+                                   required="required">
                         </div>
                         <div class="form-group">
                             <label class="required" for="sortCodeReceiving">Enter Sort Code of receiver:</label>
-                            <input class="form-control" type="number" id="sortCodeReceiving" name="sortCodeReceiving" pattern="^(\d{2}\s?-?){2}\d{2}$" maxlength="6" required="required">
+                            <input class="form-control" type="number" id="sortCodeReceiving" name="sortCodeReceiving"
+                                   pattern="^(\d{2}\s?-?){2}\d{2}$" maxlength="6" required="required">
                         </div>
                         <div class="form-group">
                             <label class="required" for="accountNumReceiver">Enter Account Number of Receiver:</label>
-                            <input class="form-control" type="text" id="accountNumReceiver" name="accountNumReceiver" pattern="/^[0-9]{8}$/" maxlength="8" required="required">
+                            <input class="form-control" type="text" id="accountNumReceiver" name="accountNumReceiver"
+                                   pattern="/^[0-9]{8}$/" maxlength="8" required="required">
                         </div>
                         <div class="form-group">
                             <label class="required" for="reference">Reference:</label>
-                            <input class="form-control" type="text" id="reference" name="reference" maxlength="40" pattern="/^[a-zA-Z0-9\s/@&+_\.\'\,\-\/]+$/">
+                            <input class="form-control" type="text" id="reference" name="reference" maxlength="40"
+                                   pattern="/^[a-zA-Z0-9\s/@&+_\.\'\,\-\/]+$/">
                         </div>
                         <div class="form_group">
                             <label class="required" for="amount">Amount:</label>
-                            <input class="form-control" type="number" id="amount" name="amount" pattern="/^([0-9\,]{1,10})?(\.[0-9]{1,2})?$/" maxlength="13">
+                            <input class="form-control" type="number" id="amount" name="amount"
+                                   pattern="/^([0-9\,]{1,10})?(\.[0-9]{1,2})?$/" maxlength="13">
                         </div>
+                        <br>
                         <div class="form-group">
-                            <label class="required" for="paymentDate">Date of first payment:</label>
-                            <input type="date" id="paymentDate" name="paymentDate" value="dd-mm-yyyy" required="required">
+                            <label for="paymentDate" class="required"></label>
+                            <input type="text" id="paymentDate" name="paymentDate">
                         </div>
                         <div class="form-group">
                             <label class="required" for="frequency">Frequency:</label>
