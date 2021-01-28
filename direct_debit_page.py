@@ -3,9 +3,10 @@ import random
 
 from cryptography.fernet import Fernet
 
-from flask import Flask, Blueprint, render_template, request, redirect, url_for
+from flask import Flask, Blueprint, render_template, request, redirect, url_for, session
 from mysql.connector import MySQLConnection, Error
 
+from classes.UserBankAccount import UserBankAccount
 from controllers.DbConnector import DbConnector
 
 direct_debit_page = Blueprint('direct_debit_page', __name__, template_folder='templates')
@@ -13,11 +14,28 @@ direct_debit_page = Blueprint('direct_debit_page', __name__, template_folder='te
 
 @direct_debit_page.route('/', methods=['GET', 'POST'])
 def direct_debit_page_func():
+    try:
+        # redirects user appropriately based on 2FA status, or whether they are an admin or not
+        if 'user_id' in session:
+            if session['needs_auth'] == True:
+                return redirect(url_for('login_page.login_page_func'))
+            elif session['user_role'] == 'User':
+                user_id = session['user_id']
+            else:
+                return redirect(url_for('admin_home_page.admin_home_page_func'))
+        else:
+            return redirect(url_for('login_page.login_page_func'))
+    except:
+        return redirect(url_for('login_page.login_page_func'))
     if request.method == 'POST':
+
+        account_info = request.form.get("account_sender_info")
+        account_info_split = account_info.split(",")
+        account_num_sending = account_info_split[0]
+        sort_code_sending = account_info_split[1]
+
         # requesting form
-        account_num_sending = request.form.get("accountNumSending")
         account_num_receiving = request.form.get("accountNumReceiving")
-        sort_code_sending = request.form.get("sortCodeSending")
         sort_code_receiving = request.form.get("sortCodeReceiving")
         recurrence_frequency = request.form.get("frequency")
         weekly_recurrence_frequency = request.form.get("weekly")
@@ -127,4 +145,19 @@ def direct_debit_page_func():
             print(error)
             return redirect(url_for('error_page.error_page_foo', code="e2"))
 
-    return render_template('direct_debit.html')
+    users_accounts = []
+    db_connector = DbConnector()
+    conn = db_connector.getConn()
+    cursor = conn.cursor(buffered=True)
+
+    cursor.execute(
+        "SELECT * FROM UserAccounts,UserAccountInfo WHERE UserID = (%s) AND UserAccounts.AccountTypeID = UserAccountInfo.AccountTypeID",
+        (user_id,))
+    result = cursor.fetchall()
+    for row in result:
+        print(row)
+        user_bank_account = UserBankAccount(row[0], row[1], row[5], row[4], row[8], row[3])
+        users_accounts.append(user_bank_account)
+    cursor.close()
+    conn.close()
+    return render_template('direct_debit.html', users_accounts=users_accounts)

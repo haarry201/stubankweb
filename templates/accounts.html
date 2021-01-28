@@ -40,6 +40,9 @@
             <li class="nav-item">
                 <a href="{{ url_for('offer_page.offer_page_func') }}" class="nav-link">Offers</a>
             </li>
+            <li class="nav-item">
+                <a href="{{ url_for('direct_debit_page.direct_debit_page_func') }}" class="nav-link">Direct Debit</a>
+            </li>
         </ul>
         <form class="form-inline d-none d-xl-flex ml-auto" action="..." method="...">
             <input class="btn btn-danger" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
@@ -63,6 +66,7 @@
                     <a href="{{ url_for('manage_pools_page.manage_pools_page_func') }}" class="dropdown-item">Manage
                         Pools</a>
                     <a href="{{ url_for('offer_page.offer_page_func') }}" class="dropdown-item">Offers</a>
+                    <a href="{{ url_for('direct_debit_page.direct_debit_page_func') }}" class="dropdown-item">Direct Debit</a>
                     <div class="dropdown-divider"></div>
                     <div class="dropdown-content">
                         <form action="..." method="...">
