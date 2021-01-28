@@ -6,6 +6,16 @@ import expenditure_reports_page
 from flask import Blueprint, render_template, request, session, url_for, redirect
 from manage_pools_page import get_member_firstnames
 
+'''
+File name: display_pool_page.py
+Author: Chris Harvey
+Credits: Chris Harvey
+Date created: 10/01/2020
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for allowing users to display their pools.
+'''
+
 display_pool_page = Blueprint('display_pool_page', __name__, template_folder='templates')
 
 

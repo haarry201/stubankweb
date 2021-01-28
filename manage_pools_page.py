@@ -8,6 +8,16 @@ from datetime import datetime
 import expenditure_reports_page
 from flask import Blueprint, render_template, session, request, redirect, url_for
 
+'''
+File name: manage_pools_page.py
+Author: Chris Harvey
+Credits: Chris Harvey
+Date created: 10/01/2020
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for allowing users to manage their pools.
+'''
+
 manage_pools_page = Blueprint('manage_pools_page', __name__, template_folder='templates')
 
 
