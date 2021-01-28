@@ -9,6 +9,18 @@ from mysql.connector import MySQLConnection, Error
 from classes.UserBankAccount import UserBankAccount
 from controllers.DbConnector import DbConnector
 
+'''
+File name: direct_debit_page.py
+Author: Jay Mavin
+Credits: Jay Mavin
+Date created: 21/01/2020
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for creating direct debits for the user.
+'''
+
+
+
 direct_debit_page = Blueprint('direct_debit_page', __name__, template_folder='templates')
 
 
