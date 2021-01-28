@@ -83,7 +83,8 @@ def account_settings_page_func():
                 db_salt = row[1]
                 is_users_pwd = pwd_manager.check_password(current_pwd,db_pwd,db_salt)
                 if is_users_pwd:
-                    pwd = hashlib.pbkdf2_hmac('sha512', new_pwd.encode('utf-8'), db_salt, 100000)
+                    new_salt = db_salt.encode('ascii')
+                    pwd = hashlib.pbkdf2_hmac('sha512', new_pwd.encode('utf-8'), new_salt, 100000)
                     pwdhash = binascii.hexlify(pwd)  # hash password using salt, this is what is stored in database
                     cursor.execute("UPDATE UserInfo SET Password = (%s) WHERE UserID = (%s)", (pwdhash, user_id))
                     conn.commit()
