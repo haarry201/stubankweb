@@ -9,6 +9,10 @@ verify_ssl = true
 flask = "*"
 mysql-connector-python = "==8.0.22"
 pyotp="*"
+geopy = "*"
+pyclustering = "*"
+scikit-learn = "*"
+
 pytz = "*"
 cryptography = "*"
 

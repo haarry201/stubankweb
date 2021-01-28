@@ -1,3 +1,15 @@
+/**
+ * Copyright (c) 2021
+ *
+ * Client side form validation for users making sure they can't submit forms with invalid
+ *
+ * @summary Client side form validation page
+ * @author Jacob Scase
+ *
+ * Created at     : 2020-12-10 10:59
+ * Last modified  : 2021-01-25 18:04
+ */
+
 $.validator.addMethod("passwordRules", function(value, element) {
 
     return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,100}$/.test( value );
@@ -57,6 +69,40 @@ $(function(){
                 required: "Please provide a password",
             },
         },
+        errorClass: "is-invalid",
+    });
+})
+$(function(){
+    $("form[name='ChangeEmailForm']").validate({
+        rules: {
+            new_email: {
+                required: true,
+                email: true
+            },
+        },
+        messages: {
+            new_email: {
+                required: "Please provide an email address",
+                email: "Please enter a valid email address"
+            },
+        },
+        errorClass: "is-invalid",
+    });
+})
+$(function(){
+    $("form[name='ChangePasswordForm']").validate({
+        rules: {
+            new_password: {
+                required: true,
+                passwordRules: true,
+            }
+        },
+        messages: {
+            new_password: {
+                required: "Please provide a password",
+            },
+        },
+        errorClass: "is-invalid",
     });
 })
 $(function(){
@@ -89,6 +135,7 @@ $(function(){
                 required: "Please provide a password",
             },
         },
+        errorClass: "is-invalid",
     });
 })
 
@@ -132,5 +179,25 @@ $(function(){
                 number: "Please provide the transfer value as a number",
             }
         },
+        errorClass: "is-invalid",
+    });
+})
+
+$(function(){
+    $("form[name='AddUserForm']").validate({
+        // CODE GOES HERE
+        rules: {
+            email: {
+                required: true,
+                email: true
+            }
+        },
+        messages: {
+            email: {
+                required: "Please provide an email address",
+                email: "Please enter a valid email address"
+            },
+        },
+        errorClass: "is-invalid",
     });
 })

@@ -2,200 +2,192 @@
 <html lang="en">
 
 <head>
-    <!-- Meta tags -->
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
-    <meta name="viewport" content="width=device-width"/>
-
-    <!-- Favicon and title -->
+    <meta charset="utf-8" />
+    <meta name="author" content="Rhys Minchin">
+    <meta name="description" content="Index page">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta name="viewport" content="width=device-width" />
     <link rel="icon" href="{{ url_for('static', filename='assets/favicon.ico') }}">
     <title>StuBank Homepage</title>
-
-    <link href="{{ url_for('static', filename='css/halfmoon.css') }}" rel="stylesheet"/>
+    <link href="{{ url_for('static', filename='css/halfmoon.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r123/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.21/vanta.waves.min.js"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
 </head>
 
-<body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true"
-      data-set-preferred-mode-onload="true">
+<body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true" data-set-preferred-mode-onload="true">
 
-<div class="page-wrapper with-navbar">
-    <div class="sticky-alerts"></div>
-    <nav class="navbar">
-        <a href="{{ url_for('index_page') }}" class="navbar-brand rounded">
-            <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="StuBankLogo"> StuBank
-        </a>
-        <ul class="navbar-nav d-none d-md-flex">
-            <li class="nav-item active">
-                <a class="nav-link">Home</a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url_for('extra_info.accounts') }}" class="nav-link">Our Accounts</a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url_for('extra_info.about_us') }}" class="nav-link">About Us</a>
-            </li>
-        </ul>
-        <form class="form-inline d-none d-md-flex ml-auto" action="..." method="...">
-            <input class="btn btn-danger" type="submit" value="Register" formaction="/register.html">
-            <input class="btn" type="submit" value="Login" formaction="/login.html">
-        </form>
-        <div class="navbar-content d-md-none ml-auto">
-            <div class="dropdown with-arrow">
-                <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">
+    <div class="page-wrapper with-navbar">
+        <div class="sticky-alerts"></div>
+        <nav class="navbar">
+            <a href="{{ url_for('index_page') }}" class="navbar-brand rounded">
+                <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="StuBankLogo"> StuBank
+            </a>
+            <ul class="navbar-nav d-none d-md-flex">
+                <li class="nav-item active">
+                    <a class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('extra_info_page.accounts') }}" class="nav-link">Our Accounts</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('extra_info_page.about_us') }}" class="nav-link">About Us</a>
+                </li>
+            </ul>
+            <form class="form-inline d-none d-md-flex ml-auto" action="..." method="...">
+                <input class="btn btn-danger" type="submit" value="Register" formaction="/register.html">
+                <input class="btn" type="submit" value="Login" formaction="/login.html">
+            </form>
+            <div class="navbar-content d-md-none ml-auto">
+                <div class="dropdown with-arrow">
+                    <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">
                     Menu
                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </button>
-                <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
-                    <a href="#" class="dropdown-item">Home</a>
-                    <a href="{{ url_for('extra_info.accounts') }}" class="dropdown-item">Our Accounts</a>
-                    <a href="{{ url_for('extra_info.about_us') }}" class="dropdown-item">About us</a>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-content">
-                        <form action="..." method="...">
-                            <input class="btn btn-danger btn-block mb-5" type="submit" value="Register"
-                                   formaction="/register.html">
-                            <input class="btn btn-block" type="submit" value="Login" formaction="/login.html">
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
-    <div class="content-wrapper">
-        <div class="hero-vanta" id="vantajs" style="height: 600px">
-            <div class="text-in-vanta">
-                <h1 class="text-center index-h1">
-                    Welcome To StuBank
-                </h1>
-                <div class="content">
-                    <p class="text-center">
-                        StuBank is a new way to bank, designed from the ground up - especially for students. Here are
-                        some of our accounts
-                    </p>
-                </div>
-            </div>
-
-        </div>
-        <div class="card shadow">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col">
-                        <div class="card shadow">
-                            <h2 class="card-title">
-                                Student Account
-                            </h2>
-                            This is our Student designed current account with a £1500 overdraft limit valid until
-                            graduation. This account is especially popular with students
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card shadow">
-                            <h2 class="card-title">
-                                Saver Account
-                            </h2>
-                            These are our Classic Saver accounts designed for saving money, anyone can apply for this
-                            account
+                    <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
+                        <a href="#" class="dropdown-item">Home</a>
+                        <a href="{{ url_for('extra_info_page.accounts') }}" class="dropdown-item">Our Accounts</a>
+                        <a href="{{ url_for('extra_info_page.about_us') }}" class="dropdown-item">About us</a>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-content">
+                            <form action="..." method="...">
+                                <input class="btn btn-danger btn-block mb-5" type="submit" value="Register" formaction="/register.html">
+                                <input class="btn btn-block" type="submit" value="Login" formaction="/login.html">
+                            </form>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col">
-                        <div class="card shadow">
-                            <img src="{{ url_for('static', filename='assets/StuBankCardDesign.png') }}"
-                                 class="img-fluid rounded-top" alt="...">
-                            <div class="content">
-                                <h2 class="content-title">
-                                    Student Account Card
-                                </h2>
-                                <p class="text-muted">
-                                    This is our classic card that you can get
-                                </p>
-                                <div class="text-right">
-                                    <a href="{{ url_for('extra_info.accounts') }}" class="btn">Read more</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card shadow">
-                            <img src="{{ url_for('static', filename='assets/StuBankCardDesignBlue.png') }}"
-                                 class="img-fluid rounded-top" alt="...">
-                            <div class="content">
-                                <h2 class="content-title">
-                                    Limited Edition Card
-                                </h2>
-                                <p class="text-muted">
-                                    This is our limited edition card that is only available for a short time!
-                                </p>
-                                <div class="text-right">
-                                    <a href="{{ url_for('extra_info.accounts') }}" class="btn">Read more</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <nav class="navbar navbar-static-bottom">
-            <div class="container-fluid">
-                <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
-
-                <!-- JavaScript -->
-                <script type="text/javascript">
-                    // Dark mode toggle
-                    function toggleDark() {
-                        halfmoon.toggleDarkMode();
-                    }
-                </script>
-                <ul class="navbar-nav ml-auto">
-                    <!-- ml-auto = margin-left: auto -->
-                    <li class="nav-item">
-                        <a href="{{ url_for('extra_info.contact') }}" class="nav-link">Contact</a>
-                    </li>
-                </ul>
-                <!-- Navbar text -->
-                <span class="navbar-text">
-            <p>
-            &copy; <strong>StuBank </strong> a project by Team35
-          </p>
-          </span>
             </div>
         </nav>
+        <div class="content-wrapper">
+            <div class="hero-vanta" id="vantajs" style="height: 600px; background-color: #ff0000">
+                <div class="text-in-vanta">
+                    <h1 class="text-center index-h1">
+                        Welcome To StuBank
+                    </h1>
+                    <div class="content">
+                        <p class="text-center index-p">
+                            StuBank is a new way to bank, designed from the ground up - especially for students. Here are some of our accounts
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card shadow">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card shadow">
+                                <h2 class="card-title">
+                                    Student Account
+                                </h2>
+                                This is our Student designed current account with a £1500 overdraft limit valid until graduation. This account is especially popular with students
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card shadow">
+                                <h2 class="card-title">
+                                    Saver Account
+                                </h2>
+                                These are our Classic Saver accounts designed for saving money, anyone can apply for this account
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card shadow">
+                                <img src="{{ url_for('static', filename='assets/StuBankCardDesign.png') }}" class="img-fluid rounded-top" alt="...">
+                                <div class="content">
+                                    <h2 class="content-title">
+                                        Student Account Card
+                                    </h2>
+                                    <p class="text-muted">
+                                        This is our classic card that you can get
+                                    </p>
+                                    <div class="text-right">
+                                        <a href="{{ url_for('extra_info_page.accounts') }}" class="btn">Read more</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card shadow">
+                                <img src="{{ url_for('static', filename='assets/StuBankCardDesignBlue.png') }}" class="img-fluid rounded-top" alt="...">
+                                <div class="content">
+                                    <h2 class="content-title">
+                                        Limited Edition Card
+                                    </h2>
+                                    <p class="text-muted">
+                                        This is our limited edition card that is only available for a short time!
+                                    </p>
+                                    <div class="text-right">
+                                        <a href="{{ url_for('extra_info_page.accounts') }}" class="btn">Read more</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <nav class="navbar navbar-static-bottom">
+                <div class="container-fluid">
+                    <button class="btn btn-primary bottom-button text-center bottom-text" type="button" onclick="toggleDark()">Toggle Darkmode!
+                </button>
+
+                    <!-- JavaScript -->
+                    <script type="text/javascript">
+                        // Dark mode toggle
+                        function toggleDark() {
+                            halfmoon.toggleDarkMode();
+                        }
+                    </script>
+                    <ul class="navbar-nav ml-auto">
+                        <!-- ml-auto = margin-left: auto -->
+                        <li class="nav-item">
+                            <a href="{{ url_for('extra_info_page.contact') }}" class="nav-link bottom-text">Contact</a>
+                        </li>
+                    </ul>
+                    <!-- Navbar text -->
+                    <span class="navbar-text">
+            <p>
+            &copy; <strong>StuBank </strong> 2021
+            </p>
+          </span>
+                </div>
+            </nav>
+        </div>
+        <!-- Content wrapper end -->
+
+
     </div>
-    <!-- Content wrapper end -->
+    <!-- Page wrapper end -->
 
+    <!-- Halfmoon JS -->
+    <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
 
-</div>
-<!-- Page wrapper end -->
-
-<!-- Halfmoon JS -->
-<script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
-
-<script>
-    VANTA.WAVES({
-        el: "#vantajs",
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.00,
-        minWidth: 200.00,
-        scale: 1.00,
-        scaleMobile: 1.00,
-        color: 0xbe2f26,
-        zoom: 0.72
-    })
-</script>
-<script>
-    ScrollReveal().reveal('.content-wrapper', {
-        delay: 400
-    });
-</script>
+    <script>
+        VANTA.WAVES({
+            el: "#vantajs",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0xbe2f26,
+            zoom: 0.72
+        })
+    </script>
+    <script>
+        ScrollReveal().reveal('.content-wrapper', {
+            delay: 400
+        });
+    </script>
 
 
 </body>
