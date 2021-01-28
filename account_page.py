@@ -1,6 +1,6 @@
 from flask import Flask, Blueprint, render_template, session, redirect, url_for
 from controllers.DbConnector import DbConnector
-import expenditure_reports
+import expenditure_reports_page
 from datetime import date, timedelta
 
 account_page = Blueprint('account_page', __name__, template_folder='templates')

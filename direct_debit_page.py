@@ -8,11 +8,11 @@ from mysql.connector import MySQLConnection, Error
 
 from controllers.DbConnector import DbConnector
 
-direct_debit = Blueprint('direct_debit', __name__, template_folder='templates')
+direct_debit_page = Blueprint('direct_debit_page', __name__, template_folder='templates')
 
 
-@direct_debit.route('/', methods=['GET', 'POST'])
-def direct_debit_func():
+@direct_debit_page.route('/', methods=['GET', 'POST'])
+def direct_debit_page_func():
     if request.method == 'POST':
         # requesting form
         account_num_sending = request.form.get("accountNumSending")
