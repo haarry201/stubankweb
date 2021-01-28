@@ -37,9 +37,9 @@ def register_page_func():
         security_answer = request.form.get("security_answer")  # gets all input information from registration form
         user_role = "User"
         if first_name == '' or last_name == '' or email == '' or password == '' or first_line_of_address == '' or second_line_of_address == '' or postcode == '' or security_question == '--' or security_answer == '':
-            return redirect(url_for('error_page.error_page_func', code="e3", src="register.html"))
+            return redirect(url_for('error_page.error_page_func', code="e3"))
         elif len(password) < 6:
-            return redirect(url_for('error_page.error_page_func', code="e4", src="register.html"))
+            return redirect(url_for('error_page.error_page_func', code="e4"))
             # redirects to error page with appropriate error message if there is an error
         else:
             db_connector = DbConnector()

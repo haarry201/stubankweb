@@ -65,7 +65,7 @@ def index_page():
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return redirect(url_for('error_page.error_page_func',code="e5", src="index.html"))
+    return redirect(url_for('error_page.error_page_func',code="e5"))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

@@ -74,7 +74,7 @@ def bank_transfer_internal_page_func():
                 print(current_user_overdraft)
                 if potential_balance < min(0, current_user_overdraft * -1):
                     return redirect(
-                        url_for('error_page.error_page_func', code="e11", src="card_payment_page_func.html"))
+                        url_for('error_page.error_page_func', code="e11"))
 
             cursor.execute(
                 "UPDATE UserAccounts SET CurrentBalance = CurrentBalance - (%s) WHERE AccountNum = (%s) AND"
@@ -119,7 +119,7 @@ def bank_transfer_internal_page_func():
                 print("Probabiliy of fraud =", p_fraud)
                 if p_fraud > 1:
                     return redirect(
-                        url_for('error_page.error_page_func', code="e7", src="card_payment_page_func.html"))
+                        url_for('error_page.error_page_func', code="e7"))
 
             cursor.execute("INSERT INTO Transactions VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                            (transaction_id, transferer_account_num, receiver_account_num, transferer_sort_code,
@@ -132,7 +132,7 @@ def bank_transfer_internal_page_func():
             conn.close()
         except Error as error:
             print(error)
-            return redirect(url_for('error_page.error_page_func', code="e2", src="accounts.html"))
+            return redirect(url_for('error_page.error_page_func', code="e2"))
 
         return redirect(url_for('account_page.account_page_func'))
 

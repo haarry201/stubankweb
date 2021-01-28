@@ -68,7 +68,7 @@ def manage_offers_page_func():
                 cursor.close()
             except Error as error:
                 print(error)
-                return redirect(url_for('error_page.error_page_func', code="e2", src="index.html"))
+                return redirect(url_for('error_page.error_page_func', code="e2"))
     all_offers = []
     try:
         cursor = conn.cursor(buffered=True)
@@ -80,7 +80,7 @@ def manage_offers_page_func():
             all_offers.append(new_offer)
     except Error as error:
         print(error)
-        return redirect(url_for('error_page.error_page_func', code="e2", src="index.html"))
+        return redirect(url_for('error_page.error_page_func', code="e2"))
     finally:
         cursor.close()
         conn.close()

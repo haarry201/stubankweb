@@ -64,9 +64,9 @@ def account_settings_page_func():
                         session['email'] = new_email
                         return render_template('account_settings.html', changed_data=changed_data)
                     else:
-                        return redirect(url_for('error_page.error_page_func', code="e9", src="accounts.html"))
+                        return redirect(url_for('error_page.error_page_func', code="e9"))
                 else:
-                    return redirect(url_for('error_page.error_page_func', code="e8", src="accounts.html"))
+                    return redirect(url_for('error_page.error_page_func', code="e8"))
 
         elif 'pwd_change' in request.form:
             current_pwd = request.form.get('current_password')
@@ -93,7 +93,7 @@ def account_settings_page_func():
                     changed_data = "Password"
                     return render_template('account_settings.html', changed_data=changed_data)
                 else:
-                    return redirect(url_for('error_page.error_page_func', code="e8", src="accounts.html"))
+                    return redirect(url_for('error_page.error_page_func', code="e8"))
 
         elif 'auth_remove' in request.form:
             print("removing auth")
@@ -111,7 +111,7 @@ def account_settings_page_func():
                 session['two_factor_enabled'] = False
                 return render_template('account_settings.html', changed_data="")
             else:
-                return redirect(url_for('error_page.error_page_func', code="e8", src="accounts.html"))
+                return redirect(url_for('error_page.error_page_func', code="e8"))
 
     try:
         db_connector = DbConnector()
@@ -120,6 +120,6 @@ def account_settings_page_func():
         cursor.execute("SELECT * FROM UserInfo WHERE UserID = (%s)",(user_id,))
     except Error as error:
         print(error)
-        return redirect(url_for('error_page.error_page_func', code="e2", src="accounts.html"))
+        return redirect(url_for('error_page.error_page_func', code="e2"))
 
     return render_template('account_settings.html',changed_data="")

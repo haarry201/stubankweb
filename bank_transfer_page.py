@@ -70,7 +70,7 @@ def bank_transfer_page_func():
                 potential_balance = current_user_balance-transfer_value
                 print(current_user_overdraft)
                 if potential_balance < min(0,current_user_overdraft*-1):
-                    return redirect(url_for('error_page.error_page_func', code="e11", src="card_payment_page_func.html"))
+                    return redirect(url_for('error_page.error_page_func', code="e11"))
 
             cursor.execute("UPDATE UserAccounts SET CurrentBalance = CurrentBalance - (%s) WHERE AccountNum = (%s) AND"
                            " SortCode = (%s)", (transfer_value, transferer_account_num, transferer_sort_code))
@@ -89,7 +89,7 @@ def bank_transfer_page_func():
             try:
                 cursor.execute("SELECT * FROM UserInfo WHERE UserID = (%s)", (receiver_user_id, ))
             except UnboundLocalError:
-                return redirect(url_for('error_page.error_page_func', code="e13", src="card_payment_page_func.html"))
+                return redirect(url_for('error_page.error_page_func', code="e13"))
 
             result = cursor.fetchall()
             for row in result:
@@ -116,7 +116,7 @@ def bank_transfer_page_func():
                 p_fraud = new_transaction.analyse_transaction(t_list)
                 print("Probabiliy of fraud =", p_fraud)
                 if p_fraud > 1:
-                    return redirect(url_for('error_page.error_page_func', code="e7", src="card_payment_page_func.html"))
+                    return redirect(url_for('error_page.error_page_func', code="e7"))
 
             cursor.execute("INSERT INTO Transactions VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                            (transaction_id, transferer_account_num, receiver_account_num, transferer_sort_code, receiver_sort_code,
@@ -129,7 +129,7 @@ def bank_transfer_page_func():
             conn.close()
         except Error as error:
             print(error)
-            return redirect(url_for('error_page.error_page_func', code="e2", src="accounts.html"))
+            return redirect(url_for('error_page.error_page_func', code="e2"))
 
         return redirect(url_for('account_page.account_page_func'))
 

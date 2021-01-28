@@ -107,7 +107,7 @@ def join_money_pool():
                 return render_template('accounts.html')
             row = cursor.fetchone()
         cursor.close()
-        return redirect(url_for('error_page.error_page_func', code="e1", src="index.html"))
+        return redirect(url_for('error_page.error_page_func', code="e1"))
     return render_template('register.html')
 
 
@@ -125,7 +125,7 @@ def get_user_id():
             user_id = row[0]
             return user_id  # returns the user id of the current user
         row = cursor.fetchone()
-    return redirect(url_for('error_page.error_page_func', code="e2", src="index.html"))
+    return redirect(url_for('error_page.error_page_func', code="e2"))
 
 
 def get_pool_ids(user_id):
@@ -145,7 +145,7 @@ def get_pool_ids(user_id):
         row = cursor.fetchone()
     if len(pool_ids) != 0:
         return pool_ids  # returns all the pool id's for the user's pools
-    return redirect(url_for('error_page.error_page_func', code="e2", src="index.html"))
+    return redirect(url_for('error_page.error_page_func', code="e2"))
 
 
 def get_member_firstnames(pool_id):
@@ -182,7 +182,7 @@ def get_member_firstnames(pool_id):
         cursor.close()
     if len(members_firstnames) != 0:
         return members_firstnames  # returns the firstnames of all members in the pool
-    return redirect(url_for('error_page.error_page_func', code="e2", src="index.html"))
+    return redirect(url_for('error_page.error_page_func', code="e2"))
 
 
 def execute_query(query, args):

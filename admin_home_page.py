@@ -51,7 +51,7 @@ def admin_home_page_func():
             conn.commit()
             cursor.close()
         except Error as error:
-            return redirect(url_for('error_page.error_page_func', code="e2", src="index.html"))
+            return redirect(url_for('error_page.error_page_func', code="e2"))
     admin_users = []
     db_connector = DbConnector()
     conn = db_connector.getConn()

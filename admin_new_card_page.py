@@ -63,7 +63,7 @@ def admin_new_card_page_func():
         return render_template('admin_pages/new_card.html', all_cards=allcards)
     except Error as e:
         print(e)
-        return redirect(url_for('error_page.error_page_func', code="e6", src="index.html"))
+        return redirect(url_for('error_page.error_page_func', code="e6"))
     finally:
         cursor.close()
         conn.close()

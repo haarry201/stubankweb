@@ -29,7 +29,7 @@ def manage_cards_page_func():
 
     except Error as e:
         print(e)
-        return redirect(url_for('error_page.error_page_func', code="e2", src="index.html"))
+        return redirect(url_for('error_page.error_page_func', code="e2"))
 
     conn.close()
 

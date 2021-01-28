@@ -62,7 +62,7 @@ def apply_new_card_page_func():
 
         except Error as error:
             print(error)
-            return redirect(url_for('error_page.error_page_func', code="e2", src="accounts.html"))
+            return redirect(url_for('error_page.error_page_func', code="e2"))
 
         all_user_cards, all_possible_cards = get_info(cursor, user_id)
 
@@ -87,6 +87,6 @@ def apply_new_card_page_func():
 
     except Error as e:
         print(e)
-        return redirect(url_for('error_page.error_page_func', code="e2", src="index.html"))
+        return redirect(url_for('error_page.error_page_func', code="e2"))
 
     return render_template('apply_card.html', card_types=card_types)

@@ -73,7 +73,7 @@ def all_transactions_page_func():
         transactions_to_display = transactions[number_of_transactions_to_start_at:number_of_transactions_to_end_at]
     except Error as error:
             print(error)
-            return redirect(url_for('error_page.error_page_func', code="e2", src="accounts.html"))
+            return redirect(url_for('error_page.error_page_func', code="e2"))
     if page_num-1 == 0:
         prior_page_num = 1
     else:
