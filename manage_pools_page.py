@@ -6,7 +6,7 @@ import string
 from datetime import datetime
 
 import expenditure_reports_page
-from flask import Blueprint, render_template, session, request
+from flask import Blueprint, render_template, session, request, redirect, url_for
 
 manage_pools_page = Blueprint('manage_pools_page', __name__, template_folder='templates')
 
@@ -103,9 +103,11 @@ def join_money_pool():
                         "VALUES(%s, %s)"  # creates relation between user and pool
                 args = (pool_id, user_id)
                 execute_query(query, args)
+                cursor.close()
+                return render_template('accounts.html')
             row = cursor.fetchone()
         cursor.close()
-        return render_template('accounts.html')
+        return redirect(url_for('error_page.error_page_func', code="e1", src="index.html"))
     return render_template('register.html')
 
 
@@ -122,6 +124,7 @@ def get_user_id():
         if row[5] == session['name']:  # if current users name corresponds to a user in the database
             user_id = row[0]
             return user_id  # returns the user id of the current user
+    return redirect(url_for('error_page.error_page_func', code="e2", src="index.html"))
 
 
 def get_pool_ids(user_id):
@@ -139,7 +142,9 @@ def get_pool_ids(user_id):
         if row[1] == user_id:  # if user id corresponds to a relation in the database
             pool_ids.append(row[0])
         row = cursor.fetchone()
-    return pool_ids  # returns all the pool id's for the user's pools
+    if len(pool_ids) != 0:
+        return pool_ids  # returns all the pool id's for the user's pools
+    return redirect(url_for('error_page.error_page_func', code="e2", src="index.html"))
 
 
 def get_member_firstnames(pool_id):
@@ -174,7 +179,9 @@ def get_member_firstnames(pool_id):
                     members_firstnames += ", " + row[5]
             row = cursor.fetchone()
         cursor.close()
-    return members_firstnames  # returns the firstnames of all members in the pool
+    if len(members_firstnames) != 0:
+        return members_firstnames  # returns the firstnames of all members in the pool
+    return redirect(url_for('error_page.error_page_func', code="e2", src="index.html"))
 
 
 def execute_query(query, args):

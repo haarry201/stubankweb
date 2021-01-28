@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
 </head>
 
-<body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true" data-set-preferred-mode-onload="true">
+<body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true"
+      data-set-preferred-mode-onload="true">
     <div class="page-wrapper with-navbar">
         <div class="sticky-alerts"></div>
         <nav class="navbar">
@@ -55,10 +56,12 @@
                     <a href="{{ url_for('account_page.account_page_func') }}" class="dropdown-item">Home</a>
                     <a href="{{ url_for('bank_transfer_page.bank_transfer_page_func') }}" class="dropdown-item">Move
                         Money</a>
-                    <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="dropdown-item">Account
-                        Settings</a>
-                    <a href="{{ url_for('manage_cards_page.manage_cards_page_func') }}" class="dropdown-item">Manage Cards</a>
-                    <a href="{{ url_for('manage_pools_page.manage_pools_page_func') }}" class="dropdown-item">Manage Pools</a>
+                    <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="dropdown-item">
+                        Account Settings</a>
+                    <a href="{{ url_for('manage_cards_page.manage_cards_page_func') }}" class="dropdown-item">
+                        Manage Cards</a>
+                    <a href="{{ url_for('manage_pools_page.manage_pools_page_func') }}" class="dropdown-item">
+                        Manage Pools</a>
                     <a href="{{ url_for('offer_page.offer_page_func') }}" class="dropdown-item">Offers</a>
                     <div class="dropdown-divider"></div>
                     <div class="dropdown-content">
@@ -72,7 +75,7 @@
                 </div>
             </div>
         </div>
-    </nav>
+        </nav>
 
         <div class="content-wrapper">
             <div class="table-class card shadow">
@@ -92,7 +95,8 @@
 
                 if (data.length > 0) {
                     // Draw HTML table
-                    let html = "<table class='table small'><thead><tr><th>Name</th><th>ID</th><th>Balance</th><th>Members</th><th>Date Created</th><th>Owner</th></tr></thead>";
+                    let html = "<table class='table small'><thead><tr><th>Name</th><th>ID</th><th>Balance</th>" +
+                        "<th>Members</th><th>Date Created</th><th>Owner</th></tr></thead>";
 
                     // Loop through array and add table cells
                     window.value = []
@@ -124,8 +128,9 @@
                           <h5 class="modal-title">Pick Which Pool to View</h5>
                           <form action="{{url_for('display_pool_page.display_pool_page_func')}}" method="post">
                               <div class="form-group">
-                                  <label for="pool_code" class="required">ID of Pool to View</label>
-                                  <input type="text" id="pool_to_view" name="pool_to_view" class="form-control" required="required">
+                                  <label for="pool_to_view" class="required">ID of Pool to View</label>
+                                  <input type="text" id="pool_to_view" name="pool_to_view" class="form-control"
+                                         minlength="16" maxlength="16" required="required">
                               </div>
                               <input class="btn btn-primary" type="submit" value="View Pool">
                               <a href="#" class="btn btn-secondary" role="button">Cancel</a>
@@ -144,7 +149,8 @@
                           <form action="{{url_for('manage_pools_page.join_money_pool')}}" method="post">
                               <div class="form-group">
                                   <label for="join_code" class="required">Enter Pool Join Code</label>
-                                  <input type="text" id="join_code" name="join_code" class="form-control" required="required">
+                                  <input type="text" id="join_code" name="join_code" class="form-control"
+                                         minlength="16" maxlength="16" required="required">
                               </div>
                               <input class="btn btn-primary" type="submit" value="Join Pool">
                               <a href="#" class="btn btn-secondary" role="button">Cancel</a>
@@ -162,12 +168,16 @@
                           <h5 class="modal-title">Create a New Pool</h5>
                           <form action="{{url_for('manage_pools_page.create_money_pool')}}" method="post">
                               <div class="form-group">
-                                  <label for="username" class="required">Pool Name</label>
-                                  <input type="text" id="pool_name" name="pool_name" class="form-control" required="required">
+                                  <label for="pool_name" class="required">Pool Name</label>
+                                  <input type="text" id="pool_name" name="pool_name" class="form-control"
+                                         required="required">
                               </div>
                               <div class="form-group">
                                   <label for="password" class="required">Pool Password</label>
-                                  <input type="password" id="pool_password" name="pool_password" class="form-control" required="required">
+                                  <input class="form-control" type="password" id="password" name="password"
+                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one
+                                       number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                       required="required">
                               </div>
                               <input class="btn btn-primary" type="submit" value="Create">
                               <a href="#" class="btn btn-secondary" role="button">Cancel</a>

@@ -3,7 +3,7 @@ import hashlib
 import mysql
 
 import expenditure_reports_page
-from flask import Blueprint, render_template, request, session
+from flask import Blueprint, render_template, request, session, url_for, redirect
 from manage_pools_page import get_member_firstnames
 
 display_pool_page = Blueprint('display_pool_page', __name__, template_folder='templates')
@@ -38,7 +38,7 @@ def display_pool_page_func():
             # of comma separated strings used for drawing HTML table
         row = cursor.fetchone()
     if len(pool) == 0:  # if entered pool id is not in database
-        return render_template('register.html')
+        return redirect(url_for('error_page.error_page_func',code="e1", src="index.html"))
     return render_template('display_pool.html', pool=pool, pool_name=pool_name, pool_join_code=pool_join_code)
 
 
@@ -54,8 +54,8 @@ def deposit_money_pool():
         amount = request.form.get("amount")
 
         withdraw_and_deposit(account_number, sort_code, amount, True)  # calls function with True to set it to deposit
-        return render_template('accounts.html')
 
+        return render_template('accounts.html')
     return render_template('register.html')
 
 
@@ -72,8 +72,8 @@ def withdraw_money_pool():
 
         withdraw_and_deposit(account_number, sort_code, amount, False)  # calls function with False to set it to
         # withdraw
-        return render_template('accounts.html')
 
+        return render_template('accounts.html')
     return render_template('register.html')
 
 
@@ -92,9 +92,9 @@ def leave_money_pool():
         cursor.execute(query, (user_id, pool_id))  # execute query
         conn.commit()
         cursor.close()
-        conn.close()
+        conn.close()  # close connection
 
-        return render_template('manage_pools.html')
+        return render_template('accounts.html')
     return render_template('register.html')
 
 
@@ -135,10 +135,13 @@ def remove_user_from_money_pool():
                     conn.commit()
                     cursor.close()
                     conn.close()  # close connection
+                    return render_template('accounts.html')
                 row = cursor.fetchone()
             conn.close()
+            return redirect(url_for('error_page.error_page_func', code="e2", src="index.html"))
+        else:
+            return redirect(url_for('error_page.error_page_func', code="e1", src="index.html"))
 
-        return render_template('accounts.html')
     return render_template('register.html')
 
 
@@ -165,15 +168,16 @@ def delete_money_pool():
 
                 conn.commit()  # commit changes
             except mysql.connector.Error as error:
-                print("Failed to delete pool: {}".format(error))
+                return redirect(url_for('error_page.error_page_func', code="e7", src="index.html"))
                 conn.rollback()  # if there is an error rollback the changes
             finally:
                 if conn.is_connected():
                     cursor.close()
                     conn.close()  # close connection
+        else:
+            return redirect(url_for('error_page.error_page_func', code="e1", src="index.html"))
 
             return render_template('accounts.html')
-        return render_template('register.html')
     return render_template('register.html')
 
 
@@ -197,7 +201,10 @@ def get_member_ids(pool_id):
                 members_ids += ", " + row[1]
         row = cursor.fetchone()
     cursor.close()
-    return members_ids  # return comma separated string with all member id's in the pool
+    if len(members_ids) != 0:
+        return members_ids  # return comma separated string with all member id's in the pool
+    else:
+        return redirect(url_for('error_page.error_page_func', code="e2", src="index.html"))
 
 
 def check_entered_password(entered_password, pool_id):
@@ -283,12 +290,13 @@ def withdraw_and_deposit(account_number, sort_code, amount, withdraw_or_deposit)
 
                 conn.commit()  # commit the changes
             except mysql.connector.Error as error:
-                print("Failed to delete pool: {}".format(error))
+                return redirect(url_for('error_page.error_page_func', code="e7", src="index.html"))
                 conn.rollback()  # if there is an error rollback the changes
             finally:
                 if conn.is_connected():
                     cursor.close()
                     conn.close()  # close connection
-
+            return render_template('manage_pools.html')
         row = cursor.fetchone()
-    return render_template('manage_pools.html')
+
+    return redirect(url_for('error_page.error_page_func', code="e1", src="index.html"))
