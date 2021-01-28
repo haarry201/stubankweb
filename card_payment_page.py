@@ -1,12 +1,12 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 
 from classes.UserBankAccount import UserBankAccount
-from controllers import Transaction
-from controllers.DbConnector import DbConnector
+import controllers.Transaction as Transaction
 from mysql.connector import MySQLConnection, Error
 from datetime import datetime
 import random
 
+from controllers.DbConnector import DbConnector
 from controllers.Transaction import MLTransaction
 
 '''
