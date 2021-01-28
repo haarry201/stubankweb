@@ -20,7 +20,8 @@
                 <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="StuBankLogo"> StuBank
             </a>
             <form class="form-inline d-none d-md-flex ml-auto" action="..." method="...">
-                <input class="btn btn-danger" type="submit" value="Back" formaction={{ url_for("index_page") }}>
+                <input class="btn btn-danger" type="button" value="Back" onclick="history.back()">
+                <input class="btn btn-danger" type="submit" value="Home" formaction={{ url_for("index_page") }}>
             </form>
             <div class="navbar-content d-md-none ml-auto">
                 <div class="dropdown with-arrow">
@@ -32,8 +33,8 @@
                         <div class="dropdown-divider"></div>
                         <div class="dropdown-content">
                             <form action="..." method="...">
-
-                                <input class="btn btn-danger btn-block mb-5" type="submit" value="Back" formaction={{ url_for( "index_page") }}>
+                                <input class="btn btn-danger btn-block mb-5" type="button" value="Back" onclick="history.back()">
+                                <input class="btn btn-danger btn-block mb-5" type="submit" value="Home" formaction={{ url_for( "index_page") }}>
                             </form>
                         </div>
                     </div>
