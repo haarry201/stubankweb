@@ -134,6 +134,7 @@ def account_page_func():
         "SELECT * FROM UserAccounts,RecurringTransactions WHERE UserID = (%s) AND UserAccounts.AccountNum = RecurringTransactions.AccountNumSending",
         (user_id,))
     result = cursor.fetchall()
+    todays_date = date.today()
     for row in result:
         acc_num_receiving = row[8]
         sort_code_receiving = row[10]
@@ -148,13 +149,13 @@ def account_page_func():
              "balance_change": (balance_change * -1), "next_payment_date_as_date_type": next_payment_date_as_date_type})
         cursor.close()
         conn.close()
-        todays_date = date.today()
+
         # if there is an error, user forwarded to error page. If not, forwarded to accounts page and appropriate information passed through
-        if 'name' in session:
-            return render_template('accounts.html', title='Home', user=session['name'], savings=savings_bal,
-                                   current=current_bal, transactions=transactions,
-                                   two_factor_enabled=session['two_factor_enabled'],
-                                   all_recurring_transactions=all_recurring_transactions,
-                                   todays_date=todays_date)
-        else:
-            return redirect(url_for('error_page.error_page_func', code="e1"))
+    if 'name' in session:
+        return render_template('accounts.html', title='Home', user=session['name'], savings=savings_bal,
+                               current=current_bal, transactions=transactions,
+                               two_factor_enabled=session['two_factor_enabled'],
+                               all_recurring_transactions=all_recurring_transactions,
+                               todays_date=todays_date)
+    else:
+        return redirect(url_for('error_page.error_page_func', code="e1"))
