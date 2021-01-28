@@ -33,7 +33,7 @@ def all_transactions_page_func():
     except:
         return redirect(url_for('login_page.login_page_func'))
     try:
-        #Trying to get the previous page, and increment it by 1 if
+        # Trying to get the previous page, and increment it by 1 if
         page_num = 1
         try:
             page_num = int(request.args.get('page_num'))
@@ -42,8 +42,8 @@ def all_transactions_page_func():
         except:
             pass
 
-        number_of_transactions_to_start_at = (page_num-1)*50
-        number_of_transactions_to_end_at = page_num*50
+        number_of_transactions_to_start_at = (page_num - 1) * 50
+        number_of_transactions_to_end_at = page_num * 50
         # Will display 50 transactions at a time
         # Paging of transactions only displays when number of transactions above 50
         db_connector = DbConnector()
@@ -61,7 +61,8 @@ def all_transactions_page_func():
             transaction_amount = int(row[11]) * -1
             transaction_type = row[14]
             recipient_name = row[16]
-            new_transaction = {"date":transaction_date,"amount":transaction_amount,"t_type":transaction_type,"recipient":recipient_name,"a_type":account_type}
+            new_transaction = {"date": transaction_date, "amount": transaction_amount, "t_type": transaction_type,
+                               "recipient": recipient_name, "a_type": account_type}
             transactions.append(new_transaction)
         user_account_info_dict = {}
         cursor.execute("SELECT * FROM UserAccountInfo")
@@ -72,10 +73,12 @@ def all_transactions_page_func():
         conn.close()
         transactions_to_display = transactions[number_of_transactions_to_start_at:number_of_transactions_to_end_at]
     except Error as error:
-            print(error)
-            return redirect(url_for('error_page.error_page_func', code="e2"))
-    if page_num-1 == 0:
+        print(error)
+        return redirect(url_for('error_page.error_page_func', code="e2"))
+    if page_num - 1 == 0:
         prior_page_num = 1
     else:
-        prior_page_num = page_num-1
-    return render_template('all_transactions.html',  transactions=transactions_to_display, page_num=page_num, next_page_num=page_num+1, prior_page_num=prior_page_num, user_account_info_dict=user_account_info_dict)
+        prior_page_num = page_num - 1
+    return render_template('all_transactions.html', transactions=transactions_to_display, page_num=page_num,
+                           next_page_num=page_num + 1, prior_page_num=prior_page_num,
+                           user_account_info_dict=user_account_info_dict)

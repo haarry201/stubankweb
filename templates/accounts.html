@@ -66,7 +66,8 @@
                     <a href="{{ url_for('manage_pools_page.manage_pools_page_func') }}" class="dropdown-item">Manage
                         Pools</a>
                     <a href="{{ url_for('offer_page.offer_page_func') }}" class="dropdown-item">Offers</a>
-                    <a href="{{ url_for('direct_debit_page.direct_debit_page_func') }}" class="dropdown-item">Direct Debit</a>
+                    <a href="{{ url_for('direct_debit_page.direct_debit_page_func') }}" class="dropdown-item">Direct
+                        Debit</a>
                     <div class="dropdown-divider"></div>
                     <div class="dropdown-content">
                         <form action="..." method="...">
@@ -119,12 +120,58 @@
         <div class="table-class card shadow">
             <h1 class="text-center">Recent Transactions</h1>
             <div id="transactions_table"></div>
+            <div class="align-content-lg-center">
+                <form action="..." method="...">
+                    <input class="btn btn-block" type="submit" value="View All Transactions"
+                           formaction="{{ url_for("all_transactions_page.all_transactions_page_func") }}">
+                </form>
+            </div>
         </div>
-        <div class="align-content-lg-center">
-            <form action="..." method="...">
-                <input class="btn btn-block" type="submit" value="View All Transactions"
-                       formaction="{{ url_for("all_transactions_page.all_transactions_page_func") }}">
-            </form>
+
+        <div class="card">
+            <div class="table-class card shadow">
+                <h1 class="text-center">All Recurring Transactions</h1>
+                {% if all_recurring_transactions|length ==0 %}
+                    <p>You dont have any recurring transactions</p>
+                {% endif %}
+                <div id="transactions_table">
+                    <table class='table small'>
+                        <thead>
+                        <tr>
+                            <th>Details</th>
+                            <th>Amount</th>
+                            <th>Reference</th>
+                        </tr>
+                        </thead>
+                        {% for item in all_recurring_transactions %}
+                            {% if item['next_payment_date_as_date_type'] <= todays_date %}
+                                <script type="text/javascript">
+                                    // Toasts success alert
+                                    window.onload = function () {
+                                        halfmoon.initStickyAlert({
+                                            content: "You have a recurring transaction due for payment",
+                                            title: "Recurring transaction alert",
+                                            alertType: "alert-secondary",
+                                            fillType: "filled-lm"
+                                        });
+                                    }
+                                </script>
+                            {% endif %}
+                            <tr>
+                                <td>
+                                    <strong>Recipient Account Number: </strong> {{ item['acc_num_receiving'] }}<br>
+                                    <strong>Next Payment date: </strong>{{ item['next_payment_date'] }}<br>
+                                    <strong>Frequency: </strong>{{ item['frequency'] }}<br>
+                                </td>
+                                <td>£{{ '{0:.2f}'.format(item['balance_change']/100) }}</td>
+                                <td><br>
+                                    {{ item['reference'] }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
         </div>
         <script>
             var data = [{% for item in transactions %}

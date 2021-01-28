@@ -97,7 +97,6 @@ def direct_debit_page_func():
         next_payment_date_annual_formatted = next_payment_date_annual.strftime("%Y-%m-%d")
 
         # Defining next payment dates based on the recurring payment option selected by user
-        print(recurrence_frequency)
         if recurrence_frequency == "weekly":
             next_payment_date = next_payment_date_weekly_formatted
         elif recurrence_frequency == "everyFourWeeks":

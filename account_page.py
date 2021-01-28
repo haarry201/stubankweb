@@ -14,7 +14,6 @@ Purpose: Back-end file for the user's homepage once logged in. This function col
          on the homepage, as well as the user's current balance which will also be displayed on the homepage.
 '''
 
-
 account_page = Blueprint('account_page', __name__, template_folder='templates')
 
 
@@ -26,6 +25,7 @@ def account_page_func():
             if session['needs_auth'] == True:
                 return redirect(url_for('login_page.login_page_func'))
             elif session['user_role'] == 'User':
+                user_id = session['user_id']
                 pass
             else:
                 return redirect(url_for('admin_home_page.admin_home_page_func'))
@@ -40,17 +40,18 @@ def account_page_func():
     row = cursor.fetchone()
     found_savings = False
     found_current = False
-    savings_acc = ''; current_acc = ''
+    savings_acc = '';
+    current_acc = ''
     while row is not None:
         if str(row[0]) in accounts:
             if str(row[3]) == '100':
                 savings_bal_pence = int(row[5])
-                savings_bal_pounds = savings_bal_pence/100  # if account is a 'savings' account, sets savings balance
+                savings_bal_pounds = savings_bal_pence / 100  # if account is a 'savings' account, sets savings balance
                 savings_acc = str(row[0])
                 found_savings = True
             else:
                 current_bal_pence = int(row[5])
-                current_bal_pounds = current_bal_pence/100  # if account is a 'student' account, sets student balance
+                current_bal_pounds = current_bal_pence / 100  # if account is a 'student' account, sets student balance
                 current_acc = str(row[0])
                 found_current = True
         row = cursor.fetchone()
@@ -70,8 +71,10 @@ def account_page_func():
 
     today = date.today()
     two_weeks = today - timedelta(days=14)  # gets date from 2 weeks ago as boundary for 'recent' transactions
-    t_day = str(today.day); w_day = str(two_weeks.day)
-    t_month = str(today.month); w_month = str(two_weeks.month)
+    t_day = str(today.day);
+    w_day = str(two_weeks.day)
+    t_month = str(today.month);
+    w_month = str(two_weeks.month)
     if today.day < 10:
         t_day = "0" + t_day
     if today.month < 10:
@@ -82,13 +85,18 @@ def account_page_func():
         w_month = "0" + w_month  # adds leading 0s if appropriate to fix some formatting issues
     today = str(today.year) + "-" + t_month + "-" + t_day
     two_weeks = str(two_weeks.year) + "-" + w_month + "-" + w_day
-    b_year = today[0:4]; e_year = two_weeks[0:4]
-    b_month = today[5:7]; e_month = two_weeks[5:7]
-    b_day = today[8:10]; e_day = two_weeks[8:10]
+    b_year = today[0:4];
+    e_year = two_weeks[0:4]
+    b_month = today[5:7];
+    e_month = two_weeks[5:7]
+    b_day = today[8:10];
+    e_day = two_weeks[8:10]
     start_boundary = date(int(b_year), int(b_month), int(b_day))
-    end_boundary = date(int(e_year), int(e_month), int(e_day))  # sets start and end boundaries as dates for comparison to database
+    end_boundary = date(int(e_year), int(e_month),
+                        int(e_day))  # sets start and end boundaries as dates for comparison to database
     while row is not None:
-        source = ''; t_type = ''
+        source = '';
+        t_type = ''
         date_of_transaction = str(row[6])
         year = date_of_transaction[0:4]
         month = date_of_transaction[5:7]
@@ -111,7 +119,7 @@ def account_page_func():
                 t_type = "Recurring Transaction"
             transactions.append(t_type)  # adds transaction type to array
 
-            amount = (abs(row[5])/100)
+            amount = (abs(row[5]) / 100)
             amount = "%.2f" % amount
             transactions.append(amount)  # adds transaction cost to array
             year = date_of_transaction[0:4]
@@ -120,8 +128,33 @@ def account_page_func():
             transaction_date = day + "/" + month + "/" + year
             transactions.append(transaction_date)  # adds date in more human-readable format to array
         row = cursor.fetchone()
-    # if there is an error, user forwarded to error page. If not, forwarded to accounts page and appropriate information passed through
-    if 'name' in session:
-        return render_template('accounts.html', title='Home', user=session['name'], savings=savings_bal, current=current_bal, transactions=transactions, two_factor_enabled=session['two_factor_enabled'])
-    else:
-        return redirect(url_for('error_page.error_page_func',code="e1"))
+
+    all_recurring_transactions = []
+    cursor.execute(
+        "SELECT * FROM UserAccounts,RecurringTransactions WHERE UserID = (%s) AND UserAccounts.AccountNum = RecurringTransactions.AccountNumSending",
+        (user_id,))
+    result = cursor.fetchall()
+    for row in result:
+        acc_num_receiving = row[8]
+        sort_code_receiving = row[10]
+        next_payment_date = row[12].strftime('%d/%m/%Y')
+        next_payment_date_as_date_type = row[12]
+        recurrence_frequency = row[13]
+        reference = row[14]
+        balance_change = row[15]
+        all_recurring_transactions.append(
+            {"acc_num_receiving": acc_num_receiving, "sort_code_receiving": sort_code_receiving,
+             "next_payment_date": next_payment_date, "frequency": recurrence_frequency, "reference": reference,
+             "balance_change": (balance_change * -1), "next_payment_date_as_date_type": next_payment_date_as_date_type})
+        cursor.close()
+        conn.close()
+        todays_date = date.today()
+        # if there is an error, user forwarded to error page. If not, forwarded to accounts page and appropriate information passed through
+        if 'name' in session:
+            return render_template('accounts.html', title='Home', user=session['name'], savings=savings_bal,
+                                   current=current_bal, transactions=transactions,
+                                   two_factor_enabled=session['two_factor_enabled'],
+                                   all_recurring_transactions=all_recurring_transactions,
+                                   todays_date=todays_date)
+        else:
+            return redirect(url_for('error_page.error_page_func', code="e1"))
