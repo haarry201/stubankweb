@@ -1,10 +1,24 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 
 from classes.UserBankAccount import UserBankAccount
+from controllers import Transaction
 from controllers.DbConnector import DbConnector
 from mysql.connector import MySQLConnection, Error
 from datetime import datetime
 import random
+
+from controllers.Transaction import MLTransaction
+
+'''
+File name: card_payment_page.py
+Author: Jacob Scase
+Credits: Jacob Scase
+Date created: 20/12/2020
+Date last modified: 25/01/2021
+Python version: 3.7
+Purpose: Back-end file for allowing the user to simulate creating a card payment
+'''
+
 
 card_payment_page = Blueprint('card_payment_page', __name__, template_folder='templates')
 
@@ -123,18 +137,21 @@ def card_payment_page_func():
         return redirect(url_for('account_page.account_page_func'))
 
     users_accounts = []
-    db_connector = DbConnector()
-    conn = db_connector.getConn()
-    cursor = conn.cursor(buffered=True)
+    try:
 
-    cursor.execute(
-        "SELECT * FROM UserAccounts,UserAccountInfo WHERE UserID = (%s) AND UserAccounts.AccountTypeID = UserAccountInfo.AccountTypeID",
-        (user_id,))
-    result = cursor.fetchall()
-    for row in result:
-        print(row)
-        user_bank_account = UserBankAccount(row[0], row[1], row[5], row[4], row[8], row[3])
-        users_accounts.append(user_bank_account)
-    cursor.close()
-    conn.close()
+        db_connector = DbConnector()
+        conn = db_connector.getConn()
+        cursor = conn.cursor(buffered=True)
+
+        cursor.execute(
+            "SELECT * FROM UserAccounts,UserAccountInfo WHERE UserID = (%s) AND UserAccounts.AccountTypeID = UserAccountInfo.AccountTypeID",
+            (user_id,))
+        result = cursor.fetchall()
+        for row in result:
+            user_bank_account = UserBankAccount(row[0], row[1], row[5], row[4], row[8], row[3])
+            users_accounts.append(user_bank_account)
+        cursor.close()
+        conn.close()
+    except:
+        return redirect(url_for('error_page.error_page_foo', code="e2"))
     return render_template('card_payment.html',users_accounts=users_accounts)

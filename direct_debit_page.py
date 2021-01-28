@@ -157,19 +157,22 @@ def direct_debit_page_func():
             print(error)
             return redirect(url_for('error_page.error_page_foo', code="e2"))
 
-    users_accounts = []
-    db_connector = DbConnector()
-    conn = db_connector.getConn()
-    cursor = conn.cursor(buffered=True)
 
-    cursor.execute(
-        "SELECT * FROM UserAccounts,UserAccountInfo WHERE UserID = (%s) AND UserAccounts.AccountTypeID = UserAccountInfo.AccountTypeID",
-        (user_id,))
-    result = cursor.fetchall()
-    for row in result:
-        print(row)
-        user_bank_account = UserBankAccount(row[0], row[1], row[5], row[4], row[8], row[3])
-        users_accounts.append(user_bank_account)
-    cursor.close()
-    conn.close()
+    users_accounts = []
+    try:
+        db_connector = DbConnector()
+        conn = db_connector.getConn()
+        cursor = conn.cursor(buffered=True)
+
+        cursor.execute(
+            "SELECT * FROM UserAccounts,UserAccountInfo WHERE UserID = (%s) AND UserAccounts.AccountTypeID = UserAccountInfo.AccountTypeID",
+            (user_id,))
+        result = cursor.fetchall()
+        for row in result:
+            user_bank_account = UserBankAccount(row[0], row[1], row[5], row[4], row[8], row[3])
+            users_accounts.append(user_bank_account)
+        cursor.close()
+        conn.close()
+    except:
+        return redirect(url_for('error_page.error_page_foo', code="e2"))
     return render_template('direct_debit.html', users_accounts=users_accounts)
