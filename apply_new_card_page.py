@@ -4,6 +4,7 @@ from mysql.connector import Error
 from datetime import datetime
 from random import choice
 from classes.CardInfo import CardInfo
+from manage_cards_page import get_info
 import string
 
 '''
@@ -35,9 +36,9 @@ def apply_new_card_page_func():
     except:
         return redirect(url_for('login_page.login_page_func'))
     if request.method == "POST":
-        user_id = session['userID']
+        user_id = session['user_id']
         chars = string.digits
-        card_type = request.form.get("card type")
+        card_type = request.form.get("all_cards")
         card_number = ''.join(choice(chars) for _ in range(16))
 
         now = datetime.now()
@@ -46,9 +47,6 @@ def apply_new_card_page_func():
         year = now.strftime("%Y")
         expiry_year = int(year) + 3
         expiry_date = str(expiry_year) + (now.strftime("-%m-%d"))
-
-
-        print(expiry_date)
 
         pin_number = ''.join(choice(chars) for _ in range(4))
 
@@ -60,16 +58,19 @@ def apply_new_card_page_func():
             cursor.execute("INSERT INTO UserCards VALUES (%s, %s, %s, %s, %s, %s)", (card_number, user_id, card_type,
                                                                                      start_date, expiry_date,
                                                                                      pin_number))
-
             conn.commit()
-            cursor.close()
-            conn.close()
 
         except Error as error:
             print(error)
             return redirect(url_for('error_page.error_page_func', code="e2", src="accounts.html"))
 
-        return render_template('manage_cards.html')
+        all_user_cards, all_possible_cards = get_info(cursor, user_id)
+
+        cursor.close()
+        conn.close()
+
+
+        return render_template('manage_cards.html', all_user_cards=all_user_cards, all_possible_cards=all_possible_cards)
 
     try:
         db_connector = DbConnector()

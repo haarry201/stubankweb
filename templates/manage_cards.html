@@ -107,6 +107,19 @@
                     </div>
                 </div>
             </div>
+            <div class="card text-center">
+                <form action="{{ url_for("apply_new_card_page.apply_new_card_page_func") }}" method="post">
+                    <label for="all_cards">Choose which card:</label>
+                    <select class="form-control" name="all_cards" id="all_cards">
+                        {% for card in all_possible_cards %}
+                            <p>{{ card.type_id }}</p>
+                            <p>{{ card.desc }}</p>
+                            <option value="{{ card.type_id }}">{{ card.desc }}</option>
+                        {% endfor %}
+                    </select>
+                    <input class="btn btn-primary" type="submit" value="Apply for a new card">
+                </form>
+            </div>
         </div>
         <nav class="navbar navbar-fixed-bottom">
             <div class="container-fluid">
