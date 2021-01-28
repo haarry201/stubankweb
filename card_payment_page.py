@@ -14,7 +14,7 @@ File name: card_payment_page.py
 Author: Jacob Scase
 Credits: Jacob Scase
 Date created: 20/12/2020
-Date last modified: 25/01/2021
+Date last modified: 28/01/2021
 Python version: 3.7
 Purpose: Back-end file for allowing the user to simulate creating a card payment
 '''
@@ -46,6 +46,12 @@ def card_payment_page_func():
         receiver_name = request.form.get("receiver_name")
         latitude = request.form.get("latitude")
         longitude = request.form.get("longitude")
+        try:
+            latitude = float(latitude)
+            longitude = float(longitude)
+        except:
+            latitude = 0.0
+            longitude = 0.0
         transfer_value = request.form.get("transfer_value")
         transfer_value = int(float(transfer_value) * 100)
 
