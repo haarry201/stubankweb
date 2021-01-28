@@ -8,14 +8,14 @@ from datetime import datetime
 import expenditure_reports_page
 from flask import Blueprint, render_template, session, request
 
-manage_pools_page = Blueprint('manage_pools', __name__, template_folder='templates')
+manage_pools_page = Blueprint('manage_pools_page', __name__, template_folder='templates')
 
 
 @manage_pools_page.route('/', methods=['GET', 'POST'])
-def manage_pools_func():
+def manage_pools_page_func():
     """
-
-    :return:
+    main function - returns template with info to draw HTML table
+    :return: displays the manage_pools.html page
     """
     pools = []
     pool_ids = get_pool_ids(get_user_id())
@@ -46,8 +46,8 @@ def manage_pools_func():
 @manage_pools_page.route('/create_money_pool', methods=['GET', 'POST'])
 def create_money_pool():
     """
-
-    :return:
+    gets entered data for creating pool, hashes password and inputs data into MySQL database
+    :return: displays either accounts.html or register.html depending on the request method
     """
     if request.method == "POST":
         pool_id = ''.join(  # generate a random id for the pool to be used as the pk
@@ -83,8 +83,8 @@ def create_money_pool():
 @manage_pools_page.route('/join_money_pool', methods=['GET', 'POST'])
 def join_money_pool():
     """
-
-    :return:
+    gets join code and checks against database value
+    :return: displays either accounts.html or register.html depending on the request method
     """
     if request.method == "POST":
         entered_join_id = request.form.get("join_code")  # get values from the web page
@@ -109,8 +109,8 @@ def join_money_pool():
 
 def get_user_id():
     """
-
-    :return:
+    gets the user id of the current user
+    :return: user id of the current user
     """
     conn = expenditure_reports_page.get_conn()
     cursor = conn.cursor(buffered=True)
@@ -124,9 +124,9 @@ def get_user_id():
 
 def get_pool_ids(user_id):
     """
-
+    gets all the pool id's for the current user's pools
     :param user_id:
-    :return:
+    :return: pool id's for all the current user's pools
     """
     pool_ids = []
     conn = expenditure_reports_page.get_conn()
@@ -142,9 +142,9 @@ def get_pool_ids(user_id):
 
 def get_member_firstnames(pool_id):
     """
-
+    gets the firstnames of all members for a specified pool id
     :param pool_id:
-    :return:
+    :return: firstnames of all members of a specified pool
     """
     conn = expenditure_reports_page.get_conn()
     cursor = conn.cursor(buffered=True)
@@ -177,10 +177,10 @@ def get_member_firstnames(pool_id):
 
 def execute_query(query, args):
     """
-
-    :param query:
-    :param args:
-    :return:
+    executes a MySQL query with a specified query and args
+    :param query: MySQL query to execute
+    :param args: args for the query
+    :return: executes MySQL query on database
     """
     conn = expenditure_reports_page.get_conn()  # use existing function to get database connection
     cursor = conn.cursor()

@@ -6,14 +6,14 @@ import expenditure_reports_page
 from flask import Blueprint, render_template, request, session
 from manage_pools_page import get_member_firstnames
 
-display_pool_page = Blueprint('display_pool', __name__, template_folder='templates')
+display_pool_page = Blueprint('display_pool_page', __name__, template_folder='templates')
 
 
 @display_pool_page.route('/', methods=['GET', 'POST'])
-def display_pool_func():
+def display_pool_page_func():
     """
-
-    :return:
+    main function - returns template with info to draw HTML table and other variables needed for the HTML page
+    :return: displays the display_pool.html page or register.html if the user has no pools
     """
     if not session.get("entered_pool_id"):
         entered_pool_id = request.form.get("pool_to_view")
@@ -44,8 +44,8 @@ def display_pool_func():
 @display_pool_page.route('/deposit_money_pool', methods=['GET', 'POST'])
 def deposit_money_pool():
     """
-
-    :return:
+    gets data from HTML page and calls function to deposit money into a pool
+    :return: displays either accounts.html or register.html depending on the request method
     """
     if request.method == "POST":
         account_number = int(request.form.get("account_number"))
@@ -61,8 +61,8 @@ def deposit_money_pool():
 @display_pool_page.route('/withdraw_money_pool', methods=['GET', 'POST'])
 def withdraw_money_pool():
     """
-
-    :return:
+    gets data from HTML page and calls function to withdraw money from a pool
+    :return: displays either accounts.html or register.html depending on the request method
     """
     if request.method == "POST":
         account_number = int(request.form.get("account_number"))
@@ -78,8 +78,8 @@ def withdraw_money_pool():
 @display_pool_page.route('/leave_money_pool', methods=['GET', 'POST'])
 def leave_money_pool():
     """
-
-    :return:
+    removes the current user from the pool
+    :return: displays either manage_pools.html or register.html depending on the request method
     """
     if request.method == "POST":
         conn = expenditure_reports_page.get_conn()
@@ -99,8 +99,8 @@ def leave_money_pool():
 @display_pool_page.route('/add_user_to_money_pool', methods=['GET', 'POST'])
 def add_user_to_money_pool():
     """
-
-    :return:
+    displays a join code to the user for them to share with another user
+    :return: displays either display_pool.html or register.html depending on the request method
     """
     if request.method == "POST":
         return render_template('display_pool.html')
@@ -110,8 +110,8 @@ def add_user_to_money_pool():
 @display_pool_page.route('/remove_user_from_money_pool', methods=['GET', 'POST'])
 def remove_user_from_money_pool():
     """
-
-    :return:
+    removes a user from the pool with a specified pool id if the entered password is correct
+    :return: displays either accounts.html or register.html depending on the request method
     """
     if request.method == "POST":
         entered_pool_password = request.form.get("pool_password")
@@ -142,8 +142,8 @@ def remove_user_from_money_pool():
 @display_pool_page.route('/delete_money_pool', methods=['GET', 'POST'])
 def delete_money_pool():
     """
-
-    :return:
+    deletes the pool if the password entered is correct
+    :return: displays either accounts.html or register.html depending on the request method and the entered password
     """
     if request.method == "POST":
         pool_id = session.get("entered_pool_id")
@@ -176,9 +176,9 @@ def delete_money_pool():
 
 def get_member_ids(pool_id):
     """
-
-    :param pool_id:
-    :return:
+    gets the id's of all members for a specified pool id
+    :param pool_id: specified pool id
+    :return: all id's for members in a specified pool
     """
     conn = expenditure_reports_page.get_conn()
     cursor = conn.cursor(buffered=True)
@@ -199,10 +199,10 @@ def get_member_ids(pool_id):
 
 def check_entered_password(entered_password, pool_id):
     """
-
-    :param entered_password:
-    :param pool_id:
-    :return:
+    hashes a specified password and checks it against the password in the database
+    :param entered_password: password entered by user in HTML page
+    :param pool_id: pool id for a specified pool
+    :return: True if the en
     """
     conn = expenditure_reports_page.get_conn()  # uses existing function for getting a db connection
     cursor = conn.cursor(buffered=True)
@@ -224,7 +224,7 @@ def check_entered_password(entered_password, pool_id):
 
 def withdraw_and_deposit(account_number, sort_code, amount, withdraw_or_deposit):
     """
-
+    dual-purpose function that can withdraw or deposit from the pool depending on the specified values
     :param account_number:
     :param sort_code:
     :param amount:
