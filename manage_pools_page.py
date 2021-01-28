@@ -18,7 +18,7 @@ def manage_pools_page_func():
     :return: displays the manage_pools.html page
     """
     pools = []
-    pool_ids = get_pool_ids(get_user_id())
+    pool_ids = get_pool_ids(get_user_id())  # array of all pool id's the current user is in
 
     for pool_id in pool_ids:
         conn = expenditure_reports_page.get_conn()
@@ -27,20 +27,22 @@ def manage_pools_page_func():
         row = cursor.fetchone()
 
         while row is not None:
-            if row[0] == pool_id:
-                pool_name = row[2]
+            if row[0] == pool_id:  # if pool is one the user is in
+                pool_name = row[2]  # gets data from PoolAccounts table
                 pool_balance = row[1]
                 pool_date = row[6]
                 pool_owner = row[5]
-                members_firstnames = get_member_firstnames(pool_id)
+                members_firstnames = get_member_firstnames(pool_id)  # comma separated string of all member firstnames
+                # in the current pool
 
                 pools.append(pool_name + "," + pool_id + "," + str(pool_balance) + "," + members_firstnames + "," +
-                             pool_date + "," + pool_owner)
+                             pool_date + "," + pool_owner)  # array of comma separated strings used for drawing HTML
+                # table
             row = cursor.fetchone()
         cursor.close()
         conn.close()
 
-    return render_template('manage_pools.html', pools=pools)  # returns the html page
+    return render_template('manage_pools.html', pools=pools)
 
 
 @manage_pools_page.route('/create_money_pool', methods=['GET', 'POST'])
@@ -59,20 +61,20 @@ def create_money_pool():
 
         pool_salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')  # generate salt for password hashing
         pool_pwd = hashlib.pbkdf2_hmac('sha512', pool_password.encode('utf-8'), pool_salt, 100000)
-        pool_pwdhash = binascii.hexlify(pool_pwd)  # hash password using salt, this is what is stored in database
-        pool_owner_name = session['name']
-        date = datetime.today().strftime('%d/%m/%Y')
+        pool_pwdhash = binascii.hexlify(pool_pwd)  # hash password using salt
+        pool_owner_name = session['name']  # sets the pool owner name to the firstname of the current user
+        date = datetime.today().strftime('%d/%m/%Y')  # gets the current date
 
         pool_balance = 0
-        user_id = get_user_id()
+        user_id = get_user_id()  # gets the current user's id
 
         query = "INSERT INTO PoolAccounts " \
-                "VALUES(%s, %s, %s, %s, %s, %s, %s, %s)"
+                "VALUES(%s, %s, %s, %s, %s, %s, %s, %s)"  # query to create pool
         args = (pool_id, pool_balance, pool_name, pool_pwdhash, pool_salt, pool_owner_name, date, pool_join_code)
         execute_query(query, args)
 
         query = "INSERT INTO UserPools " \
-                "VALUES(%s, %s)"
+                "VALUES(%s, %s)"  # query to create relation between current user and pool
         args = (pool_id, user_id)
         execute_query(query, args)
 
@@ -95,10 +97,10 @@ def join_money_pool():
         row = cursor.fetchone()
 
         while row is not None:
-            if row[7] == entered_join_id:
-                pool_id = row[0]
+            if row[7] == entered_join_id:  # if entered join id corresponds to a pool in the database
+                pool_id = row[0]  # gets data from database
                 query = "INSERT INTO UserPools " \
-                        "VALUES(%s, %s)"
+                        "VALUES(%s, %s)"  # creates relation between user and pool
                 args = (pool_id, user_id)
                 execute_query(query, args)
             row = cursor.fetchone()
@@ -117,7 +119,7 @@ def get_user_id():
     cursor.execute("SELECT * FROM UserInfo")  # gets all data stored in UserInfo table
     row = cursor.fetchone()
     while row is not None:
-        if row[5] == session['name']:
+        if row[5] == session['name']:  # if current users name corresponds to a user in the database
             user_id = row[0]
             return user_id  # returns the user id of the current user
 
@@ -125,16 +127,16 @@ def get_user_id():
 def get_pool_ids(user_id):
     """
     gets all the pool id's for the current user's pools
-    :param user_id:
+    :param user_id: entered user id
     :return: pool id's for all the current user's pools
     """
     pool_ids = []
     conn = expenditure_reports_page.get_conn()
     cursor = conn.cursor(buffered=True)
-    cursor.execute("SELECT * FROM UserPools")  # gets all data stored in UserInfo table
+    cursor.execute("SELECT * FROM UserPools")  # gets all data stored in UserPools table
     row = cursor.fetchone()
     while row is not None:
-        if row[1] == user_id:
+        if row[1] == user_id:  # if user id corresponds to a relation in the database
             pool_ids.append(row[0])
         row = cursor.fetchone()
     return pool_ids  # returns all the pool id's for the user's pools
@@ -143,7 +145,7 @@ def get_pool_ids(user_id):
 def get_member_firstnames(pool_id):
     """
     gets the firstnames of all members for a specified pool id
-    :param pool_id:
+    :param pool_id: entered pool id
     :return: firstnames of all members of a specified pool
     """
     conn = expenditure_reports_page.get_conn()
@@ -153,26 +155,26 @@ def get_member_firstnames(pool_id):
 
     members_ids = []
     while row is not None:
-        if row[0] == pool_id:
-            members_ids.append(row[1])
+        if row[0] == pool_id:  # if pool id corresponds to a relation in the database
+            members_ids.append(row[1])  # adds user id to array
         row = cursor.fetchone()
     cursor.close()
 
     for member_id in members_ids:
         cursor = conn.cursor(buffered=True)
-        cursor.execute("SELECT * FROM UserInfo")  # gets all data stored in UserPools table
+        cursor.execute("SELECT * FROM UserInfo")  # gets all data stored in UserInfo table
         row = cursor.fetchone()
 
         members_firstnames = ""
         while row is not None:
-            if row[0] == member_id:
-                if len(members_firstnames) == 0:
+            if row[0] == member_id:  # if member id corresponds to a user in the database
+                if len(members_firstnames) == 0:  # do for first member firstname
                     members_firstnames += row[5]
-                else:
+                else:  # otherwise do this
                     members_firstnames += ", " + row[5]
             row = cursor.fetchone()
         cursor.close()
-    return members_firstnames
+    return members_firstnames  # returns the firstnames of all members in the pool
 
 
 def execute_query(query, args):
@@ -184,7 +186,7 @@ def execute_query(query, args):
     """
     conn = expenditure_reports_page.get_conn()  # use existing function to get database connection
     cursor = conn.cursor()
-    cursor.execute(query, args)
+    cursor.execute(query, args)  # execute query
     conn.commit()
     cursor.close()
-    conn.close()
+    conn.close()  # close connection
