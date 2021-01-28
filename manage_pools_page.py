@@ -124,6 +124,7 @@ def get_user_id():
         if row[5] == session['name']:  # if current users name corresponds to a user in the database
             user_id = row[0]
             return user_id  # returns the user id of the current user
+        row = cursor.fetchone()
     return redirect(url_for('error_page.error_page_func', code="e2", src="index.html"))
 
 
