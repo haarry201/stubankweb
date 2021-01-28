@@ -138,7 +138,6 @@ def card_payment_page_func():
 
     users_accounts = []
     try:
-
         db_connector = DbConnector()
         conn = db_connector.getConn()
         cursor = conn.cursor(buffered=True)
@@ -153,5 +152,5 @@ def card_payment_page_func():
         cursor.close()
         conn.close()
     except:
-        return redirect(url_for('error_page.error_page_foo', code="e2"))
+        return redirect(url_for('error_page.error_page_func', code="e2"))
     return render_template('card_payment.html',users_accounts=users_accounts)

@@ -120,28 +120,36 @@
                                    required="required">
                         </div>
                         <div class="form-group">
-                            <label class="required" for="sortCodeReceiving">Enter Sort Code of receiver:</label>
-                            <input class="form-control" type="number" id="sortCodeReceiving" name="sortCodeReceiving"
-                                   pattern="^(\d{2}\s?-?){2}\d{2}$" maxlength="6" required="required">
+                            <label class="required" for="accountNumReceiving">Enter Account Number of Receiver:</label>
+                            <input class="form-control" type="text" id="accountNumReceiving" name="accountNumReceiving"
+                                   pattern="[0-9]{8}" maxlength="8" required="required">
                         </div>
                         <div class="form-group">
-                            <label class="required" for="accountNumReceiver">Enter Account Number of Receiver:</label>
-                            <input class="form-control" type="text" id="accountNumReceiver" name="accountNumReceiver"
-                                   pattern="/^[0-9]{8}$/" maxlength="8" required="required">
+                            <label class="required" for="sortCodeReceiving">Enter Sort Code of receiver:</label>
+                            <input class="form-control" type="text" id="sortCodeReceiving" name="sortCodeReceiving"
+                                   pattern="^(\d{2}\s?-?){2}\d{2}$" maxlength="6" required="required">
                         </div>
+
                         <div class="form-group">
                             <label class="required" for="reference">Reference:</label>
                             <input class="form-control" type="text" id="reference" name="reference" maxlength="40"
                                    pattern="/^[a-zA-Z0-9\s/@&+_\.\'\,\-\/]+$/">
                         </div>
+
                         <div class="form_group">
+
                             <label class="required" for="amount">Amount:</label>
-                            <input class="form-control" type="number" id="amount" name="amount"
-                                   pattern="/^([0-9\,]{1,10})?(\.[0-9]{1,2})?$/" maxlength="13">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">£</span>
+                                </div>
+                                <input class="form-control" min="0.01" step="0.01" type="number" id="amount"
+                                       name="amount">
+                            </div>
                         </div>
                         <br>
                         <div class="form-group">
-                            <label for="paymentDate" class="required"></label>
+                            <label for="paymentDate" class="required">Payment Date</label>
                             <input type="text" id="paymentDate" name="paymentDate">
                         </div>
                         <div class="form-group">
