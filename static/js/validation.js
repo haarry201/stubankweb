@@ -182,3 +182,22 @@ $(function(){
         errorClass: "is-invalid",
     });
 })
+
+$(function(){
+    $("form[name='AddUserForm']").validate({
+        // CODE GOES HERE
+        rules: {
+            email: {
+                required: true,
+                email: true
+            }
+        },
+        messages: {
+            email: {
+                required: "Please provide an email address",
+                email: "Please enter a valid email address"
+            },
+        },
+        errorClass: "is-invalid",
+    });
+})
