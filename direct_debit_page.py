@@ -125,6 +125,6 @@ def direct_debit_page_func():
 
         except Error as error:
             print(error)
-            return redirect(url_for('error_page.error_page_foo', code="e2", src="accounts.html"))
+            return redirect(url_for('error_page.error_page_foo', code="e2"))
 
     return render_template('direct_debit.html')
