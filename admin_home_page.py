@@ -60,4 +60,6 @@ def admin_home_page_func():
     result = cursor.fetchall()  # fetches first row of table
     for row in result:
         admin_users.append(row[0])
+    cursor.close()
+    conn.close()
     return render_template('/admin_pages/admin_home.html', admin_users=admin_users)
