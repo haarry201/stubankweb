@@ -30,27 +30,28 @@ def manage_pools_page_func():
     pools = []
     pool_ids = get_pool_ids(get_user_id())  # array of all pool id's the current user is in
 
-    for pool_id in pool_ids:
-        conn = expenditure_reports_page.get_conn()
-        cursor = conn.cursor(buffered=True)
-        cursor.execute("SELECT * FROM PoolAccounts")  # gets all data stored in PoolAccounts table
-        row = cursor.fetchone()
-
-        while row is not None:
-            if row[0] == pool_id:  # if pool is one the user is in
-                pool_name = row[2]  # gets data from PoolAccounts table
-                pool_balance = row[1]
-                pool_date = row[6]
-                pool_owner = row[5]
-                members_firstnames = get_member_firstnames(pool_id)  # comma separated string of all member firstnames
-                # in the current pool
-
-                pools.append(pool_name + "," + pool_id + "," + str(pool_balance) + "," + members_firstnames + "," +
-                             pool_date + "," + pool_owner)  # array of comma separated strings used for drawing HTML
-                # table
+    if len(pool_ids) > 0:
+        for pool_id in pool_ids:
+            conn = expenditure_reports_page.get_conn()
+            cursor = conn.cursor(buffered=True)
+            cursor.execute("SELECT * FROM PoolAccounts")  # gets all data stored in PoolAccounts table
             row = cursor.fetchone()
-        cursor.close()
-        conn.close()
+
+            while row is not None:
+                if row[0] == pool_id:  # if pool is one the user is in
+                    pool_name = row[2]  # gets data from PoolAccounts table
+                    pool_balance = row[1]
+                    pool_date = row[6]
+                    pool_owner = row[5]
+                    members_firstnames = get_member_firstnames(pool_id)  # comma separated string of all member firstnames
+                    # in the current pool
+
+                    pools.append(pool_name + "," + pool_id + "," + str(pool_balance) + "," + members_firstnames + "," +
+                                 pool_date + "," + pool_owner)  # array of comma separated strings used for drawing HTML
+                    # table
+                row = cursor.fetchone()
+            cursor.close()
+            conn.close()
 
     return render_template('manage_pools.html', pools=pools)
 
@@ -155,6 +156,8 @@ def get_pool_ids(user_id):
         row = cursor.fetchone()
     if len(pool_ids) != 0:
         return pool_ids  # returns all the pool id's for the user's pools
+    else:
+        return []
     return redirect(url_for('error_page.error_page_func', code="e2"))
 
 
