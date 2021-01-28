@@ -22,6 +22,7 @@ from account_settings_page import account_settings_page
 from bank_transfer_internal_page import bank_transfer_internal_page
 from stories_page import stories_page
 from all_transactions_page import all_transactions_page
+from direct_debit_page import direct_debit_page
 
 import os
 
@@ -50,6 +51,7 @@ app.register_blueprint(account_settings_page, url_prefix="/account_settings.html
 app.register_blueprint(bank_transfer_internal_page, url_prefix="/bank_transfer_internal.html")
 app.register_blueprint(stories_page, url_prefix="/stories_page.html")
 app.register_blueprint(all_transactions_page, url_prefix="/all_transactions_page.html")
+app.register_blueprint(direct_debit_page, url_prefix="/direct_debit_page.html")
 
 
 
