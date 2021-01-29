@@ -6,6 +6,7 @@ import string
 from datetime import datetime
 
 import expenditure_reports_page
+from register_page import check_input
 from flask import Blueprint, render_template, session, request, redirect, url_for
 
 '''
@@ -63,33 +64,39 @@ def create_money_pool():
     :return: displays either accounts.html or register.html depending on the request method
     """
     if request.method == "POST":
-        pool_id = ''.join(  # generate a random id for the pool to be used as the pk
-            random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(16))
-        pool_join_code = ''.join(  # generate a random id for the pool to be used as the join code
-            random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(16))
         pool_name = request.form.get("pool_name")  # get values from the web page
         pool_password = request.form.get("pool_password")
 
-        pool_salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')  # generate salt for password hashing
-        pool_pwd = hashlib.pbkdf2_hmac('sha512', pool_password.encode('utf-8'), pool_salt, 100000)
-        pool_pwdhash = binascii.hexlify(pool_pwd)  # hash password using salt
-        pool_owner_name = session['name']  # sets the pool owner name to the firstname of the current user
-        date = datetime.today().strftime('%d/%m/%Y')  # gets the current date
+        data = pool_name.lower() + pool_password.lower()
+        cont = check_input(data)
+        if cont:
+            pool_id = ''.join(  # generate a random id for the pool to be used as the pk
+                random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(16))
+            pool_join_code = ''.join(  # generate a random id for the pool to be used as the join code
+                random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(16))
 
-        pool_balance = 0
-        user_id = get_user_id()  # gets the current user's id
+            pool_salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')  # generate salt for password hashing
+            pool_pwd = hashlib.pbkdf2_hmac('sha512', pool_password.encode('utf-8'), pool_salt, 100000)
+            pool_pwdhash = binascii.hexlify(pool_pwd)  # hash password using salt
+            pool_owner_name = session['name']  # sets the pool owner name to the firstname of the current user
+            date = datetime.today().strftime('%d/%m/%Y')  # gets the current date
 
-        query = "INSERT INTO PoolAccounts " \
-                "VALUES(%s, %s, %s, %s, %s, %s, %s, %s)"  # query to create pool
-        args = (pool_id, pool_balance, pool_name, pool_pwdhash, pool_salt, pool_owner_name, date, pool_join_code)
-        execute_query(query, args)
+            pool_balance = 0
+            user_id = get_user_id()  # gets the current user's id
 
-        query = "INSERT INTO UserPools " \
-                "VALUES(%s, %s)"  # query to create relation between current user and pool
-        args = (pool_id, user_id)
-        execute_query(query, args)
+            query = "INSERT INTO PoolAccounts " \
+                    "VALUES(%s, %s, %s, %s, %s, %s, %s, %s)"  # query to create pool
+            args = (pool_id, pool_balance, pool_name, pool_pwdhash, pool_salt, pool_owner_name, date, pool_join_code)
+            execute_query(query, args)
 
-        return render_template('accounts.html')
+            query = "INSERT INTO UserPools " \
+                    "VALUES(%s, %s)"  # query to create relation between current user and pool
+            args = (pool_id, user_id)
+            execute_query(query, args)
+
+            return redirect(url_for('manage_pools_page.manage_pools_page_func'))
+        else:
+            return redirect(url_for('error_page.error_page_func', code="e14"))  # if bad input detected, input blocked
     return render_template('register.html')
 
 
@@ -115,7 +122,7 @@ def join_money_pool():
                 args = (pool_id, user_id)
                 execute_query(query, args)
                 cursor.close()
-                return render_template('accounts.html')
+                return redirect(url_for('manage_pools_page.manage_pools_page_func'))
             row = cursor.fetchone()
         cursor.close()
         return redirect(url_for('error_page.error_page_func', code="e1"))
@@ -158,7 +165,6 @@ def get_pool_ids(user_id):
         return pool_ids  # returns all the pool id's for the user's pools
     else:
         return []
-    return redirect(url_for('error_page.error_page_func', code="e2"))
 
 
 def get_member_firstnames(pool_id):

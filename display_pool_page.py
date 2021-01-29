@@ -104,7 +104,7 @@ def leave_money_pool():
         cursor.close()
         conn.close()  # close connection
 
-        return render_template('accounts.html')
+        return redirect(url_for('manage_pools_page.manage_pools_page_func'))
     return render_template('register.html')
 
 
@@ -145,7 +145,7 @@ def remove_user_from_money_pool():
                     conn.commit()
                     cursor.close()
                     conn.close()  # close connection
-                    return render_template('accounts.html')
+                    return redirect(url_for('manage_pools_page.manage_pools_page_func'))
                 row = cursor.fetchone()
             conn.close()
             return redirect(url_for('error_page.error_page_func', code="e2"))
@@ -187,7 +187,7 @@ def delete_money_pool():
         else:
             return redirect(url_for('error_page.error_page_func', code="e1"))
 
-            return render_template('accounts.html')
+        return redirect(url_for('manage_pools_page.manage_pools_page_func'))
     return render_template('register.html')
 
 
@@ -306,7 +306,7 @@ def withdraw_and_deposit(account_number, sort_code, amount, withdraw_or_deposit)
                 if conn.is_connected():
                     cursor.close()
                     conn.close()  # close connection
-            return render_template('manage_pools.html')
+            return redirect(url_for('manage_pools_page.manage_pools_page_func'))
         row = cursor.fetchone()
 
     return redirect(url_for('error_page.error_page_func', code="e1"))
