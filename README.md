@@ -14,7 +14,7 @@ This command will build the dockerfile, and give the image a name and tag.
 The command `docker run --rm name:tag arg1 arg2` will run the image
 
 ### Example
-`docker build -t stubank:latest .`
+`docker build . -t stubank:latest`
 
 `docker run -d -p 5000:5000 stubank`
 
