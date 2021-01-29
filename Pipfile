@@ -13,6 +13,8 @@ geopy = "*"
 pyclustering = "*"
 scikit-learn = "*"
 
+pytz = "*"
+cryptography = "*"
 
 [requires]
 python_version = "3.7"

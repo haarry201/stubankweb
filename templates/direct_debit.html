@@ -3,16 +3,26 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="author" content="Harry Kenny">
-    <meta name="description" content="Bank transfer page">
+    <meta name="author" content="Jay Mavin">
+    <meta name="description" content="Direct Debit page">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{{ url_for('static', filename='assets/favicon.ico') }}">
-    <title>Bank Account Transfer</title>
+    <title>Direct Debit</title>
     <link href="{{ url_for('static', filename='css/halfmoon.css') }}" rel="stylesheet"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="{{ url_for('static', filename='js/validation.js') }}"></script>
+    <script>
+        $(function () {
+            $("#paymentDate").datepicker({
+                dateFormat: "dd-mm-yy"
+            });
+        });
+    </script>
 </head>
 
 <body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true"
@@ -69,7 +79,8 @@
                     <a href="{{ url_for('manage_pools_page.manage_pools_page_func') }}" class="dropdown-item">Manage
                         Pools</a>
                     <a href="{{ url_for('offer_page.offer_page_func') }}" class="dropdown-item">Offers</a>
-                    <a href="{{ url_for('direct_debit_page.direct_debit_page_func') }}" class="dropdown-item">Direct Debit</a>
+                    <a href="{{ url_for('direct_debit_page.direct_debit_page_func') }}" class="dropdown-item">Direct
+                        Debit</a>
                     <div class="dropdown-divider"></div>
                     <div class="dropdown-content">
                         <form action="..." method="...">
@@ -84,18 +95,16 @@
         </div>
     </nav>
     <div class="content-wrapper">
-        <div class="alert" role="alert">
-            <h4 class="alert-heading">Transfer to savings?</h4>
-            If you are looking to transfer through your own accounts <a href="{{ url_for("bank_transfer_internal_page.bank_transfer_internal_page_func") }}" class="alert-link">Click Here</a>.
-        </div>
         <div class="container-fluid">
             <div class="row pt-20">
                 <div class="col"></div>
                 <div class="card text-center">
-                    <form action="{{ url_for("bank_transfer_page.bank_transfer_page_func") }}" method="post"
-                          name="TransferForm">
+                    <h1>Direct Debit:</h1>
+                    <form class="p-card" action="{{ url_for("direct_debit_page.direct_debit_page_func") }}"
+                          method="post"
+                          name="DirectDebit">
                         <div class="form-group">
-                            <label for="account_sender_info">Choose which account to transfer from:</label>
+                            <p>Choose account to send from</p>
                             <select class="form-control" name="account_sender_info" id="account_sender_info">
                                 {% for account in users_accounts %}
                                     <p>{{ account.account_num }}</p>
@@ -105,31 +114,57 @@
                                 {% endfor %}
                             </select>
                         </div>
-
                         <div class="form-group">
-                            <br>
-                            <p for="receiver selected">Enter account number and sort code of account to transfer to:</p>
-                            <label class="required" for="account_number">Account number:</label>
-                            <input class="form-control" type="text" id="account_number" name="account_number">
-                            <br>
-
-                            <label class="required" for="sort_code">Sort code:</label>
-                            <input class="form-control" type="text" id="sort_code" name="sort_code">
-
+                            <label class="required" for="accountName">Name of recipient:</label>
+                            <input class="form-control" type="text" id="accountName" name="accountName" maxlength="140"
+                                   required="required">
+                        </div>
+                        <div class="form-group">
+                            <label class="required" for="accountNumReceiving">Enter Account Number of Receiver:</label>
+                            <input class="form-control" type="text" id="accountNumReceiving" name="accountNumReceiving"
+                                   pattern="[0-9]{8}" maxlength="8" required="required">
+                        </div>
+                        <div class="form-group">
+                            <label class="required" for="sortCodeReceiving">Enter Sort Code of receiver:</label>
+                            <input class="form-control" type="text" id="sortCodeReceiving" name="sortCodeReceiving"
+                                   pattern="^(\d{2}\s?-?){2}\d{2}$" maxlength="6" required="required">
                         </div>
 
                         <div class="form-group">
-                            <label class="required" for="amount">Enter amount to transfer:</label>
+                            <label class="required" for="reference">Reference:</label>
+                            <input class="form-control" type="text" id="reference" name="reference" maxlength="40"
+                                   pattern="/^[a-zA-Z0-9\s/@&+_\.\'\,\-\/]+$/">
+                        </div>
+
+                        <div class="form_group">
+
+                            <label class="required" for="amount">Amount:</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">£</span>
                                 </div>
-                                <input class="form-control" min="0.01" step="0.01" type="number" id="transfer_value"
-                                       name="transfer_value">
+                                <input class="form-control" min="0.01" step="0.01" type="number" id="amount"
+                                       name="amount">
                             </div>
                         </div>
-
-                        <input class="btn btn-primary" type="submit" value="Submit">
+                        <br>
+                        <div class="form-group">
+                            <label for="paymentDate" class="required">Payment Date</label>
+                            <input type="text" id="paymentDate" name="paymentDate">
+                        </div>
+                        <div class="form-group">
+                            <label class="required" for="frequency">Frequency:</label>
+                            <select class="form-control" name="frequency" id="frequency" required="required">
+                                <option selected="selected">Please select...</option>
+                                <option value="weekly" id="weekly">Weekly</option>
+                                <option value="everyFourWeeks" id="everyFourWeeks">Every 4 Weeks</option>
+                                <option value="monthly" id="monthly">Monthly</option>
+                                <option value="annually" id="annually">Annually</option>
+                            </select>
+                        </div>
+                        <div>
+                            <input class="btn btn-primary" type="submit" value="Submit">
+                        </div>
                     </form>
                 </div>
                 <div class="col"></div>
@@ -155,16 +190,15 @@
             </ul>
             <!-- Navbar text -->
             <span class="navbar-text">
-                        <p>
-            &copy; <strong>StuBank </strong> 2021
-            </p>
-                    </span>
+                    <p>
+                        &copy; <strong>StuBank </strong> a project by Team35
+                    </p>
+                </span>
         </div>
     </nav>
-    <!-- Halfmoon JS -->
-    <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
 </div>
+<!-- Halfmoon JS -->
+<script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
 </body>
-
 
 </html>

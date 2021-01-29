@@ -10,7 +10,10 @@
     <title>Admin Home</title>
     <link href="{{ url_for('static', filename='css/halfmoon.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
     <script src="https://kit.fontawesome.com/326c61a2a9.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/validation.js') }}"></script>
 </head>
 
 <body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true" data-set-preferred-mode-onload="true">
@@ -28,7 +31,7 @@
                     <a href="{{ url_for('manage_offers_page.manage_offers_page_func') }}" class="nav-link">Manage Offers</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Manage Cards </a>
+                    <a href="{{ url_for('admin_new_card_page.admin_new_card_page_func') }}" class="nav-link">Manage Cards </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="nav-link">Account Settings</a>
@@ -47,7 +50,7 @@
                         <a href="{{ url_for('account_page.account_page_func') }}" class="dropdown-item">Home</a>
                         <a href="{{ url_for('manage_offers_page.manage_offers_page_func') }}" class="dropdown-item">Manage
                         Offers</a>
-                        <a href="#" class="dropdown-item">Manage Cards</a>
+                        <a href="{{ url_for('admin_new_card_page.admin_new_card_page_func') }}" class="dropdown-item">Manage Cards</a>
                         <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="dropdown-item">Account Settings</a>
                         <div class="dropdown-divider"></div>
                         <div class="dropdown-content">
@@ -85,7 +88,7 @@
                     </div>
                     <div>
                         <p>Add another admin, enter the email of the user</p>
-                        <form action="{{ url_for("admin_home_page.admin_home_page_func") }}" method="post" class="p-5" name="add_user_form">
+                        <form action="{{ url_for("admin_home_page.admin_home_page_func") }}" method="post" class="p-5" id="AddUserForm" name="AddUserForm">
                             <div class="form-group">
                                 <label class="required" for="email">Email:</label>
                                 <input class="form-control" type="text" id="email" name="email">
@@ -95,7 +98,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
         <nav class="navbar navbar-fixed-bottom">
             <div class="container-fluid">

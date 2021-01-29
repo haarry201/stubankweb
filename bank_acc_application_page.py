@@ -19,11 +19,14 @@ bank_acc_application_page = Blueprint('bank_acc_application_page', __name__, tem
 @bank_acc_application_page.route('/', methods=['GET', 'POST'])
 def bank_acc_application_page_func():
     try:
+        # redirects user appropriately based on 2FA status, or whether they are an admin or not
         if 'user_id' in session:
             if session['needs_auth'] == True:
                 return redirect(url_for('login_page.login_page_func'))
-            else:
+            elif session['user_role'] == 'User':
                 pass
+            else:
+                return redirect(url_for('admin_home_page.admin_home_page_func'))
         else:
             return redirect(url_for('login_page.login_page_func'))
     except:
@@ -32,13 +35,13 @@ def bank_acc_application_page_func():
         account_type = request.form.get("account type")
         if account_type == "student current account":
             account_type_id = '123'
-            agreed_overdraft = 1500
+            agreed_overdraft = 150000
         elif account_type == "savings account":
             account_type_id = '100'
             agreed_overdraft = 0
         else:
-            return redirect(url_for('error_page.error_page_func', code="e2", src="accounts.html"))
-        email = request.form.get("email")
+            return redirect(url_for('error_page.error_page_func', code="e2"))
+        email = session['email']
         account_num = ''.join(["{}".format(randint(0, 9)) for num in range(0, 8)])
         sort_code = ''.join(["{}".format(randint(0, 9)) for num in range(0, 6)])
 
@@ -72,8 +75,8 @@ def bank_acc_application_page_func():
             conn.close()
         except Error as error:
             print(error)
-            return redirect(url_for('error_page.error_page_func',code="e2", src="accounts.html"))
+            return redirect(url_for('error_page.error_page_func',code="e2"))
 
-        return render_template('accounts.html')
+        return redirect(url_for('account_page.account_page_func'))
 
     return render_template('bank_application.html')

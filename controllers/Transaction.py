@@ -62,8 +62,12 @@ def fetch_transactions(transferer_account_num):
         transaction_bal_change = abs(row[5] / 100)
         transaction_time = int(row[7])
         transaction_recipient = str(row[10])
-        transaction_longitude = float(row[11])
-        transaction_latitude = float(row[12])
+        try:
+            transaction_longitude = float(row[11])
+            transaction_latitude = float(row[12])
+        except:
+            transaction_longitude = 0.0
+            transaction_latitude = 0.0
         previous_transaction = MLTransaction(transaction_recipient, transaction_bal_change, transaction_latitude,
                                              transaction_longitude, transaction_time)
         t_list.append(previous_transaction)

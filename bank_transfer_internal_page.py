@@ -10,20 +10,20 @@ import random
 from controllers.Transaction import MLTransaction
 
 '''
-File name: bank_transfer_page.py
-Author: Harry Kenny
-Credits: Harry Kenny, Jacob Scase
+File name: bank_transfer_internal_page.py
+Author: Jacob Scase
+Credits: Jacob Scase, Harry Kenny
 Date created: 14/12/2020
 Date last modified: 25/01/2021
 Python version: 3.7
 Purpose: Back-end file for allowing the user to transfer money from one account to another
 '''
 
-bank_transfer_page = Blueprint('bank_transfer_page', __name__, template_folder='templates')
+bank_transfer_internal_page = Blueprint('bank_transfer_internal_page', __name__, template_folder='templates')
 
 
-@bank_transfer_page.route('/', methods=['GET', 'POST'])
-def bank_transfer_page_func():
+@bank_transfer_internal_page.route('/', methods=['GET', 'POST'])
+def bank_transfer_internal_page_func():
     try:
         # redirects user appropriately based on 2FA status, or whether they are an admin or not
         if 'user_id' in session:
@@ -40,10 +40,12 @@ def bank_transfer_page_func():
     if request.method == 'POST':
         account_info = request.form.get("account_sender_info")
         account_info_split = account_info.split(",")
+        account_receiver_info = request.form.get("account_receiver_info")
+        account_receiver_info_split = account_receiver_info.split(",")
         transferer_account_num = account_info_split[0]
         transferer_sort_code = account_info_split[1]
-        receiver_account_num = request.form.get("account_number")
-        receiver_sort_code = request.form.get("sort_code")
+        receiver_account_num = account_receiver_info_split[0]
+        receiver_sort_code = account_receiver_info_split[1]
         transfer_value = request.form.get("transfer_value")
         transfer_value = int(float(transfer_value) * 100)
 
@@ -62,20 +64,24 @@ def bank_transfer_page_func():
             db_connector = DbConnector()
             conn = db_connector.getConn()
             cursor = conn.cursor(buffered=True)
-            cursor.execute("SELECT * FROM UserAccounts WHERE AccountNum = (%s) AND SortCode = (%s)",(transferer_account_num,transferer_sort_code))
+            cursor.execute("SELECT * FROM UserAccounts WHERE AccountNum = (%s) AND SortCode = (%s)",
+                           (transferer_account_num, transferer_sort_code))
             result = cursor.fetchall()
             for row in result:
                 current_user_balance = int(row[5])
                 current_user_overdraft = int(row[4])
-                potential_balance = current_user_balance-transfer_value
+                potential_balance = current_user_balance - transfer_value
                 print(current_user_overdraft)
-                if potential_balance < min(0,current_user_overdraft*-1):
-                    return redirect(url_for('error_page.error_page_func', code="e11"))
+                if potential_balance < min(0, current_user_overdraft * -1):
+                    return redirect(
+                        url_for('error_page.error_page_func', code="e11"))
 
-            cursor.execute("UPDATE UserAccounts SET CurrentBalance = CurrentBalance - (%s) WHERE AccountNum = (%s) AND"
-                           " SortCode = (%s)", (transfer_value, transferer_account_num, transferer_sort_code))
+            cursor.execute(
+                "UPDATE UserAccounts SET CurrentBalance = CurrentBalance - (%s) WHERE AccountNum = (%s) AND"
+                " SortCode = (%s)", (transfer_value, transferer_account_num, transferer_sort_code))
 
-            cursor.execute("SELECT * FROM UserAccounts WHERE AccountNum = (%s) AND SortCode = (%s)",(receiver_account_num,receiver_sort_code))
+            cursor.execute("SELECT * FROM UserAccounts WHERE AccountNum = (%s) AND SortCode = (%s)",
+                           (receiver_account_num, receiver_sort_code))
             result = cursor.fetchall()
 
             for row in result:
@@ -86,14 +92,10 @@ def bank_transfer_page_func():
                                " AccountNum = (%s) AND SortCode = (%s)",
                                (new_transferee_value, receiver_account_num, receiver_sort_code))
 
-            try:
-                cursor.execute("SELECT * FROM UserInfo WHERE UserID = (%s)", (receiver_user_id, ))
-            except UnboundLocalError:
-                return redirect(url_for('error_page.error_page_func', code="e13"))
-
+            cursor.execute("SELECT * FROM UserInfo WHERE UserID = (%s)", (receiver_user_id,))
             result = cursor.fetchall()
             for row in result:
-                receiver_name = row[5] +" "+ row[6]
+                receiver_name = row[5] + " " + row[6]
 
             ran = random.randrange(10 ** 80)
             myhex = "%016x" % ran
@@ -116,13 +118,14 @@ def bank_transfer_page_func():
                 p_fraud = new_transaction.analyse_transaction(t_list)
                 print("Probabiliy of fraud =", p_fraud)
                 if p_fraud > 1:
-                    return redirect(url_for('error_page.error_page_func', code="e7"))
+                    return redirect(
+                        url_for('error_page.error_page_func', code="e7"))
 
             cursor.execute("INSERT INTO Transactions VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                           (transaction_id, transferer_account_num, receiver_account_num, transferer_sort_code, receiver_sort_code,
+                           (transaction_id, transferer_account_num, receiver_account_num, transferer_sort_code,
+                            receiver_sort_code,
                             balance_change, date, time, transaction_type, card_num_sending, receiver_name,
                             longitude, latitude))
-
 
             conn.commit()
             cursor.close()
@@ -138,11 +141,14 @@ def bank_transfer_page_func():
     conn = db_connector.getConn()
     cursor = conn.cursor(buffered=True)
 
-    cursor.execute("SELECT * FROM UserAccounts,UserAccountInfo WHERE UserID = (%s) AND UserAccounts.AccountTypeID = UserAccountInfo.AccountTypeID",(user_id,))
+    cursor.execute(
+        "SELECT * FROM UserAccounts,UserAccountInfo WHERE UserID = (%s) AND UserAccounts.AccountTypeID = UserAccountInfo.AccountTypeID",
+        (user_id,))
     result = cursor.fetchall()
     for row in result:
+        print(row)
         user_bank_account = UserBankAccount(row[0], row[1], row[5], row[4], row[8], row[3])
         users_accounts.append(user_bank_account)
     cursor.close()
     conn.close()
-    return render_template('bank_transfer.html', users_accounts=users_accounts)
+    return render_template('bank_transfer_internal.html', users_accounts=users_accounts)

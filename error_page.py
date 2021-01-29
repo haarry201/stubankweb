@@ -16,12 +16,9 @@ error_page = Blueprint('error_page', __name__, template_folder='templates')
 
 @error_page.route('/')
 def error_page_func():
-    print()
     code = "e5"
-    src = "index.html"
     try:
-        code = request.args['code']
-        src = request.args['src']  # gets information from error request to show user correct error information
+        code = request.args['code']  # gets information from error request to show user correct error information
     except:
         print()
     error_codes = {"e1": "These login credentials do not match an existing user, please try again",
@@ -33,6 +30,10 @@ def error_page_func():
                    "e7": "There appears to be an error with this transaction, your account has been locked ",
                    "e8": "Verification Error!",
                    "e9": "Error, Email address already in use",
-                   "e10": "Error, this account appears to be in use"
+                   "e10": "Error, this account appears to be in use",
+                   "e11": "Error, you do not have the balance to process this transaction",
+                   "e12": "Error, this 2FA code is incorrect",
+                   "e13": "Error, cannot process this transaction - check that inputs are correct",
+                   "e14": "Error, bad input detected"
                    }  # error codes and description of what caused the error
-    return render_template('error.html', error_codes=error_codes, code=code, src=src)
+    return render_template('error.html', error_codes=error_codes, code=code)

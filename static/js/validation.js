@@ -140,7 +140,7 @@ $(function(){
 })
 
 $(function(){
-    $("form[name='transfer_form']").validate({
+    $("form[name='TransferForm']").validate({
         // CODE GOES HERE
         rules: {
             email: {
@@ -178,6 +178,51 @@ $(function(){
                 required: "Please provide the transfer value",
                 number: "Please provide the transfer value as a number",
             }
+        },
+        errorClass: "is-invalid",
+    });
+})
+
+$(function(){
+    $("form[name='AddUserForm']").validate({
+        // CODE GOES HERE
+        rules: {
+            email: {
+                required: true,
+                email: true
+            }
+        },
+        messages: {
+            email: {
+                required: "Please provide an email address",
+                email: "Please enter a valid email address"
+            },
+        },
+        errorClass: "is-invalid",
+    });
+})
+
+$(function(){
+    $("form[name='CardPaymentForm']").validate({
+        // CODE GOES HERE
+        rules: {
+            latitude: {
+                required: true,
+                number: true
+            },
+            longitude: {
+                required: true,
+                number: true
+            }
+
+        },
+        messages: {
+            latitude: {
+                required: "Please provide a latitude, or 0.0 for none",
+            },
+            longitude: {
+                required: "Please provide a longitude, or 0.0 for none",
+            },
         },
         errorClass: "is-invalid",
     });

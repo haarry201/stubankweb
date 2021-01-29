@@ -64,9 +64,9 @@ def account_settings_page_func():
                         session['email'] = new_email
                         return render_template('account_settings.html', changed_data=changed_data)
                     else:
-                        return redirect(url_for('error_page.error_page_func', code="e9", src="accounts.html"))
+                        return redirect(url_for('error_page.error_page_func', code="e9"))
                 else:
-                    return redirect(url_for('error_page.error_page_func', code="e8", src="accounts.html"))
+                    return redirect(url_for('error_page.error_page_func', code="e8"))
 
         elif 'pwd_change' in request.form:
             current_pwd = request.form.get('current_password')
@@ -83,7 +83,8 @@ def account_settings_page_func():
                 db_salt = row[1]
                 is_users_pwd = pwd_manager.check_password(current_pwd,db_pwd,db_salt)
                 if is_users_pwd:
-                    pwd = hashlib.pbkdf2_hmac('sha512', new_pwd.encode('utf-8'), db_salt, 100000)
+                    new_salt = db_salt.encode('ascii')
+                    pwd = hashlib.pbkdf2_hmac('sha512', new_pwd.encode('utf-8'), new_salt, 100000)
                     pwdhash = binascii.hexlify(pwd)  # hash password using salt, this is what is stored in database
                     cursor.execute("UPDATE UserInfo SET Password = (%s) WHERE UserID = (%s)", (pwdhash, user_id))
                     conn.commit()
@@ -92,7 +93,7 @@ def account_settings_page_func():
                     changed_data = "Password"
                     return render_template('account_settings.html', changed_data=changed_data)
                 else:
-                    return redirect(url_for('error_page.error_page_func', code="e8", src="accounts.html"))
+                    return redirect(url_for('error_page.error_page_func', code="e8"))
 
         elif 'auth_remove' in request.form:
             print("removing auth")
@@ -110,7 +111,7 @@ def account_settings_page_func():
                 session['two_factor_enabled'] = False
                 return render_template('account_settings.html', changed_data="")
             else:
-                return redirect(url_for('error_page.error_page_func', code="e8", src="accounts.html"))
+                return redirect(url_for('error_page.error_page_func', code="e8"))
 
     try:
         db_connector = DbConnector()
@@ -119,6 +120,6 @@ def account_settings_page_func():
         cursor.execute("SELECT * FROM UserInfo WHERE UserID = (%s)",(user_id,))
     except Error as error:
         print(error)
-        return redirect(url_for('error_page.error_page_func', code="e2", src="accounts.html"))
+        return redirect(url_for('error_page.error_page_func', code="e2"))
 
     return render_template('account_settings.html',changed_data="")

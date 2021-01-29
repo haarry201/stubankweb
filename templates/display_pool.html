@@ -6,88 +6,83 @@
     <meta name="author" content="Chris Harvey">
     <meta name="description" content="Pools page">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chris' Pool</title>
+    <title>{{ pool_name }}</title>
     <link href="{{ url_for('static', filename='css/halfmoon.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
 </head>
 
-<body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true" data-set-preferred-mode-onload="true">
-    <div class="page-wrapper with-navbar">
+<body class="with-custom-webkit-scrollbars with-custom-css-scrollbars" data-dm-shortcut-enabled="true"
+      data-set-preferred-mode-onload="true">
+    <div class="page-wrapper with-navbar with-navbar-fixed-bottom">
         <div class="sticky-alerts"></div>
         <nav class="navbar">
-            <a href="#" class="navbar-brand rounded">
-                <img src="{{url_for('static', filename='assets/logo.png')}}" alt="StuBankLogo"> StuBank
+            <a href="{{ url_for('index_page') }}" class="navbar-brand rounded">
+                <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="StuBankLogo"> StuBank
             </a>
-            <ul class="navbar-nav d-none d-md-flex">
+            <ul class="navbar-nav d-none d-xl-flex">
                 <li class="nav-item active">
-                    <a href="{{url_for('account_page.account_page_func')}}" class="nav-link">Home</a>
+                    <a href="{{ url_for('account_page.account_page_func') }}" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Move Money</a>
+                    <a href="{{ url_for('bank_transfer_page.bank_transfer_page_func') }}" class="nav-link">Move Money</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Account Settings </a>
+                    <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="nav-link">Account
+                        Settings </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ url_for('manage_cards_page.manage_cards_page_func') }}" class="nav-link">Manage Cards</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Manage Overdraft</a>
+                    <a href="{{ url_for('manage_pools_page.manage_pools_page_func') }}" class="nav-link">Manage Pools</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{url_for('manage_pools.manage_pools_func', filename='manage_pools.html')}}" class="nav-link">Manage Pools</a>
+                    <a href="{{ url_for('offer_page.offer_page_func') }}" class="nav-link">Offers</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('direct_debit_page.direct_debit_page_func') }}" class="nav-link">Direct Debit</a>
                 </li>
             </ul>
-            <form class="form-inline d-none d-md-flex ml-auto" action="..." method="...">
+            <form class="form-inline d-none d-xl-flex ml-auto" action="..." method="...">
                 <input class="btn btn-danger" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
-                <input class="btn btn-danger" type="submit" value="Back" formaction="/manage_pools.html">
+                <input class="btn btn-danger" type="submit" value="Apply for an Account"
+                       formaction="{{ url_for('bank_acc_application_page.bank_acc_application_page_func') }}">
             </form>
-            <div class="navbar-content d-md-none ml-auto">
+            <div class="navbar-content d-xl-none ml-auto">
                 <div class="dropdown with-arrow">
                     <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">
                         Menu
                         <i class="fa fa-angle-down" aria-hidden="true"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
-                        <a href="{{url_for('account_page.account_page_func')}}" class="dropdown-item">Home</a>
-                        <a href="#" class="dropdown-item">Move Money</a>
-                        <a href="#" class="dropdown-item">Account Settings</a>
-                        <a href="#" class="dropdown-item">Manage Cards</a>
-                        <a href="#" class="dropdown-item">Manage Overdraft</a>
-                        <a href="{{url_for('manage_pools.manage_pools_func', filename='manage_pools.html')}}" class="dropdown-item">Manage Pools</a>
-
+                        <a href="{{ url_for('account_page.account_page_func') }}" class="dropdown-item">Home</a>
+                        <a href="{{ url_for('bank_transfer_page.bank_transfer_page_func') }}" class="dropdown-item">Move
+                            Money</a>
+                        <a href="{{ url_for('account_settings_page.account_settings_page_func') }}" class="dropdown-item">Account
+                            Settings</a>
+                        <a href="{{ url_for('manage_cards_page.manage_cards_page_func') }}" class="dropdown-item">Manage
+                            Cards</a>
+                        <a href="{{ url_for('manage_pools_page.manage_pools_page_func') }}" class="dropdown-item">Manage
+                            Pools</a>
+                        <a href="{{ url_for('offer_page.offer_page_func') }}" class="dropdown-item">Offers</a>
+                        <a href="{{ url_for('direct_debit_page.direct_debit_page_func') }}" class="dropdown-item">Direct Debit</a>
                         <div class="dropdown-divider"></div>
                         <div class="dropdown-content">
                             <form action="..." method="...">
-                                <input class="btn btn-danger btn-block mb-5" type="submit" value="Logout" formaction="{{ url_for('index_page') }}">
+                                <input class="btn btn-danger btn-block mb-5" type="submit" value="Logout"
+                                      formaction="{{ url_for('index_page') }}">
+                                <input class="btn btn-danger btn-block mb-5" type="submit" value="Apply for an Account"
+                                       formaction="{{ url_for('bank_acc_application_page.bank_acc_application_page_func') }}">
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
         </nav>
-
         <div class="content-wrapper">
             <div class="table-class card shadow">
-                <h1 class="text-center">Chris' Pool</h1>
-                <table class="table small">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Balance</th>
-                            <th>Members</th>
-                            <th>Date Created</th>
-                            <th>Owner</th>
-                        </tr>
-                    </thead>
-                    <tr>
-                        <td><strong><a href>Chris' Pool</a></strong></td>
-                        <td>£1000.00</td>
-                        <td>Chris, Carl, Jeff</td>
-                        <td>07/01/2021</td>
-                        <td>Chris</td>
-                    </tr>
-                </table>
+                <h1 class="text-center">{{ pool_name }}</h1>
+                <div id="pool_table"></div>
                 <form>
                     <input class="btn btn-primary" type="submit" value="Deposit" formaction="#modalDeposit">
                     <input class="btn btn-primary" type="submit" value="Withdraw" formaction="#modalWithdraw">
@@ -98,158 +93,210 @@
                 </form>
             </div>
 
+            <script>
+                const data = [{% for item in pool %}
+                    "{{item}}",
+                {% endfor %}];
+
+                if (data.length > 0) {
+                    // Draw HTML table
+                    let html = "<table class='table small'><thead><tr><th>Name</th><th>ID</th><th>Balance</th>" +
+                        "<th>Members</th><th>Member ID's</th><th>Date Created</th><th>Owner</th></tr></thead>";
+
+                    // Loop through array and add table cells
+                    window.value = []
+                    for (let i = 0; i < data.length; i++) {
+
+                        const split_pools = data[i].split(",");
+                        window.value += split_pools[0] + ","
+                        html += "<tr><td><strong>" + split_pools[0] + "</strong></td>"
+                        html += "<td>" + split_pools[1] + "</td>"
+                        html += "<td>£" + parseInt(split_pools[2])/100 + "</td>"
+                        html += "<td>" + split_pools[3] + "</td>"
+                        html += "<td>" + split_pools[4] + "</td>"
+                        html += "<td>" + split_pools[5] + "</td>"
+                        html += "<td>" + split_pools[6] + "</td></tr>"
+                    }
+                    html += "</tr></table>";
+
+                    document.getElementById("pool_table").innerHTML = html;
+                } else {
+                    document.getElementById("pool_table").innerHTML = "<p>You do not currently have any pools</p>"
+                }
+            </script>
+
             <div class="modal" id="modalDeposit" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <a href="#" class="btn close" role="button" aria-label="Cancel">
-                            <span aria-hidden="true">&times;</span>
-                        </a>
-                        <h5 class="modal-title">Deposit to the Pool</h5>
-                        <form action="..." method="...">
-                            <div class="form-group">
-                                <label for="bankAccount" class="required">Bank Account</label>
-                                <select id="account" class="form-control" required="required">
-                                      <option value="current">Current Account</option>
-                                      <option value="savings">Savings Account</option>
-                                  </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="deposit" class="required">Amount to Deposit (£)</label>
-                                <input type="number" min="0" max="1000" id="deposit" class="form-control" required="required" step=".01">
-                            </div>
-                            <input class="btn btn-primary" type="submit" value="Deposit">
-                            <a href="#" class="btn btn-secondary" role="button">Cancel</a>
-                        </form>
-                    </div>
-                </div>
+                  <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                          <a href="#" class="btn close" role="button" aria-label="Cancel">
+                              <span aria-hidden="true">&times;</span>
+                          </a>
+                          <h5 class="modal-title">Deposit to the Pool</h5>
+                          <form action="{{url_for('display_pool_page.deposit_money_pool')}}" method="post">
+                              <div class="form-group">
+                                  <label for="account_number" class="required" minlength="8" maxlength="8">
+                                      Account Number</label>
+                                  <input type="number" min="0" max="99999999" id="account_number" name="account_number"
+                                         class="form-control" required="required">
+                                  <label for="sort_code" class="required" minlength="6" maxlength="6">Sort Code</label>
+                                  <input type="number" min="0" max="999999" id="sort_code" name="sort_code"
+                                         class="form-control" required="required">
+                                  <label for="amount" class="required">Amount to Withdraw (£)</label>
+                                  <input type="number" min="0" max="1000" id="amount" name="amount" class="form-control"
+                                         required="required" step=".01">
+                              </div>
+                              <input class="btn btn-primary" type="submit" value="Deposit">
+                              <a href="#" class="btn btn-secondary" role="button">Cancel</a>
+                          </form>
+                      </div>
+                  </div>
             </div>
 
             <div class="modal" id="modalWithdraw" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <a href="#" class="btn close" role="button" aria-label="Cancel">
-                            <span aria-hidden="true">&times;</span>
-                        </a>
-                        <h5 class="modal-title">Withdraw From the Pool</h5>
-                        <form action="..." method="...">
-                            <div class="form-group">
-                                <label for="bankAccount" class="required">Bank Account</label>
-                                <select id="account" class="form-control" required="required">
-                                      <option value="current">Current Account</option>
-                                      <option value="savings">Savings Account</option>
-                                  </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="deposit" class="required">Amount to Withdraw (£)</label>
-                                <input type="number" min="0" max="1000" id="deposit" class="form-control" required="required" step=".01">
-                            </div>
-                            <input class="btn btn-primary" type="submit" value="Withdraw">
-                            <a href="#" class="btn btn-secondary" role="button">Cancel</a>
-                        </form>
-                    </div>
-                </div>
+                  <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                          <a href="#" class="btn close" role="button" aria-label="Cancel">
+                              <span aria-hidden="true">&times;</span>
+                          </a>
+                          <h5 class="modal-title">Withdraw From the Pool</h5>
+                          <form action="{{url_for('display_pool_page.withdraw_money_pool')}}" method="post">
+                              <div class="form-group">
+                                  <label for="account_number" class="required">Account Number</label>
+                                  <input type="number" min="0" max="99999999" id="account_number" name="account_number"
+                                         class="form-control" required="required" minlength="8" maxlength="8">
+                                  <label for="sort_code" class="required">Sort Code</label>
+                                  <input type="number" min="0" max="999999" id="sort_code" name="sort_code"
+                                         class="form-control" required="required" minlength="6" maxlength="6">
+                                  <label for="amount" class="required">Amount to Withdraw (£)</label>
+                                  <input type="number" min="0" max="1000" id="amount" name="amount" class="form-control"
+                                         required="required" step=".01">
+                              </div>
+                              <input class="btn btn-primary" type="submit" value="Withdraw">
+                              <a href="#" class="btn btn-secondary" role="button">Cancel</a>
+                          </form>
+                      </div>
+                  </div>
             </div>
 
             <div class="modal" id="modalLeave" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <a href="#" class="btn close" role="button" aria-label="Cancel">
-                            <span aria-hidden="true">&times;</span>
-                        </a>
-                        <h5 class="modal-title">Are you sure you want to leave?</h5>
-                        <form>
-                            <input class="btn btn-danger" type="submit" value="Leave" formaction="">
-                            <a href="#" class="btn btn-secondary" role="button">Cancel</a>
-                        </form>
-                    </div>
-                </div>
+                  <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                          <a href="#" class="btn close" role="button" aria-label="Cancel">
+                              <span aria-hidden="true">&times;</span>
+                          </a>
+                          <h5 class="modal-title">Are you sure you want to leave?</h5>
+                          <form action="{{url_for('display_pool_page.leave_money_pool')}}" method="post">
+                              <input class="btn btn-danger" type="submit" value="Leave">
+                              <a href="#" class="btn btn-secondary" role="button">Cancel</a>
+                          </form>
+                      </div>
+                  </div>
             </div>
 
             <div class="modal" id="modalAddUser" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <a href="#" class="btn close" role="button" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </a>
-                        <h5 class="modal-title">Share the information below with the person you would like to add</h5>
-                        <form>
-                            <label>Pool Username: username</label>
-                            <label>Pool Password: password</label>
-                            <a href="#" class="btn btn-secondary" role="button">Close</a>
-                        </form>
-                    </div>
-                </div>
+                  <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                          <a href="#" class="btn close" role="button" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </a>
+                          <a href="#" class="btn close" role="button" aria-label="Copy Join Code">
+                              <span aria-hidden="true">&times;</span>
+                          </a>
+                          <div class="form-group">
+                              <h5 class="modal-title">Share this join code with another user:</h5>
+                              <input type="text" id="pool_join_code" class="form-control" readonly="readonly"
+                                     value="{{ pool_join_code }}">
+                              <a href="#" class="btn btn-primary" role="button" onclick="copyText()">Copy Join Code</a>
+                              <a href="#" class="btn btn-secondary" role="button">Close</a>
+                              <script>
+                                    function copyText() {
+                                        var copyText = document.getElementById("pool_join_code");
+                                        copyText.select();
+                                        copyText.setSelectionRange(0, 99999)
+                                        document.execCommand("copy");
+                                        alert("Copied the text: " + copyText.value);
+                                    }
+                              </script>
+                          </div>
+                      </div>
+                  </div>
             </div>
 
             <div class="modal" id="modalRemoveUser" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <a href="#" class="btn close" role="button" aria-label="Cancel">
-                            <span aria-hidden="true">&times;</span>
-                        </a>
-                        <h5 class="modal-title">Remove a User From the Pool</h5>
-                        <form action="..." method="...">
-                            <div class="form-group">
-                                <label for="bankAccount" class="required">User to Remove</label>
-                                <select id="account" class="form-control" required="required">
-                                      <option>Carl</option>
-                                      <option>Jeff</option>
-                                  </select>
-                            </div>
-                            <form>
-                                <input class="btn btn-danger" type="submit" value="Remove" formaction="">
-                                <a href="#" class="btn btn-secondary" role="button">Cancel</a>
-                            </form>
-                        </form>
-                    </div>
-                </div>
+                  <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                          <a href="#" class="btn close" role="button" aria-label="Cancel">
+                              <span aria-hidden="true">&times;</span>
+                          </a>
+                          <h5 class="modal-title">Remove a User From the Pool</h5>
+                          <form action="{{url_for('display_pool_page.remove_user_from_money_pool')}}" method="post">
+                              <div class="form-group">
+                                  <label for="pool_password" class="required">Pool Password</label>
+                                  <input class="form-control" type="password" id="pool_password" name="pool_password"
+                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one
+                                       number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                       required="required">
+                                  <label for="id_to_remove" class="required">ID of User to Remove</label>
+                                  <input type="text" id="id_to_remove" name="id_to_remove" class="form-control"
+                                         required="required" minlength="16" maxlength="16">
+                              </div>
+                              <input class="btn btn-danger" type="submit" value="Remove User">
+                              <a href="#" class="btn btn-secondary" role="button">Cancel</a>
+                          </form>
+                      </div>
+                  </div>
             </div>
 
             <div class="modal" id="modalDelete" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <a href="#" class="btn close" role="button" aria-label="Cancel">
-                            <span aria-hidden="true">&times;</span>
-                        </a>
-                        <h5 class="modal-title">Are you sure you want to delete the pool?</h5>
-                        <form>
-                            <input class="btn btn-danger" type="submit" value="Delete" formaction="">
-                            <a href="#" class="btn btn-secondary" role="button">Cancel</a>
-                        </form>
-                    </div>
-                </div>
+                  <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                          <a href="#" class="btn close" role="button" aria-label="Cancel">
+                              <span aria-hidden="true">&times;</span>
+                          </a>
+                          <h5 class="modal-title">Are you sure you want to delete the pool?</h5>
+                          <form action="{{url_for('display_pool_page.delete_money_pool')}}" method="post">
+                              <div class="form-group">
+                                  <label for="pool_password" class="required">Pool Password</label>
+                                  <input class="form-control" type="password" id="pool_password" name="pool_password"
+                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one
+                                       number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                       required="required">
+                              </div>
+                              <input class="btn btn-danger" type="submit" value="Delete">
+                              <a href="#" class="btn btn-secondary" role="button">Cancel</a>
+                          </form>
+                      </div>
+                  </div>
             </div>
-
-            <nav class="navbar navbar-static-bottom">
-                <div class="container-fluid">
-                    <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
-
-                    <!-- JavaScript -->
-                    <script type="text/javascript">
-                        // Dark mode toggle
-                        function toggleDark() {
-                            halfmoon.toggleDarkMode();
-                        }
-                    </script>
-                    <ul class="navbar-nav ml-auto">
-                        <!-- ml-auto = margin-left: auto -->
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">Contact</a>
-                        </li>
-                    </ul>
-                    <!-- Navbar text -->
-                    <span class="navbar-text">
-                        <p>
-            &copy; <strong>StuBank </strong> 2021
-            </p>
-                    </span>
-                </div>
-            </nav>
         </div>
-        <!-- Halfmoon JS -->
-        <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
+        <nav class="navbar navbar-fixed-bottom">
+            <div class="container-fluid">
+                <button class="btn btn-primary" type="button" onclick="toggleDark()">Toggle Darkmode!</button>
+
+                <!-- JavaScript -->
+                <script type="text/javascript">
+                    // Dark mode toggle
+                    function toggleDark() {
+                        halfmoon.toggleDarkMode();
+                    }
+                </script>
+                <ul class="navbar-nav ml-auto">
+                    <!-- ml-auto = margin-left: auto -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Contact</a>
+                    </li>
+                </ul>
+                <!-- Navbar text -->
+                <span class="navbar-text">
+                    <p>
+                    &copy;<strong>StuBank </strong> 2021
+                    </p>
+                </span>
+            </div>
+        </nav>
+    <!-- Halfmoon JS -->
+    <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
     </div>
 </body>
-
 
 </html>

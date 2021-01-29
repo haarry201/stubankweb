@@ -58,7 +58,6 @@ def login_page_func():
                 if is_users_pwd:
                     if security_question == db_sq_question and security_answer.lower() == db_sq_answer.lower():
                         is_two_factor_enabled = row[13]
-                        print(is_two_factor_enabled)
                         if is_two_factor_enabled:
                             session['needs_auth'] = True
                             session['two_factor_enabled'] = True
