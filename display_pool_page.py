@@ -65,7 +65,7 @@ def deposit_money_pool():
 
         withdraw_and_deposit(account_number, sort_code, amount, True)  # calls function with True to set it to deposit
 
-        return render_template('accounts.html')
+        return redirect(url_for('error_page.error_page_func', code="e2"))
     return render_template('register.html')
 
 
@@ -83,7 +83,7 @@ def withdraw_money_pool():
         withdraw_and_deposit(account_number, sort_code, amount, False)  # calls function with False to set it to
         # withdraw
 
-        return render_template('accounts.html')
+        return redirect(url_for('error_page.error_page_func', code="e2"))
     return render_template('register.html')
 
 
