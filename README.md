@@ -1,7 +1,8 @@
 # Docker Support
 ## How to build
-To build the image:
-`docker build . -t name:tag` will build the dockerfile and name and tag the image
+To build the image, type the following command into your terminal or command prompt:  
+`docker build . -t name:tag`  
+This command will build the dockerfile, and give the image a name and tag.
 ## How to run
 The command `docker run --rm name:tag arg1 arg2` will run the image
 
