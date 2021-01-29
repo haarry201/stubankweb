@@ -47,6 +47,7 @@ def bank_transfer_page_func():
         transfer_value = request.form.get("transfer_value")
         transfer_value = int(float(transfer_value) * 100)
 
+        # determines the date and time of the transaction
         now = datetime.now()
         dt_string = now.strftime("%Y-%m-%d-%H-%M-")
         date = now.strftime("%Y-%m-%d")
@@ -62,9 +63,12 @@ def bank_transfer_page_func():
             db_connector = DbConnector()
             conn = db_connector.getConn()
             cursor = conn.cursor(buffered=True)
+            # gets sender's account number and sort code from UserAccounts table
             cursor.execute("SELECT * FROM UserAccounts WHERE AccountNum = (%s) AND SortCode = (%s)",(transferer_account_num,transferer_sort_code))
             result = cursor.fetchall()
             for row in result:
+                # calculates balance after transaction and checks whether it goes over spending limit and enters
+                # new value into the database.
                 current_user_balance = int(row[5])
                 current_user_overdraft = int(row[4])
                 potential_balance = current_user_balance-transfer_value
@@ -79,6 +83,7 @@ def bank_transfer_page_func():
             result = cursor.fetchall()
 
             for row in result:
+                # calculates receiver's new balance and inserts into database
                 receiver_user_id = row[2]
                 transferee_value_current = int(row[5])
                 new_transferee_value = transferee_value_current + transfer_value
@@ -95,6 +100,7 @@ def bank_transfer_page_func():
             for row in result:
                 receiver_name = row[5] +" "+ row[6]
 
+            # generates random hex to enter into transaction table
             ran = random.randrange(10 ** 80)
             myhex = "%016x" % ran
             myhex = myhex[:16]

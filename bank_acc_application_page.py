@@ -33,6 +33,7 @@ def bank_acc_application_page_func():
         return redirect(url_for('login_page.login_page_func'))
     if request.method == 'POST':
         account_type = request.form.get("account type")
+        # determines account type id and the overdraft depending of which account type the user selected
         if account_type == "student current account":
             account_type_id = '123'
             agreed_overdraft = 150000
@@ -41,7 +42,10 @@ def bank_acc_application_page_func():
             agreed_overdraft = 0
         else:
             return redirect(url_for('error_page.error_page_func', code="e2"))
+
+        # gets the user's email from the session object
         email = session['email']
+        # randomly generates an account number and sort code for the account
         account_num = ''.join(["{}".format(randint(0, 9)) for num in range(0, 8)])
         sort_code = ''.join(["{}".format(randint(0, 9)) for num in range(0, 6)])
 
@@ -62,9 +66,10 @@ def bank_acc_application_page_func():
                 else:
                     row = cursor.fetchone()
 
-
+            # inserts data into the Accounts table in the database
             cursor.execute("INSERT INTO Accounts VALUES (%s, %s)", (account_num, sort_code))
 
+            # inserts data into the UserAccounts table in the database
             cursor.execute("INSERT INTO UserAccounts VALUES (%s, %s, %s, %s, %s, %s)", (account_num, sort_code,\
                             user_id, account_type_id, agreed_overdraft, current_balance))
 

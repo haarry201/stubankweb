@@ -39,8 +39,10 @@ def apply_new_card_page_func():
         user_id = session['user_id']
         chars = string.digits
         card_type = request.form.get("all_cards")
+        # generates random 16 digit card number
         card_number = ''.join(choice(chars) for _ in range(16))
 
+        # calculates date which is then used to calculate the expiry date for the card
         now = datetime.now()
         start_date = now.strftime("%Y-%m-%d")
 
@@ -48,6 +50,7 @@ def apply_new_card_page_func():
         expiry_year = int(year) + 3
         expiry_date = str(expiry_year) + (now.strftime("-%m-%d"))
 
+        # generates random 4 digit pin number
         pin_number = ''.join(choice(chars) for _ in range(4))
 
         try:
@@ -78,7 +81,7 @@ def apply_new_card_page_func():
         cursor = conn.cursor()
 
         card_types = []
-
+        # takes card types from database for user to choose from when applying for a new card
         cursor.execute("SELECT * FROM CardInfo")
         result = cursor.fetchall()
         for row in result:

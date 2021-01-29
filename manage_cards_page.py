@@ -40,11 +40,13 @@ def view_card_info():
     return
 
 
-def get_info(cursor,user_id):
+def get_info(cursor, user_id):
     all_user_cards = []
+    # gets all of the cards from the database
     cursor.execute("SELECT * FROM UserCards")
     result = cursor.fetchall()
     for row in result:
+        # if the row in the database belongs to the user, adds the card to a list of all the user's cards
         if row[1] == user_id:
             user_card = Card(row[0], row[2], row[3], row[4], row[5])
             all_user_cards.append(user_card)
@@ -57,4 +59,3 @@ def get_info(cursor,user_id):
         all_possible_cards.append(new_card)
 
     return all_user_cards, all_possible_cards
-
