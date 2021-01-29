@@ -1,4 +1,4 @@
-#StuBank Project
+# StuBank Project
 
 To Run the project, it can be built and ran using docker using the instructions below and the dockerfile. Alternatively, it can also be open in PyCharm or another python IDE, and built and ran, using the pipfile to set up the working environment.
 
@@ -23,14 +23,14 @@ The project will be available at the local host port that was specified, so in t
 
 
 
-##Login Information
-###Admin Account
+## Login Information
+### Admin Account
 Email: `admin@stubank.co.uk`  
 Password: `Password1`  
 Security Question: `What is your mother's maiden name?`  
 Security Answer: `mum`
 
-###Normal User Account
+### Normal User Account
 Email: `user@stubank.co.uk`  
 Password: `Password2`  
 Security Question: `What was your first pet's name?`  
