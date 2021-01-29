@@ -12,7 +12,6 @@ pyotp="*"
 geopy = "*"
 pyclustering = "*"
 scikit-learn = "*"
-
 pytz = "*"
 cryptography = "*"
 

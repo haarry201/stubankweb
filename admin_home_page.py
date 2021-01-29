@@ -52,14 +52,19 @@ def admin_home_page_func():
             cursor.close()
         except Error as error:
             return redirect(url_for('error_page.error_page_func', code="e2"))
+
     admin_users = []
-    db_connector = DbConnector()
-    conn = db_connector.getConn()
-    cursor = conn.cursor(buffered=True)
-    cursor.execute("SELECT EmailAddress FROM UserInfo WHERE UserRole != 'User'")
-    result = cursor.fetchall()  # fetches first row of table
-    for row in result:
-        admin_users.append(row[0])
-    cursor.close()
-    conn.close()
+    try:
+        db_connector = DbConnector()
+        conn = db_connector.getConn()
+        cursor = conn.cursor(buffered=True)
+        cursor.execute("SELECT EmailAddress FROM UserInfo WHERE UserRole != 'User'")
+        result = cursor.fetchall()  # fetches first row of table
+        for row in result:
+            admin_users.append(row[0])
+        cursor.close()
+        conn.close()
+    except:
+        return redirect(url_for('error_page.error_page_func', code="e2"))
+
     return render_template('/admin_pages/admin_home.html', admin_users=admin_users)
